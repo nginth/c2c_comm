@@ -1,0 +1,14 @@
+
+.landing-jumbotron {
+	background: url("https://code2college.org/wp-content/uploads/2017/02/DSC_0231-1.jpg") no-repeat center;
+	background-size: cover;
+	width: 100%;
+	height: 400px;
+
+	text-align: center;
+}
+
+.landing-info-img {
+	max-width: 150px;
+	max-height: 150px;
+}

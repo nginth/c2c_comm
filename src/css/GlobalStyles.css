@@ -1,0 +1,31 @@
+/* Global styles */
+
+/* Credit & Citations
+
+DESIGN
+-Bootstrap
+
+FONTS
+-Google Fonts
+
+*/
+
+/* Top parent container for each page */
+.top-container {
+	background: rgba(0,0,0,.5);
+}
+
+/* General Jumbotrons */
+.jumbo-title {
+	color: white;
+	font-size: 4em;
+}
+.jumbo-subtitle {
+	color: white;
+	font-size: 2em;
+}
+
+/* General text */
+.c2c-text {
+	font-size: 1em;
+}
