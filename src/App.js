@@ -7,9 +7,10 @@ import './App.css';
 /* Components */
 import LandingPage from './components/LandingPage.js';
 import LogInPage from './components/LogInPage.js';
+import ProfileCreationPage from './components/ProfileCreationPage.js'
 
-/* Future localization/Strings */
-import {ROUTER_BASENAME} from './Strings.js';
+/* Future localization/Strings... Maybe? */
+//import {ROUTER_BASENAME} from './Strings.js';
 
 /* Bootstrap */
 import '../node_modules/jquery/dist/jquery.min.js';
@@ -39,7 +40,7 @@ class AppFrame extends Component {
 
   render() {
     return (
-      <BrowserRouter basename={"/Home"}>
+      <BrowserRouter basename={"/"}>
         <div>
           <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <span className="navbar-brand">Code2College Connect</span>
@@ -55,13 +56,8 @@ class AppFrame extends Component {
                 <li className="nav-item">
                   <Link className="nav-link" to="/LogIn">LogIn Page</Link>
                 </li>
-                <li className="nav-item dropdown">
-                  <a className="nav-link dropdown-toggle" href="http://example.com" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Dropdown</a>
-                  <div className="dropdown-menu" aria-labelledby="dropdown04">
-                    <a className="dropdown-item" href="#">Action</a>
-                    <a className="dropdown-item" href="#">Another action</a>
-                    <a className="dropdown-item" href="#">Something else here</a>
-                  </div>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/CreateProfile">Create Profile Page</Link>
                 </li>
               </ul>
               <form className="form-inline my-2 my-md-0">
@@ -72,6 +68,28 @@ class AppFrame extends Component {
 
           <Route exact path="/" component={()=>(<LandingPage/>)} />
           <Route path="/LogIn" component={()=>(<LogInPage/>)} />
+          <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
+
+          <footer className="container py-5">
+            <div className="row">
+              <div className="col-12 col-md">
+                <img className="footer-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to College logo"/>
+                <small className="d-block mb-3 text-muted">© 2017-2018</small>
+              </div>
+              <div className="col-6 col-md">
+                <h5>Footer Content 1</h5>
+                <p className="footer-text">Some content</p>
+              </div>
+              <div className="col-6 col-md">
+                <h5>Footer Content 2</h5>
+                <p className="footer-text">Some content</p>
+              </div>
+              <div className="col-6 col-md">
+                <h5>Footer Content 3</h5>
+                <p className="footer-text">Some content</p>
+              </div>
+            </div>
+          </footer>
         </div>
       </BrowserRouter>
     );

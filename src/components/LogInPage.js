@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
 
 
 
@@ -21,8 +20,8 @@ class LogInPage extends Component {
   render() {
     return (
       <div className="top-container">
-      	<form className="form-signin text-center">
-          <img className="rounded-circle landing-info-img" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
+      	<form className="form-signin text-center content-container">
+          <img className="landing-info-img" src="//code2college.org/wp-content/uploads/2017/02/c2c.png"/>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
           <label htmlFor="inputEmail" className="sr-only">Email address</label>
           <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required=""/>

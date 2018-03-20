@@ -20,7 +20,7 @@ class LandingPage extends Component {
 
   render() {
     return (
-      <div className="top-container">
+      <div className="top-container no-padding">
       	<div className="landing-jumbotron jumbotron jumbotron-fluid">
       	  <div className="container">
       	  	<p className="jumbo-title">Code2College Connect</p>
@@ -29,20 +29,20 @@ class LandingPage extends Component {
       	</div>
         <div className="landing-info container">
           <div className="row">
-            <div className="col-md-4">
+            <div className="col-lg-4 col-md-12">
               <img className="rounded-circle landing-info-img" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
-              <h2>Heading</h2>
-              <p className="c2c-text">This is one info thing</p>
+              <h2 className="c2c-header">Connect</h2>
+              <p className="c2c-text">Meet Code2College members past and present to open new pathways to opportunity.</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-lg-4 col-md-12">
               <img className="rounded-circle landing-info-img" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
-              <h2>Heading</h2>
-              <p className="c2c-text">This is another info thing</p>
+              <h2 className="c2c-header">Learn</h2>
+              <p className="c2c-text">Learn new skills and improve current ones by participating in technical conversations.</p>
             </div>
-            <div className="col-md-4">
+            <div className="col-lg-4 col-md-12">
               <img className="rounded-circle landing-info-img" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
-              <h2>Heading</h2>
-              <p className="c2c-text">This is yet another info thing</p>
+              <h2 className="c2c-header">Stay in Touch</h2>
+              <p className="c2c-text">Keep up to date with old friends and Code2College news.</p>
             </div>
           </div>
         </div>
