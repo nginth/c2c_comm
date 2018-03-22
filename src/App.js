@@ -41,7 +41,7 @@ class AppFrame extends Component {
   render() {
     return (
       <BrowserRouter basename={"/"}>
-        <div>
+        <div className="global-font">
           <nav className="navbar navbar-expand-md navbar-dark bg-dark">
             <span className="navbar-brand">Code2College Connect</span>
             <button className="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavbarCollapse" aria-controls="mainNavbarCollapse" aria-expanded="false" aria-label="Toggle Main navigation">

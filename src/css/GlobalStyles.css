@@ -17,11 +17,17 @@ FONTS
 	background: rgba(50, 119, 229, .8);
 	padding-top: 20px;
 	padding-bottom: 20px;
+
+	font-family: 'Ubuntu', sans-serif;
 }
 
 /* Remove top padding */
 .no-padding {
 	padding-top: 0px;
+}
+
+.global-font {
+	font-family: 'Ubuntu', sans-serif;
 }
 
 /* Background for main page content container */
@@ -60,3 +66,7 @@ FONTS
 	color: black;
 }
 
+.c2c-header-big {
+	font-size: 3em;
+	color: black;
+}
