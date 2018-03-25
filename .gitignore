@@ -1,14 +1,11 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-/node_modules
-
-# testing
-/coverage
+/c2c/node_modules
 
 # production
-/build
-/venv
+/c2c/build
+/c2c/venv
 
 # misc
 .DS_Store

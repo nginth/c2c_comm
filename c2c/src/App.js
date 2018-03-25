@@ -38,13 +38,13 @@ class AppFrame extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {api: 'not up yet'};
+    this.state = {apiText: 'not up yet'};
   }
 
   componentDidMount() {
     fetch('http://localhost:5001/api')
       .then(resp => resp.text())
-      .then(text => this.setState({api: text}))
+      .then(text => this.setState({apiText: text}))
       .catch(err => console.log(err))
   }
 
@@ -90,7 +90,7 @@ class AppFrame extends Component {
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 1</h5>
-                <p className="footer-text">{this.state.api}</p>
+                <p className="footer-text">{this.state.apiText}</p>
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 2</h5>
