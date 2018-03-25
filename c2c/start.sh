@@ -1,7 +1,7 @@
 #!/bin/bash
 echo "starting"
 # Start the first process
-PORT=5000 npm start &
+npm start &
 status=$?
 echo $status
 if [ $status -ne 0 ]; then
