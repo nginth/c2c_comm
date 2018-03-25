@@ -35,7 +35,16 @@ class App extends Component {
 
 
 class AppFrame extends Component {
-  componentDidMount() {}
+  constructor(props) {
+    super(props);
+
+    this.state = {api: 'not up yet'};
+  }
+
+  componentDidMount() {
+    fetch('localhost:5001/api').then(resp => this.setState({api: resp}))
+  }
+
   componentWillUnmount() {}
 
   render() {
@@ -78,7 +87,7 @@ class AppFrame extends Component {
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 1</h5>
-                <p className="footer-text">Some content</p>
+                <p className="footer-text">this.state.api</p>
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 2</h5>
