@@ -42,7 +42,10 @@ class AppFrame extends Component {
   }
 
   componentDidMount() {
-    fetch('localhost:5001/api').then(resp => this.setState({api: resp}))
+    fetch('http://localhost:5001/api')
+      .then(resp => resp.text())
+      .then(text => this.setState({api: text}))
+      .catch(err => console.log(err))
   }
 
   componentWillUnmount() {}
@@ -87,7 +90,7 @@ class AppFrame extends Component {
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 1</h5>
-                <p className="footer-text">this.state.api</p>
+                <p className="footer-text">{this.state.api}</p>
               </div>
               <div className="col-6 col-md">
                 <h5>Footer Content 2</h5>

@@ -1,20 +1,20 @@
 import os
 from flask import Flask, render_template
 # from flask_sqlalchemy import SQLAlchemy
-# from flask_cors import CORS
+from flask_cors import CORS
 
 # db = SQLAlchemy()
 
 
 def create_app(config='config.json'):
     app = Flask(__name__)
+    CORS(app)
     
     @app.route("/api")
     def index():
-        return 'hello :)'
+        return 'hello from the API :)'
 
     # app.config.from_json(config)
-    # CORS(app)
 
     # db.init_app(app)
     # from app import models
