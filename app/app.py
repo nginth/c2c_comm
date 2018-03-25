@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, send_from_directory
 # from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 
@@ -7,11 +7,15 @@ from flask_cors import CORS
 
 
 def create_app(config='config.json'):
-    app = Flask(__name__)
+    app = Flask(__name__, static_folder='../static')
     CORS(app)
     
-    @app.route("/api")
+    @app.route("/")
     def index():
+        return send_from_directory('../static', 'index.html')
+
+    @app.route("/api")
+    def api_test():
         return 'hello from the API :)'
 
     # app.config.from_json(config)
