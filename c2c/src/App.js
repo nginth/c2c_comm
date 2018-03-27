@@ -7,7 +7,8 @@ import './App.css';
 /* Components */
 import LandingPage from './components/LandingPage.js';
 import LogInPage from './components/LogInPage.js';
-import ProfileCreationPage from './components/ProfileCreationPage.js'
+import ProfileCreationPage from './components/ProfileCreationPage.js';
+import SearchPage from './components/SearchPage.js';
 
 /* Future localization/Strings... Maybe? */
 //import {ROUTER_BASENAME} from './Strings.js';
@@ -42,10 +43,10 @@ class AppFrame extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:5001/api')
-      .then(resp => resp.text())
-      .then(text => this.setState({apiText: text}))
-      .catch(err => console.log(err))
+    // fetch('http://localhost:3000/api')
+    //   .then(resp => resp.text())
+    //   .then(text => this.setState({apiText: text}))
+    //   .catch(err => console.log(err))
   }
 
   componentWillUnmount() {}
@@ -71,16 +72,17 @@ class AppFrame extends Component {
                 <li className="nav-item">
                   <Link className="nav-link" to="/CreateProfile">Create Profile Page</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Search">Search</Link>
+                </li>
               </ul>
-              <form className="form-inline my-2 my-md-0">
-                <input className="form-control" type="text" placeholder="Search"/>
-              </form>
             </div>
           </nav>
 
           <Route exact path="/" component={()=>(<LandingPage/>)} />
           <Route path="/LogIn" component={()=>(<LogInPage/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
+          <Route path="/Search" component={()=>(<SearchPage/>)} />
 
           <footer className="container py-5">
             <div className="row">
