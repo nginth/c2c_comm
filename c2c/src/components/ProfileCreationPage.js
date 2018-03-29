@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import Form from 'react-jsonschema-form';
 
+/* Custom array template to go around form rendering errors with Bootstrap4 */
+import ArrayFieldTemplate from './c2cArrayFieldTemplate.js';
 
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
@@ -116,9 +118,10 @@ class ProfileCreationPage extends Component {
             <p className="c2c-text">Create your Code2College Connect profile by completing the following form.</p>
           </div>
           <hr/>
-          <div className="text-center">
+          <div className="">
             <Form schema={schema}
                   uiSchema={uiSchema}
+                  ArrayFieldTemplate={ArrayFieldTemplate}
                   onSubmit={(a)=>{console.log(JSON.stringify(a.formData));}} />
           </div>
         </div>
