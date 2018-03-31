@@ -10,6 +10,14 @@ from app.app import db
 # class SearchQuery(BaseQuery, SearchQueryMixin):
 #     pass
 
+class Internship(db.Model):
+    __tablename__ = 'internship'
+    id = db.Column(db.Integer, primary_key=True)
+    host = db.Column(db.UnicodeText)
+    year = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    user = db.relationship('User', back_populates='internships')
+
 class User(db.Model):        
     __tablename__ = 'user'
     # query_class = SearchQuery
@@ -20,6 +28,24 @@ class User(db.Model):
     first_name = db.Column(db.UnicodeText)
     last_name = db.Column(db.UnicodeText)
     email = db.Column(db.UnicodeText)
+    profile_pic = db.Column(db.UnicodeText)
+    bio = db.Column(db.UnicodeText)
+    
+    # high school info
+    high_school_name = db.Column(db.UnicodeText)
+    grad_year_hs = db.Column(db.Integer)
+    
+    # socials
+    linkedin = db.Column(db.UnicodeText)
+    facebook = db.Column(db.UnicodeText)
+    twitter = db.Column(db.UnicodeText)
+    github = db.Column(db.UnicodeText)
+
+    # c2c info
+    favorite_volunteer = db.Column(db.Integer, db.ForeignKey('user.id'))
+    favorite_workshop = db.Column(db.UnicodeText)
+    grad_year_program = db.Column(db.Integer)
+    internships = db.relationship('Internship', back_populates='user')
 
     def hash_password(self, password):
         self.password_hash = custom_app_context.encrypt(password)
