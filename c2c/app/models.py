@@ -30,6 +30,7 @@ class User(db.Model):
     email = db.Column(db.UnicodeText)
     profile_pic = db.Column(db.UnicodeText)
     bio = db.Column(db.UnicodeText)
+    admin = db.Column(db.Boolean, default=False)
     
     # high school info
     high_school_name = db.Column(db.UnicodeText)
