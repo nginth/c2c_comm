@@ -1,0 +1,6 @@
+{
+	"SQLALCHEMY_DATABASE_URI": "postgres://localhost:5432/c2c",
+    "SQLALCHEMY_TRACK_MODIFICATIONS": "False",
+    "SECRET_KEY": "23h9bfobone208n208enc0nc208nbewb2e7cbeyifbyeb2fb2cn8e20cn",
+	"DEBUG": "True"	
+}
