@@ -43,10 +43,10 @@ class AppFrame extends Component {
   }
 
   componentDidMount() {
-    // fetch('http://localhost:3000/api')
-    //   .then(resp => resp.text())
-    //   .then(text => this.setState({apiText: text}))
-    //   .catch(err => console.log(err))
+    fetch('http://localhost:5001/api')
+      .then(resp => resp.text())
+      .then(text => this.setState({apiText: text}))
+      .catch(err => console.log(err))
   }
 
   componentWillUnmount() {}
