@@ -1,14 +1,14 @@
 from flask_sqlalchemy import BaseQuery
-# from sqlalchemy_searchable import make_searchable, SearchQueryMixin
+from sqlalchemy_searchable import make_searchable, SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from passlib.apps import custom_app_context
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from app.app import db
 
-# make_searchable()
+make_searchable(db.metadata)
 
-# class SearchQuery(BaseQuery, SearchQueryMixin):
-#     pass
+class SearchQuery(BaseQuery, SearchQueryMixin):
+    pass
 
 class Internship(db.Model):
     __tablename__ = 'internship'
@@ -20,7 +20,7 @@ class Internship(db.Model):
 
 class User(db.Model):        
     __tablename__ = 'user'
-    # query_class = SearchQuery
+    query_class = SearchQuery
 
     id = db.Column(db.Integer, primary_key=True)
     admin = db.Column(db.Boolean, default=False)
@@ -52,13 +52,13 @@ class User(db.Model):
     grad_year_program = db.Column(db.Integer)
     internships = db.relationship('Internship', back_populates='user')
 
+    search_vector = db.Column(TSVectorType('username', 'first_name', 'last_name', 'bio', 'current_employer', 'current_school', 'high_school_name'))
+
     def hash_password(self, password):
         self.password_hash = custom_app_context.encrypt(password)
 
     def verify_password(self, password):
-        return custom_app_context.verify(password, self.password_hash)    
-  
-    # search_vector = db.Column(TSVectorType('first_name'))
+        return custom_app_context.verify(password, self.password_hash)        
 
     def serialize(self):
         return {

@@ -57,7 +57,20 @@ def get_user_by_name(user_name):
     user = User.query.filter_by(username=user_name).first()
     if user is None:
         abort(404, 'User not found.')
-    return jsonify(user.serialize())   
+    return jsonify(user.serialize())
+
+@users_blueprint.route("/search/<query_term>", methods=['GET'])
+@auth.login_required
+def search(query_term):    
+    users = User.query.search(query_term, sort=True).paginate() 
+    return jsonify({
+        'page': users.page,
+        'pages': users.pages,
+        'next': users.next_num,
+        'prev': users.prev_num,
+        'per_page': users.per_page,
+        'users': [user.serialize() for user in users.items]
+    })
 
 def generate_auth_token(user, expiration = 600):
     s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
