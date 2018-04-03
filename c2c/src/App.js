@@ -84,13 +84,13 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(<SearchPage/>)} />
 
-          <footer className="container-fluid footer-container py-5">
-            <div className="row">
-              <div className="col-3 col-xs">
+          <footer className="container-fluid footer-container">
+            <div className="row py-3">
+              <div className="col-4">
                 <img className="footer-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to College logo"/>
                 <small className="d-block mb-3 text-muted">© 2017-2018</small>
               </div>
-              <div className="col-3 col-xs">
+              <div className="col-4">
                 <h5>Contact Code2College</h5>
                 <p className="footer-text">
                 19112 Leigh Lane, Pflugerville TX 78660<br/>
@@ -98,38 +98,15 @@ class AppFrame extends Component {
                 matt@code2college.org 
                 </p>
               </div>
-              <div className="col-3 col-xs">
-                <h5>Engage with C2C</h5>
-                <p>
-                  <a href="https://www.facebook.com/code2college/">Facebook</a> · <a href="https://twitter.com/code2college">Twitter</a> · <a href="https://www.instagram.com/code2college/">Instagram</a>
-                </p>
-              </div>
-              <div className="col-3 col-xs">
-                <h5>C2C Connect</h5>
-                <p className="footer-text">
-                Made with love by Viet, Nick, Hamza, Bhavish and Alex.<br/>
-                Special thanks to C2C website designer Issac C. for design inspiration.
-                </p>
-              </div>
-            </div>
-          </footer>
-
-          <footer className="container-fluid footer-container">
-            <div className="container-fluid row py-3">
-              <div className="col-3 col-xs">
-                <img className="footer-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to College logo"/>
-                <small className="d-block mb-3 text-muted">© 2017-2018</small>
-              </div>
-              <div className="col-6 col-xs">
-                <p>Contact: 19112 Leigh Lane, Pflugerville TX 78660 · (512) 790-2633 · matt@code2college.org</p>
-                <p>Made with love by Viet, Nick, Hamza, Bhavish and Alex. <br/>Special thanks to C2C website designer Issac C. for design inspiration.</p>
-              </div>
-              <div className="col-3 col-xs">
+              <div className="col-4">
               <h5>Connect</h5>
                 <p>
                   <a href="https://www.facebook.com/code2college/">Facebook</a> · <a href="https://twitter.com/code2college">Twitter</a> · <a href="https://www.instagram.com/code2college/">Instagram</a>
                 </p>
               </div>
+            </div>
+            <div className="text-muted">
+              <p>Made with love by Viet, Nick, Hamza, Bhavish and Alex. Special thanks to C2C website designer Issac C. for design inspiration.</p>
             </div>
           </footer>
         </div>
