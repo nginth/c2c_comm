@@ -14,7 +14,6 @@ import '../css/GlobalStyles.css';
 import '../css/ProfileCreationPage.css';
 
 /* Schema for form https://github.com/mozilla-services/react-jsonschema-form 
-
 Note: Bug with array buttons persists. Possible bootstrap incompat */
 const schema = {
   "title": "",
@@ -100,12 +99,31 @@ const uiSchema = {
   }
 };
 
-
 /* Based on bootstrap page */
 class ProfileCreationPage extends Component {
 
   constructor(props) {
     super(props);
+  }
+
+  create_user(data) {
+    fetch('http://127.0.0.1:5001/api/create_user', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      mode: 'no-cors',
+      body: JSON.stringify(data)
+    }).then((resp) => resp.ok)
+        .then(function(status) {
+          if (status) {
+            console.log(status);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
+    console.log(JSON.stringify(data));
   }
 
   render() {
@@ -122,7 +140,7 @@ class ProfileCreationPage extends Component {
             <Form schema={schema}
                   uiSchema={uiSchema}
                   ArrayFieldTemplate={ArrayFieldTemplate}
-                  onSubmit={(a)=>{console.log(JSON.stringify(a.formData));}} />
+                  onSubmit={(a)=>{this.create_user(a.formData)}} />
           </div>
         </div>
       </div>
