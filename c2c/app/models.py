@@ -34,7 +34,7 @@ class User(db.Model):
     
     # high school info
     high_school_name = db.Column(db.UnicodeText)
-    grad_year_hs = db.Column(db.Integer)
+    high_school_graduation = db.Column(db.Integer)
     
     # socials
     linkedin = db.Column(db.UnicodeText)
@@ -56,23 +56,30 @@ class User(db.Model):
   
     # search_vector = db.Column(TSVectorType('first_name'))
 
-    # def __serialize__(self):
-    #     return {
-    #         "id": self.id,
-    #         "name": self.name,
-    #         "playcount": self.playcount,
-    #         "duration": self.duration,
-    #         "spotifyUri": self.spotify_uri,
-    #         "imageUrl": self.image_url,
-    #         "album": {
-    #             "id": self.album_id,
-    #             "name": self.album.name if self.album else None
-    #         },
-    #         "artist": {
-    #             "id": self.artist_id,
-    #             "name": self.artist.name if self.artist else None
-    #         }
-    #     }
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "firstName": self.first_name,
+            "lastName": self.last_name,
+            "profilePic": self.profile_pic,
+            "bio": self.bio,
+            "highSchool": {
+                "name": self.high_school_name,
+                "graduationYear": self.high_school_graduation,
+            },
+            "socials": {
+                "linkedin": self.linkedin,
+                "facebook": self.facebook,
+                "twitter": self.twitter,
+                "github": self.github
+            },
+            "c2c": {
+                "favoriteVolunteer": self.favorite_volunteer,
+                "favoriteWorkshop": self.favorite_workshop,
+                "graduationYear": self.grad_year_program
+            }            
+        }
 
     def __repr__(self):
         return '<User {}: {!r}>'.format(self.id, self.name)
