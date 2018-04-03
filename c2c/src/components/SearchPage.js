@@ -25,6 +25,7 @@ class SearchPage extends Component {
 
 	search(event) {
 		event.preventDefault();
+
 		let newStatus = (this.input.value).match(/\w/);
 		console.log("Dummy search: " + (this.input.value).match(/[^\s]*/));
 		this.setState({ dummySearch: newStatus, query: this.input.value });
@@ -72,8 +73,8 @@ class SearchPage extends Component {
 							    <p class="card-text">Used for profiles that return hits</p>
 							  </div>
 							  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">(Basic Profile Info 1)</li>
-								    <li className="list-group-item">(Basic Profile Info 2)</li>
+								    <li className="list-group-item">College/Job:</li>
+								    <li className="list-group-item">C2C Graduation Year:</li>
 								  </ul>
 							  <ul className="list-group list-group-flush">
 							    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
