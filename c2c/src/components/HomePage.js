@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
 
 
 /* Bootstrap */
@@ -30,7 +31,7 @@ class HomePage extends Component {
             <div class="col-sm-12 col-lg-6">
               <h2>Search</h2>
               <p>Find other C2C members and alumni with similar interests and skills.</p>
-              <p><a class="btn btn-secondary" href="#" role="button">Go to Search</a></p>
+              <p><Link className="btn btn-secondary" to="/Search">Go to Search</Link></p>
             </div>
             <div class="col-sm-12 col-lg-6">
               <h2>My Profile</h2>

@@ -7,8 +7,6 @@
 	background: url("https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg") no-repeat center;
 	background-size: 100%; 
 
-	border-bottom: white 2px solid;
-
 	text-align: center;	
 }
 
@@ -17,10 +15,10 @@
 	letter-spacing: 3px;
 	color: white;
 	text-shadow: 
-	-2px -2px 0 #000,
-		2px -2px 0 #000,
-		-2px 2px 0 #000,
-		2px 2px 0 #000;
+	-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
 	/*text-shadow: 2px 2px white;*/
 	margin-top: 5%;
 }
