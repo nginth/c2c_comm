@@ -8,11 +8,12 @@ users_blueprint = Blueprint('users', __name__)
 
 @users_blueprint.route("/register", methods=['POST'])
 def register():
-    print(request.headers)
     if not request.get_json():
         abort(400, 'Malformatted JSON request.')
+    
+    print(request.get_json())
 
-    user = user_from_json(request.json)
+    user = user_from_json(request.get_json())
     db.session.add(user)
     db.session.commit()
 
@@ -34,8 +35,12 @@ def generate_auth_token(user, expiration = 600):
     return s.dumps({ 'id': user.id })
 
 def user_from_json(json):
-    username = json.get('username')
-    password = json.get('password')
+    basic = json.get('basic')
+    if basic is None:
+        abort(400, 'Malformatted JSON request.')
+
+    username = basic.get('username')
+    password = basic.get('password')
 
     if username is None or password is None:
         abort(400, 'Missing username or password.')

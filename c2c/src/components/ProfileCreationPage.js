@@ -122,7 +122,6 @@ class ProfileCreationPage extends Component {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      mode: 'no-cors',
       body: JSON.stringify(data)
     }).then((resp) => resp.ok)
         .then(function(status) {
