@@ -22,9 +22,12 @@ const schema = {
     "basic": {
       "type": "object",
       "title": "Basic Information",
-      "required": ["name", "email"],
+      "required": ["username", "password", "email", "firstName", "lastName"],
       "properties": {
-        "name": {"type": "string", "title": "Name"},
+        "username": {"type": "string", "title": "Username"},
+        "password": {"type": "string", "title": "Password"},
+        "firstName" : {"type" : "string", "title": "First Name"},
+        "lastName" : {"type" : "string", "title": "Last Name"},
         "email": {"type": "string", "title": "Email", "format": "email"},
         "avatar": {"type": "string", "title": "Profile Picture", "format": "data-url"},
         "employer": {"type": "string", "title": "Current Employer"},
@@ -96,6 +99,12 @@ const uiSchema = {
     "bio": {
       "ui:widget": "textarea"
     }
+  },
+  "basic": {
+    "password": {
+      "ui:widget": "password",
+      "ui:help": "Hint: Make it strong!"
+    }
   }
 };
 
@@ -112,7 +121,8 @@ class ProfileCreationPage extends Component {
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },      
+      },
+      mode: 'no-cors',
       body: JSON.stringify(data)
     }).then((resp) => resp.ok)
         .then(function(status) {
