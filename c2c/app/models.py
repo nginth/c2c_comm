@@ -16,13 +16,16 @@ class Internship(db.Model):
     host = db.Column(db.UnicodeText)
     year = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    user = db.relationship('User', back_populates='internships')
+    user = db.relationship('User', back_populates='internships')        
 
 class User(db.Model):        
     __tablename__ = 'user'
     # query_class = SearchQuery
 
     id = db.Column(db.Integer, primary_key=True)
+    admin = db.Column(db.Boolean, default=False)
+
+    # basic info
     username = db.Column(db.UnicodeText, index=True, nullable=False)    
     password_hash = db.Column(db.String(128))
     first_name = db.Column(db.UnicodeText)
@@ -30,7 +33,8 @@ class User(db.Model):
     email = db.Column(db.UnicodeText)
     profile_pic = db.Column(db.UnicodeText)
     bio = db.Column(db.UnicodeText)
-    admin = db.Column(db.Boolean, default=False)
+    current_employer = db.Column(db.UnicodeText)
+    current_school = db.Column(db.UnicodeText)
     
     # high school info
     high_school_name = db.Column(db.UnicodeText)
@@ -43,7 +47,7 @@ class User(db.Model):
     github = db.Column(db.UnicodeText)
 
     # c2c info
-    favorite_volunteer = db.Column(db.Integer, db.ForeignKey('user.id'))
+    favorite_volunteer = db.Column(db.UnicodeText) #TODO: make this a user -> user reference
     favorite_workshop = db.Column(db.UnicodeText)
     grad_year_program = db.Column(db.Integer)
     internships = db.relationship('Internship', back_populates='user')
@@ -78,7 +82,12 @@ class User(db.Model):
                 "favoriteVolunteer": self.favorite_volunteer,
                 "favoriteWorkshop": self.favorite_workshop,
                 "graduationYear": self.grad_year_program
-            }            
+            },
+            "internships": [{
+                "id": internship.id,
+                "host": internship.host,
+                "year": internship.year
+            } for internship in self.internships]  
         }
 
     def __repr__(self):

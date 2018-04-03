@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request, g, current_app, abort
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from app.models import User
+from app.models import User, Internship
 from app.auth import auth
 from app.app import db
 
@@ -76,11 +76,51 @@ def user_from_json(json):
     if User.query.filter_by(username = username).first() is not None:
         abort(400, 'User already exists.')
         
-
-    # TODO: unmarshall args into user model
-    # user.email = json.basic.email
-
-    user = User(username = username)
+    user = User(username=username)
     user.hash_password(password)
 
+    # basic
+    user.email = basic.get('email')
+    user.first_name = basic.get('firstName')
+    user.first_name = basic.get('lastName')
+    user.profile_pic = basic.get('avatar')
+    user.current_employer = basic.get('employer')
+    user.current_school = basic.get('school')
+
+    # about
+    about = json.get('about')
+    if about:
+        user.bio = about.get('bio')
+        user.interests = ', '.join(about.get('interests'))
+
+    # social
+    social = json.get('social')  
+    if social:
+        user.facebook = social.get('facebook')
+        user.linkedin = social.get('linkedin')
+        user.twitter = social.get('twitter')
+        user.github = social.get('github')
+        user.website = social.get('website')
+
+    # c2c
+    c2c = json.get('c2c')
+    if c2c:
+        user.grad_year_program = c2c.get('graduation')
+        user.favorite_workshop = c2c.get('workshop')
+        user.favorite_volunteer = c2c.get('volunteer')
+        for internship in c2c.get('internships'):
+            user.internships.append(internship_from_json(internship))
+
+    # highschool
+    highschool = json.get('highschool')
+    if highschool:
+        user.high_school_name = highschool.get('name')
+        user.high_school_graduation = highschool.get('graduation')
+
     return user
+
+def internship_from_json(json):
+    i = Internship()
+    i.host = json.get('host')
+    i.year = json.get('year')
+    return i
