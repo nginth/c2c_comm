@@ -10,11 +10,43 @@ Nav: https://getbootstrap.com/docs/4.0/examples/navbars/;
 FONTS
 -Google Fonts
 
+
+GLOBAL COLOR SCHEME
+Primary: #0089fc;
+Light: 68b8ff;
+Dark: 005dc8;
+
 */
+
+/* For testing. */
+.primary-color {
+	color: #0089fc;
+}
+
+.light-color {
+	color: #68b8ff;
+}
+
+.dark-color {
+	color: #005dc8;
+}
+
+.primary-bg {
+	background: #0089fc;
+}
+
+.light-bg {
+	background: #68b8ff;
+}
+
+.dark-bg {
+	background: #005dc8;
+}
 
 /* Top parent container for each page */
 .top-container {
-	background: rgba(50, 119, 229, .8);
+	/*background: rgba(50, 119, 229, .8);*/
+	background: #0089fc;
 	padding-top: 20px;
 	padding-bottom: 20px;
 
@@ -43,6 +75,10 @@ FONTS
 
 .footer-text {
 	font-size: 1em;
+}
+
+.footer-container {
+	border-top: 2px solid #005dc8;
 }
 
 /* General Jumbotrons */

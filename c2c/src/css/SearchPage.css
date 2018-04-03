@@ -1,5 +1,10 @@
+.search-background {
+	background-color: white;
+}
+
 .search-container {
-	
+	background: white;
+	padding-bottom: 10px;
 }
 
 .search-bar-container {
@@ -25,11 +30,15 @@
 	font-size: 4em;
 	text-align: center;
 	margin-bottom: 40px;
+
+	color: #0089fc;
 }
 
 /* Search Results Header */
 .search-results-header {
 	font-size: 2em;
+
+	color: #0089fc;
 }
 
 
@@ -43,7 +52,12 @@
 	max-width: 180px;
 	min-width: 180px;
 
+	background: #68b8ff;
+
 	margin-top: 20px;
+
+	border-color: #005dc8;
+	border-width: 2px;
 }
 
 .search-profile-pic {
@@ -52,6 +66,6 @@
 	min-height: 150px;
 	max-height: 150px;
 	margin-left: 15px;
-	margin-right:15px;
+	margin-right: 15px;
 	margin-top: 15px;
 }

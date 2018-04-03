@@ -84,7 +84,7 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(<SearchPage/>)} />
 
-          <footer className="container py-5">
+          <footer className="container-fluid footer-container py-5">
             <div className="row">
               <div className="col-12 col-md">
                 <img className="footer-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to College logo"/>
