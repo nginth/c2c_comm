@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
 
 
 /* Bootstrap */
@@ -22,8 +23,9 @@ class LandingPage extends Component {
       <div className="top-container no-padding">
       	<div className="landing-jumbotron jumbotron jumbotron-fluid">
       	  <div className="container">
-      	  	<p className="jumbo-title">Code2College Connect</p>
-      	  	<p className="jumbo-subtitle">A place of growth and opportunity.</p>
+      	  	<p className="landing-jumbo-header jumbo-title">Code2College Connect</p>
+      	  	<p className="landing-jumbo-text jumbo-subtitle">A place of growth and opportunity.</p>
+            <Link className="btn btn-secondary" to="/LogIn">Log in</Link>
       	  </div>
       	</div>
         <div className="landing-info container">
