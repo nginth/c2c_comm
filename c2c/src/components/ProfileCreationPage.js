@@ -107,13 +107,12 @@ class ProfileCreationPage extends Component {
   }
 
   create_user(data) {
-    fetch('http://127.0.0.1:5001/api/create_user', {
+    fetch('http://127.0.0.1:5001/api/users/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-      },
-      mode: 'no-cors',
+      },      
       body: JSON.stringify(data)
     }).then((resp) => resp.ok)
         .then(function(status) {
