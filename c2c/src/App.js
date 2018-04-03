@@ -9,6 +9,7 @@ import LandingPage from './components/LandingPage.js';
 import LogInPage from './components/LogInPage.js';
 import ProfileCreationPage from './components/ProfileCreationPage.js';
 import SearchPage from './components/SearchPage.js';
+import HomePage from './components/HomePage.js'
 
 /* Future localization/Strings... Maybe? */
 //import {ROUTER_BASENAME} from './Strings.js';
@@ -70,6 +71,9 @@ class AppFrame extends Component {
                   <Link className="nav-link" to="/LogIn">LogIn Page</Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/Home">Logged in Home</Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/CreateProfile">Create Profile Page</Link>
                 </li>
                 <li className="nav-item">
@@ -81,6 +85,7 @@ class AppFrame extends Component {
 
           <Route exact path="/" component={()=>(<LandingPage/>)} />
           <Route path="/LogIn" component={()=>(<LogInPage/>)} />
+          <Route path="/Home" component={()=>(<HomePage name={"Alex"}/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(<SearchPage/>)} />
 
