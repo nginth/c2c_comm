@@ -41,7 +41,23 @@ def get_all_users():
         'prev': users.prev_num,
         'per_page': users.per_page,
         'users': [user.serialize() for user in users.items]
-    })     
+    })
+
+@users_blueprint.route("/<int:user_id>", methods=['GET'])
+@auth.login_required
+def get_user_by_id(user_id):    
+    user = User.query.filter_by(id=user_id).first()
+    if user is None:
+        abort(404, 'User not found.')
+    return jsonify(user.serialize()) 
+
+@users_blueprint.route("/<user_name>", methods=['GET'])
+@auth.login_required
+def get_user_by_name(user_name):    
+    user = User.query.filter_by(username=user_name).first()
+    if user is None:
+        abort(404, 'User not found.')
+    return jsonify(user.serialize())   
 
 def generate_auth_token(user, expiration = 600):
     s = Serializer(current_app.config['SECRET_KEY'], expires_in = expiration)
