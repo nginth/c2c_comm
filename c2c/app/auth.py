@@ -1,8 +1,8 @@
 from flask import g
 from flask_httpauth import HTTPBasicAuth
 from itsdangerous import (TimedJSONWebSignatureSerializer as Serializer, BadSignature, SignatureExpired)
-from app.models import User
-from app.app import db
+from .models import User
+from .app import db
 
 auth = HTTPBasicAuth()
 

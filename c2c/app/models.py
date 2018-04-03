@@ -3,7 +3,7 @@ from sqlalchemy_searchable import make_searchable, SearchQueryMixin
 from sqlalchemy_utils.types import TSVectorType
 from passlib.apps import custom_app_context
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
-from app.app import db
+from .app import db
 
 make_searchable(db.metadata)
 
