@@ -14,7 +14,6 @@ import '../css/GlobalStyles.css';
 import '../css/ProfileCreationPage.css';
 
 /* Schema for form https://github.com/mozilla-services/react-jsonschema-form 
-
 Note: Bug with array buttons persists. Possible bootstrap incompat */
 const schema = {
   "title": "",
@@ -23,9 +22,12 @@ const schema = {
     "basic": {
       "type": "object",
       "title": "Basic Information",
-      "required": ["name", "email"],
+      "required": ["username", "password", "email", "firstName", "lastName"],
       "properties": {
-        "name": {"type": "string", "title": "Name"},
+        "username": {"type": "string", "title": "Username"},
+        "password": {"type": "string", "title": "Password"},
+        "firstName" : {"type" : "string", "title": "First Name"},
+        "lastName" : {"type" : "string", "title": "Last Name"},
         "email": {"type": "string", "title": "Email", "format": "email"},
         "avatar": {"type": "string", "title": "Profile Picture", "format": "data-url"},
         "employer": {"type": "string", "title": "Current Employer"},
@@ -97,15 +99,39 @@ const uiSchema = {
     "bio": {
       "ui:widget": "textarea"
     }
+  },
+  "basic": {
+    "password": {
+      "ui:widget": "password",
+      "ui:help": "Hint: Make it strong!"
+    }
   }
 };
-
 
 /* Based on bootstrap page */
 class ProfileCreationPage extends Component {
 
   constructor(props) {
     super(props);
+  }
+
+  create_user(data) {
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => resp.ok)
+        .then(function(status) {
+          if (status) {
+            console.log(status);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
+    console.log(JSON.stringify(data));
   }
 
   render() {
@@ -122,7 +148,7 @@ class ProfileCreationPage extends Component {
             <Form schema={schema}
                   uiSchema={uiSchema}
                   ArrayFieldTemplate={ArrayFieldTemplate}
-                  onSubmit={(a)=>{console.log(JSON.stringify(a.formData));}} />
+                  onSubmit={(a)=>{this.create_user(a.formData)}} />
           </div>
         </div>
       </div>
