@@ -29,7 +29,7 @@ class LogInPage extends Component {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
     }).then((resp) => resp)

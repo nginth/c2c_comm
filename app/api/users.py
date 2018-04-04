@@ -8,6 +8,7 @@ users_blueprint = Blueprint('users', __name__)
 
 @users_blueprint.route("/register", methods=['POST'])
 def register():    
+    print("Register")
     basic = request.get_json().get('basic')
     username = basic.get('username')
     password = basic.get('password')
@@ -29,6 +30,7 @@ def register():
     
 @users_blueprint.route("/login", methods=['POST'])
 def login_user():
+    print("Login User")
     if not request.get_json():
         abort(400, 'Malformatted JSON request.')
 
