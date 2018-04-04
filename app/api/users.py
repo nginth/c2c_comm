@@ -7,17 +7,30 @@ from app.app import db
 users_blueprint = Blueprint('users', __name__)
 
 @users_blueprint.route("/register", methods=['POST'])
-def register():
-    if not request.get_json():
-        abort(400, 'Malformatted JSON request.')
-    
-    print(request.get_json())
+def register():    
+    username = request.json.get('username')
+    password = request.json.get('password')
 
-    user = user_from_json(request.get_json())
+    if username is None or password is None:
+        abort(400, 'Missing username or password.')
+    if User.query.filter_by(username = username).first() is not None:
+        abort(400, 'User already exists.')
+
+    user = User(username = username)
+    user.hash_password(password)
     db.session.add(user)
     db.session.commit()
-
     return jsonify({ 'username': user.username, 'id': user.id }), 200
+    
+@users_blueprint.route("/login", methods=['POST'])
+def login_user():
+    if not request.get_json():
+        abort(400, 'Malformatted JSON request.')
+
+    print('login here')
+    print(request.get_json())
+    return 'logined'
+    # app.auth.verify_password()
 
 @users_blueprint.route("/token")
 @auth.login_required

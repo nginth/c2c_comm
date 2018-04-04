@@ -1,3 +1,49 @@
+
+/*GLOBAL COLOR SCHEME
+Primary: #0089fc;
+Light: 68b8ff;
+Dark: 005dc8;*/
+
+/* Jumbotron */
+.profile-jumbo {
+  background: gray;
+  text-align: center; 
+}
+
+.profile-jumbo-title {
+  font-size: 4em;
+  letter-spacing: 3px;
+  color: white;
+}
+
+.profile-jumbo-text {
+  font-size: 1.5em;
+  color: white;
+}
+
+.profile-pic-jumbo {
+  min-height: 300px;
+  max-height: 300px;
+
+  min-width: 300px;
+  max-width: 300px;
+
+  border: 2px solid #005dc8;
+}
+
+/* Container segments */
+/* Top segment with jumbotron */
+.profile-segment-top {
+  margin-top: 10px;
+  margin-bottom: 20px;
+}
+
+/* Segment A */
+.profile-segment-a {
+  margin-bottom: 20px;
+}
+
+
 /* Profile picture */
 .profile-pic {
   width: 300px;

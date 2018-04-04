@@ -41,7 +41,10 @@ class AppFrame extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {apiText: 'not up yet'};
+    this.state = {
+      apiText: 'not up yet',
+      loggedIn: false
+    };
   }
 
   componentDidMount() {
@@ -88,7 +91,7 @@ class AppFrame extends Component {
           </nav>
 
           <Route exact path="/" component={()=>(<LandingPage/>)} />
-          <Route path="/LogIn" component={()=>(<LogInPage/>)} />
+          <Route path="/LogIn" component={()=>(<LogInPage isLoggedIn={this.state.loggedIn}/>)} />
           <Route path="/Home" component={()=>(<HomePage name={"Alex"}/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(<SearchPage/>)} />

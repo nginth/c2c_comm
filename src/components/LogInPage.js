@@ -15,20 +15,53 @@ class LogInPage extends Component {
 
   constructor(props) {
     super(props);
+
+    this.login = this.login.bind(this);
   }
+
+  /* Calls the API with user submitted username and password */
+  login(event) {
+    event.preventDefault();
+
+    console.log("logged");
+    var data = { 'username': this.username.value, 'password': this.password.value }
+    console.log("logged" + JSON.stringify(data));
+    fetch('https://code-2-college-connect-api.herokuapp.com/users/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => resp.ok)
+        .then(function(status) {
+          if (status) {
+            console.log(status);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
+    // console.log(JSON.stringify(data));
+  }
+
 
   render() {
     return (
       <div className="top-container">
-      	<form className="form-signin text-center content-container">
+        <div className={this.props.isLoggedIn ? "d-none" : "alert alert-danger login-alert text-center"} role="alert">
+          <p className="c2c-text">Please login with your username and password. If forgotten, contact the administrator.</p>
+        </div>
+      	<form className="form-signin text-center content-container" onSubmit={this.login}>
           <img className="landing-info-img" src="//code2college.org/wp-content/uploads/2017/02/c2c.png"/>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
-          <label htmlFor="inputEmail" className="sr-only">Email address</label>
-          <input type="email" id="inputEmail" className="form-control" placeholder="Email address" required=""/>
+          <label htmlFor="inputusername" className="sr-only">Username</label>
+          <input ref={(input) => this.username = input} type="username" id="username" className="form-control" placeholder="username" required=""/>
           <label htmlFor="inputPassword" className="sr-only">Password</label>
-          <input type="password" id="inputPassword" className="form-control" placeholder="Password" required=""/>
+          <input ref={(input) => this.password = input} type="password" id="inputPassword" className="form-control" placeholder="Password" required=""/>
+          {/* <input type="text" ref={(input) => this.input = input} /> */}
+
           <br/>
-          <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+          <button className="btn btn-lg btn-primary btn-block" type="rok" >Sign in</button>
           <br/>
           <p className="c2c-text">© 2017-2018</p>
         </form>
