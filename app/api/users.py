@@ -8,16 +8,21 @@ users_blueprint = Blueprint('users', __name__)
 
 @users_blueprint.route("/register", methods=['POST'])
 def register():    
-    username = request.json.get('username')
-    password = request.json.get('password')
+    basic = request.get_json().get('basic')
+    username = basic.get('username')
+    password = basic.get('password')
+
+    print(basic)
+
 
     if username is None or password is None:
-        abort(400, 'Missing username or password.')
-    if User.query.filter_by(username = username).first() is not None:
-        abort(400, 'User already exists.')
+        abort(400, 'Bad Request. Missing username or password.')
+    # if User.query.filter_by(username = username).first() is not None:
+    #     abort(400, 'User already exists.')
 
-    user = User(username = username)
-    user.hash_password(password)
+
+    user = user_from_json(request.get_json())
+    #user.hash_password(password)
     db.session.add(user)
     db.session.commit()
     return jsonify({ 'username': user.username, 'id': user.id }), 200
