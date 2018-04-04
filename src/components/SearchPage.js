@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { Link } from 'react-router-dom';
 
 
 /* Bootstrap */
@@ -55,12 +56,11 @@ class SearchPage extends Component {
 							<div className="card search-profile-card ">
 							  <img className="card-img-top search-profile-pic" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
 							  <div className="card-body">
-							    <h5 className="card-title">(PROFILE CARD)</h5>
-							    <p class="card-text">Used for profiles that return hits</p>
+							    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + 1}>Greg Fenves</Link></h5>
 							  </div>
 							  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">College/Job:</li>
-								    <li className="list-group-item">C2C Graduation Year:</li>
+								    <li className="list-group-item">College/Job: University Of Texas, Austin</li>
+								    <li className="list-group-item">C2C Graduation Year: 2014</li>
 								  </ul>
 							  <ul className="list-group list-group-flush">
 							    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
@@ -69,87 +69,15 @@ class SearchPage extends Component {
 							<div className="card search-profile-card ">
 							  <img className="card-img-top search-profile-pic" src="http://alcalde.texasexes.org/wp-content/uploads/2015/08/SCP_2639.jpg" alt="Card image cap"/>
 							  <div className="card-body">
-							    <h5 className="card-title">(PROFILE CARD)</h5>
-							    <p class="card-text">Used for profiles that return hits</p>
+							    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + 2}>Freg Genves</Link></h5>
 							  </div>
 							  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">College/Job:</li>
-								    <li className="list-group-item">C2C Graduation Year:</li>
+								    <li className="list-group-item">College/Job: Texas University of Austin</li>
+								    <li className="list-group-item">C2C Graduation Year: 2018</li>
 								  </ul>
 							  <ul className="list-group list-group-flush">
 							    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
 							  </ul>
-							</div>
-						</div>
-					</div>
-
-					<p className={isSearch ? "search-results-header" : "d-none"}>Search Results:</p>
-					<div className={isSearch ? "search-results-container" : "d-none"}>
-						<div className="row search-card-deck">
-							
-							<div className="col-xs-4">
-								<div className="card">
-								  <img className="card-img-top search-profile-picb" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
-								  <div className="card-body">
-								    <h5 className="card-title">(PROFILE CARD)</h5>
-								    <p class="card-text">Used for profiles that return hits</p>
-								  </div>
-								  <ul className="list-group list-group-flush">
-									    <li className="list-group-item">College/Job:</li>
-									    <li className="list-group-item">C2C Graduation Year:</li>
-									  </ul>
-								  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-								  </ul>
-								</div>
-							</div>
-							<div className="col-xs-4">
-								<div className="card">
-								  <img className="card-img-top search-profile-picb" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
-								  <div className="card-body">
-								    <h5 className="card-title">(PROFILE CARD)</h5>
-								    <p class="card-text">Used for profiles that return hits</p>
-								  </div>
-								  <ul className="list-group list-group-flush">
-									    <li className="list-group-item">College/Job:</li>
-									    <li className="list-group-item">C2C Graduation Year:</li>
-									  </ul>
-								  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-								  </ul>
-								</div>
-							</div>
-							<div className="col-xs-4">
-								<div className="card">
-								  <img className="card-img-top search-profile-picb" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
-								  <div className="card-body">
-								    <h5 className="card-title">(PROFILE CARD)</h5>
-								    <p class="card-text">Used for profiles that return hits</p>
-								  </div>
-								  <ul className="list-group list-group-flush">
-									    <li className="list-group-item">College/Job:</li>
-									    <li className="list-group-item">C2C Graduation Year:</li>
-									  </ul>
-								  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-								  </ul>
-								</div>
-							</div>
-							<div className="col-xs-4">
-								<div className="card">
-								  <img className="card-img-top search-profile-picb" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
-								  <div className="card-body">
-								    <h5 className="card-title">(PROFILE CARD)</h5>
-								    <p class="card-text">Used for profiles that return hits</p>
-								  </div>
-								  <ul className="list-group list-group-flush">
-									    <li className="list-group-item">College/Job:</li>
-									    <li className="list-group-item">C2C Graduation Year:</li>
-									  </ul>
-								  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-								  </ul>
-								</div>
 							</div>
 						</div>
 					</div>

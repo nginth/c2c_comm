@@ -28,15 +28,15 @@ class HomePage extends Component {
       	</div>
         <div className="landing-info container">
           <div className="row">
-            <div class="col-sm-12 col-lg-6">
+            <div className="col-sm-12 col-lg-6">
               <h2>Search</h2>
               <p>Find other C2C members and alumni with similar interests and skills.</p>
               <p><Link className="btn btn-secondary" to="/Search">Go to Search</Link></p>
             </div>
-            <div class="col-sm-12 col-lg-6">
+            <div className="col-sm-12 col-lg-6">
               <h2>My Profile</h2>
               <p>View your C2C profile.</p>
-              <p><a class="btn btn-secondary" href="#" role="button">View details »</a></p>
+              <p><Link className="btn btn-secondary" to="/Profile">View Profile</Link></p>
             </div>
           </div>
         </div>

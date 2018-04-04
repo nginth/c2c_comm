@@ -113,7 +113,8 @@ class AppFrame extends Component {
           <Route path="/Home" component={()=>(this.state.loggedIn ? <HomePage id={this.state.userData.id} name={this.state.userData.name}/> : <Redirect to="/LogIn"/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage/> : <Redirect to="/LogIn" />)} />
-          <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage /> : <Redirect to="/LogIn" />)} />
+          <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
+          <Route path="/ViewProfile/:id" component={(routeProps)=>(this.state.loggedIn ? <ProfilePage id={routeProps.match.params.id} /> : <Redirect to="/LogIn" />)} />
 
           <footer className="container-fluid footer-container">
             <div className="row py-3">
