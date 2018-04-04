@@ -21,6 +21,19 @@ def register():
     db.session.commit()
     return jsonify({ 'username': user.username, 'id': user.id }), 200
 
+
+@users_blueprint.route("/login", methods=['POST'])
+def login_user():
+    if not request.get_json():
+        abort(400, 'Malformatted JSON request.')
+
+    print('login here')
+    print(request.get_json())
+    return 'logined'
+    # app.auth.verify_password()
+
+
+
 @users_blueprint.route("/token")
 @auth.login_required
 def get_token():

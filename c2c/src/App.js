@@ -44,7 +44,7 @@ class AppFrame extends Component {
   }
 
   componentDidMount() {
-    fetch('http://localhost:5001/api')
+    fetch('https://code-2-college-connect-api.herokuapp.com/')
       .then(resp => resp.text())
       .then(text => this.setState({apiText: text}))
       .catch(err => console.log(err))
