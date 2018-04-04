@@ -45,6 +45,8 @@ class AppFrame extends Component {
       apiText: 'not up yet',
       loggedIn: false
     };
+
+    this.onSignIn = this.onSignIn.bind(this);
   }
 
   componentDidMount() {
@@ -55,6 +57,10 @@ class AppFrame extends Component {
   }
 
   componentWillUnmount() {}
+
+  onSignIn(data) {
+    console.log("Data from server: " + JSON.stringify(data));
+  }
 
   render() {
     return (
@@ -91,7 +97,7 @@ class AppFrame extends Component {
           </nav>
 
           <Route exact path="/" component={()=>(<LandingPage/>)} />
-          <Route path="/LogIn" component={()=>(<LogInPage isLoggedIn={this.state.loggedIn}/>)} />
+          <Route path="/LogIn" component={()=>(<LogInPage isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
           <Route path="/Home" component={()=>(<HomePage name={"Alex"}/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(<SearchPage/>)} />

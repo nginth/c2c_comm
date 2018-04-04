@@ -23,9 +23,8 @@ class LogInPage extends Component {
   login(event) {
     event.preventDefault();
 
-    console.log("logged");
     var data = { 'username': this.username.value, 'password': this.password.value }
-    console.log("logged" + JSON.stringify(data));
+
     fetch('https://code-2-college-connect-api.herokuapp.com/users/login', {
       method: 'POST',
       headers: {
@@ -33,10 +32,11 @@ class LogInPage extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
-    }).then((resp) => resp.ok)
-        .then(function(status) {
-          if (status) {
-            console.log(status);
+    }).then((resp) => resp)
+        .then(function(resp) {
+          if (resp.ok) {
+            console.log("Login call success. Data: " + JSON.stringify(resp.json()));
+            () => {this.props.loginData(resp.json());}
           }
         }).catch(function(e) {
           console.error("Error: " + e);

@@ -27,9 +27,23 @@ def login_user():
     if not request.get_json():
         abort(400, 'Malformatted JSON request.')
 
-    print('login here')
+    data = request.get_json()
+    username = data.get('username')
+    password = data.get('password') 
+    
+
     print(request.get_json())
-    return 'logined'
+    
+    user = User.query.filter_by(username = username).first()
+    if not user:
+        return "User not found", 404
+    if not user.verify_password(password):
+        return "Bad password", 401
+
+    #is this setting a global user? Bad! - Alex
+    #g.user = user
+
+    return get_user_by_name(username), 200
     # app.auth.verify_password()
 
 @users_blueprint.route("/token")
