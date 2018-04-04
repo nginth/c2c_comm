@@ -15,13 +15,23 @@ class LogInPage extends Component {
 
   constructor(props) {
     super(props);
-
+    this.state = {
+      failedAttempt: false
+    }
     this.login = this.login.bind(this);
+    this.failedAttempt = this.failedAttempt.bind(this);
+  }
+
+  failedAttempt() {
+    this.setState({failedAttempt: true});
   }
 
   /* Calls the API with user submitted username and password */
   login(event) {
     event.preventDefault();
+
+    let callback = this.props.loginDataCallBack;
+    let failedAttempt = this.failedAttempt;
 
     var data = { 'username': this.username.value, 'password': this.password.value }
 
@@ -35,8 +45,14 @@ class LogInPage extends Component {
     }).then((resp) => resp)
         .then(function(resp) {
           if (resp.ok) {
-            console.log("Login call success. Data: " + JSON.stringify(resp.json()));
-            () => {this.props.loginData(resp.json());}
+            console.log("Login call success. Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
+            // callback(true, resp.json());
+            callback(true, {id: 1, name: 'Default McDefault'});
+          } 
+          /* Handle bad password or username */
+          else if (resp.status != 200) {
+            console.log("Uh oh " + resp.status);
+            failedAttempt();
           }
         }).catch(function(e) {
           console.error("Error: " + e);
@@ -48,7 +64,7 @@ class LogInPage extends Component {
   render() {
     return (
       <div className="top-container">
-        <div className={this.props.isLoggedIn ? "d-none" : "alert alert-danger login-alert text-center"} role="alert">
+        <div className={!this.props.isLoggedIn && this.state.failedAttempt ? "alert alert-danger login-alert text-center" : "d-none"} role="alert">
           <p className="c2c-text">Please login with your username and password. If forgotten, contact the administrator.</p>
         </div>
       	<form className="form-signin text-center content-container" onSubmit={this.login}>
@@ -58,8 +74,6 @@ class LogInPage extends Component {
           <input ref={(input) => this.username = input} type="username" id="username" className="form-control" placeholder="username" required=""/>
           <label htmlFor="inputPassword" className="sr-only">Password</label>
           <input ref={(input) => this.password = input} type="password" id="inputPassword" className="form-control" placeholder="Password" required=""/>
-          {/* <input type="text" ref={(input) => this.input = input} /> */}
-
           <br/>
           <button className="btn btn-lg btn-primary btn-block" type="rok" >Sign in</button>
           <br/>

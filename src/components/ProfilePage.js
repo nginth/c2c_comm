@@ -36,21 +36,88 @@ class ProfilePage extends Component {
       internshipYears: "",
       isActive: 1
     };
-    this.setActiveTab = this.setActiveTab.bind(this)
-  }
 
-  setActiveTab(id) {
-    this.setState({isActive: id})
+    this.setUserData = this.setUserData.bind(this);
+    this.getUser = this.getUser.bind(this);
+    
   }
 
   componentDidMount() {
-    fetch('http://127.0.0.1:5001/api/get_user')
-      .then(function(response) {
-        return response.json();
-      }).then(result => {
-        console.log(result);
-        this.setState({bio: result.username});
-      });
+    this.getUser();
+  }
+
+  setUserData(data) {
+    this.setState(data);
+  }
+
+  getUser() {
+
+    let callback = this.setUserData;
+    //let id = this.props.id;
+    let id = 1;
+    let token = 0;
+    // fetch('https://code-2-college-connect-api.herokuapp.com/api/users/' + this.props.id, {
+    //   method: 'GET',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   }
+    // }).then((resp) => resp)
+    //     .then(function(resp) {
+    //       if (resp.ok) {
+    //         console.log("Get user " + id + ". Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
+            
+    //         //callback(resp.json());
+    //         callback({
+    //           name: "John Doe",
+    //           email: "john.doe@gmail.com",
+    //           bio: "Founder of Company X",
+    //           c2cGraduation: "2016",
+    //           twitter: "",
+    //           facebook: "",
+    //           linkedIn: "",
+    //           instagram: "",
+    //           currentEmployer: "Currently CEO at Company X",
+    //           currentSchool: "University of Texas at Austin",
+    //           interests: "Interest 1, Interest 2, etc..",
+    //           highSchool: "",
+    //           highSchoolGradYear: "",
+    //           favVolunteer: "",
+    //           favWorkshop: "",
+    //           internships: "Intern at Company Z for 2016 Summer",
+    //           internshipYears: "",
+    //           isActive: 1
+    //         });
+    //       } 
+    //       /* Error! */
+    //       else if (resp.status != 200) {
+    //         console.log("Uh oh " + resp.status);
+    //       }
+    //     }).catch(function(e) {
+    //       console.error("Error: " + e);
+    //     });
+
+    /* Mock Data */
+    this.setUserData({
+              name: "John Doe",
+              email: "john.doe@gmail.com",
+              bio: "Founder of Company X",
+              c2cGraduation: "2016",
+              twitter: "",
+              facebook: "",
+              linkedIn: "",
+              instagram: "",
+              currentEmployer: "Currently CEO at Company X",
+              currentSchool: "University of Texas at Austin",
+              interests: "Interest 1, Interest 2, etc..",
+              highSchool: "",
+              highSchoolGradYear: "",
+              favVolunteer: "",
+              favWorkshop: "",
+              internships: "Intern at Company Z for 2016 Summer",
+              internshipYears: "",
+              isActive: 1
+            });
   }
 
   editProfile() {

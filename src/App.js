@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 
 import logo from './logo.svg';
 import './App.css';
@@ -43,23 +43,34 @@ class AppFrame extends Component {
 
     this.state = {
       apiText: 'not up yet',
-      loggedIn: false
+      loggedIn: false,
+      userData: {
+        name: "Default McDefault",
+        id: 1
+      }
     };
 
     this.onSignIn = this.onSignIn.bind(this);
+    this.logOut = this.logOut.bind(this);
   }
 
   componentDidMount() {
-    fetch('https://code-2-college-connect-api.herokuapp.com/api')
-      .then(resp => resp.text())
-      .then(text => this.setState({apiText: text}))
-      .catch(err => console.log(err))
+    
   }
 
   componentWillUnmount() {}
 
-  onSignIn(data) {
+  onSignIn(status, data) {
     console.log("Data from server: " + JSON.stringify(data));
+
+    this.setState({loggedIn: status, userData: data});
+
+
+  }
+
+  logOut() {
+    this.setState({loggedIn: false});
+    // this.setState({loggedIn: false, userData: null});
   }
 
   render() {
@@ -93,15 +104,16 @@ class AppFrame extends Component {
                   <Link className="nav-link" to="/Search">Search</Link>
                 </li>
               </ul>
+              <button className="btn btn-danger btn-small" onClick={() => {this.logOut();}}>Log out</button>
             </div>
           </nav>
 
-          <Route exact path="/" component={()=>(<LandingPage/>)} />
-          <Route path="/LogIn" component={()=>(<LogInPage isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
-          <Route path="/Home" component={()=>(<HomePage name={"Alex"}/>)} />
+          <Route exact path="/" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LandingPage/>)} />
+          <Route path="/LogIn" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LogInPage isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
+          <Route path="/Home" component={()=>(this.state.loggedIn ? <HomePage id={this.state.userData.id} name={this.state.userData.name}/> : <Redirect to="/LogIn"/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
-          <Route path="/Search" component={()=>(<SearchPage/>)} />
-          <Route path="/Profile" component={()=>(<ProfilePage />)} />
+          <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage/> : <Redirect to="/LogIn" />)} />
+          <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage /> : <Redirect to="/LogIn" />)} />
 
           <footer className="container-fluid footer-container">
             <div className="row py-3">
