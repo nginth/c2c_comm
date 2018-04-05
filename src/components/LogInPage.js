@@ -35,6 +35,30 @@ class LogInPage extends Component {
 
     var data = { 'username': this.username.value, 'password': this.password.value }
 
+    // fetch('http://localhost:5001/api/users/login', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(data)
+    // }).then((resp) => resp)
+    //     .then(function(resp) {
+    //       if (resp.ok) {
+    //         console.log("Login call success. Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
+    //         console.log(resp.json());
+    //         //callback(true, resp.json());
+    //         callback(true, {id: 1, name: 'Default McDefault'});
+    //       } 
+    //       /* Handle bad password or username */
+    //       else if (resp.status != 200) {
+    //         console.log("Uh oh " + resp.status);
+    //         failedAttempt();
+    //       }
+    //     }).catch(function(e) {
+    //       console.error("Error: " + e);
+    //     });
+
     fetch('https://code-2-college-connect-api.herokuapp.com/api/users/login', {
       method: 'POST',
       headers: {
@@ -42,22 +66,25 @@ class LogInPage extends Component {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(data)
-    }).then((resp) => resp)
-        .then(function(resp) {
-          if (resp.ok) {
-            console.log("Login call success. Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
-            // callback(true, resp.json());
-            callback(true, {id: 1, name: 'Default McDefault'});
-          } 
-          /* Handle bad password or username */
-          else if (resp.status != 200) {
-            console.log("Uh oh " + resp.status);
-            failedAttempt();
-          }
-        }).catch(function(e) {
+    }).then((resp) => {
+      if (resp.ok) {
+        return resp.json();
+      }
+      // Handle bad password or username
+      else if (resp.status != 200) {
+        console.log("Uh oh " + resp.status);
+        failedAttempt();
+      }
+    }).then((responseJSON) => {
+        // If the login was valid
+        if(!this.state.failedAttempt) {
+          console.log(responseJSON);
+          callback(true, responseJSON);
+        }
+      }).catch(function(e) {
           console.error("Error: " + e);
         });
-    // console.log(JSON.stringify(data));
+    //console.log(JSON.stringify(data));
   }
 
 
@@ -71,7 +98,7 @@ class LogInPage extends Component {
           <img className="landing-info-img" src="//code2college.org/wp-content/uploads/2017/02/c2c.png"/>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
           <label htmlFor="inputusername" className="sr-only">Username</label>
-          <input ref={(input) => this.username = input} type="username" id="username" className="form-control" placeholder="username" required=""/>
+          <input ref={(input) => this.username = input} type="username" id="username" className="form-control" placeholder="Username" required=""/>
           <label htmlFor="inputPassword" className="sr-only">Password</label>
           <input ref={(input) => this.password = input} type="password" id="inputPassword" className="form-control" placeholder="Password" required=""/>
           <br/>

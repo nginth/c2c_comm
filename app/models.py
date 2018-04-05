@@ -91,4 +91,4 @@ class User(db.Model):
         }
 
     def __repr__(self):
-        return '<User {}: {!r}>'.format(self.id, self.name)
+        return '<User {}: {!r}>'.format(self.id, self.username)

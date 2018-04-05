@@ -110,7 +110,7 @@ class AppFrame extends Component {
 
           <Route exact path="/" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LandingPage/>)} />
           <Route path="/LogIn" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LogInPage isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
-          <Route path="/Home" component={()=>(this.state.loggedIn ? <HomePage id={this.state.userData.id} name={this.state.userData.name}/> : <Redirect to="/LogIn"/>)} />
+          <Route path="/Home" component={()=>(this.state.loggedIn ? <HomePage id={this.state.userData.id} name={this.state.userData.firstName}/> : <Redirect to="/LogIn"/>)} />
           <Route path="/CreateProfile" component={()=>(<ProfileCreationPage/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
@@ -138,7 +138,7 @@ class AppFrame extends Component {
               </div>
             </div>
             <div className="text-muted">
-              <p>Made with love by Viet, Nick, Hamza, Bhavish and Alex. Special thanks to C2C website designer Issac C. for design inspiration.</p>
+              <p>Made with love by Viet, Nick, Hamza, Bhavish and Alex.</p>
             </div>
           </footer>
         </div>

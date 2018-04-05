@@ -15,7 +15,6 @@ def register():
 
     print(basic)
 
-
     if username is None or password is None:
         abort(400, 'Bad Request. Missing username or password.')
     # if User.query.filter_by(username = username).first() is not None:
@@ -28,6 +27,7 @@ def register():
     db.session.commit()
     return jsonify({ 'username': user.username, 'id': user.id }), 200
     
+
 @users_blueprint.route("/login", methods=['POST'])
 def login_user():
     print("Login User")
@@ -38,8 +38,20 @@ def login_user():
     username = data.get('username')
     password = data.get('password') 
     
+    return login(username, password)
 
-    print(request.get_json())
+@auth.verify_password
+def login(username, password):
+    # print("Login User")
+    # if not request.get_json():
+    #     abort(400, 'Malformatted JSON request.')
+
+    # data = request.get_json()
+    # username = data.get('username')
+    # password = data.get('password') 
+    
+
+    # print(request.get_json())
     
     user = User.query.filter_by(username = username).first()
     if not user:
@@ -48,10 +60,11 @@ def login_user():
         return "Bad password", 401
 
     #is this setting a global user? Bad! - Alex
-    #g.user = user
-
+    print(user)
+    g.user = user
+    # token = get_token()
+    # print(token)
     return get_user_by_name(username), 200
-    # app.auth.verify_password()
 
 @users_blueprint.route("/token")
 @auth.login_required
@@ -79,7 +92,7 @@ def get_all_users():
 
 @users_blueprint.route("/<int:user_id>", methods=['GET'])
 @auth.login_required
-def get_user_by_id(user_id):    
+def get_user_by_id(user_id): 
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         abort(404, 'User not found.')
@@ -129,7 +142,7 @@ def user_from_json(json):
     # basic
     user.email = basic.get('email')
     user.first_name = basic.get('firstName')
-    user.first_name = basic.get('lastName')
+    user.last_name = basic.get('lastName')
     user.profile_pic = basic.get('avatar')
     user.current_employer = basic.get('employer')
     user.current_school = basic.get('school')

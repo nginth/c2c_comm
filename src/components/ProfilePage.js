@@ -56,46 +56,46 @@ class ProfilePage extends Component {
     //let id = this.props.id;
     let id = 1;
     let token = 0;
-    // fetch('https://code-2-college-connect-api.herokuapp.com/api/users/' + this.props.id, {
-    //   method: 'GET',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   }
-    // }).then((resp) => resp)
-    //     .then(function(resp) {
-    //       if (resp.ok) {
-    //         console.log("Get user " + id + ". Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/' + this.props.id, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((resp) => resp)
+        .then(function(resp) {
+          if (resp.ok) {
+            console.log("Get user " + id + ". Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
             
-    //         //callback(resp.json());
-    //         callback({
-    //           name: "John Doe",
-    //           email: "john.doe@gmail.com",
-    //           bio: "Founder of Company X",
-    //           c2cGraduation: "2016",
-    //           twitter: "",
-    //           facebook: "",
-    //           linkedIn: "",
-    //           instagram: "",
-    //           currentEmployer: "Currently CEO at Company X",
-    //           currentSchool: "University of Texas at Austin",
-    //           interests: "Interest 1, Interest 2, etc..",
-    //           highSchool: "",
-    //           highSchoolGradYear: "",
-    //           favVolunteer: "",
-    //           favWorkshop: "",
-    //           internships: "Intern at Company Z for 2016 Summer",
-    //           internshipYears: "",
-    //           isActive: 1
-    //         });
-    //       } 
-    //       /* Error! */
-    //       else if (resp.status != 200) {
-    //         console.log("Uh oh " + resp.status);
-    //       }
-    //     }).catch(function(e) {
-    //       console.error("Error: " + e);
-    //     });
+            callback(resp.json());
+            // callback({
+            //   name: "John Doe",
+            //   email: "john.doe@gmail.com",
+            //   bio: "Founder of Company X",
+            //   c2cGraduation: "2016",
+            //   twitter: "",
+            //   facebook: "",
+            //   linkedIn: "",
+            //   instagram: "",
+            //   currentEmployer: "Currently CEO at Company X",
+            //   currentSchool: "University of Texas at Austin",
+            //   interests: "Interest 1, Interest 2, etc..",
+            //   highSchool: "",
+            //   highSchoolGradYear: "",
+            //   favVolunteer: "",
+            //   favWorkshop: "",
+            //   internships: "Intern at Company Z for 2016 Summer",
+            //   internshipYears: "",
+            //   isActive: 1
+            // });
+          } 
+          /* Error! */
+          else if (resp.status != 200) {
+            console.log("Uh oh " + resp.status);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
 
     /* Mock Data */
     this.setUserData({
@@ -167,12 +167,12 @@ class ProfilePage extends Component {
             <div className="card-body text-center">
               <p className="profile-card-header">Contact</p>
             </div>
-            <ul class="list-group list-group-flush text-center">
-              <li class="list-group-item">Email: {this.state.email ? this.state.email : "No Email Provided."}</li>
-              <li class="list-group-item">Facebook: {this.state.facebook ? this.state.facebook : "No Facebook Provided."}</li>
-              <li class="list-group-item">Twitter: {this.state.twitter ? this.state.twitter : "No Twitter Provided."}</li>
-              <li class="list-group-item">LinkedIn: {this.state.linkedIn ? this.state.linkedIn : "No LinkedIn Provided."}</li>
-              <li class="list-group-item">Instagram: {this.state.Instagram ? this.state.Instagram : "No Instagram Provided."}</li>
+            <ul className="list-group list-group-flush text-center">
+              <li className="list-group-item">Email: {this.state.email ? this.state.email : "No Email Provided."}</li>
+              <li className="list-group-item">Facebook: {this.state.facebook ? this.state.facebook : "No Facebook Provided."}</li>
+              <li className="list-group-item">Twitter: {this.state.twitter ? this.state.twitter : "No Twitter Provided."}</li>
+              <li className="list-group-item">LinkedIn: {this.state.linkedIn ? this.state.linkedIn : "No LinkedIn Provided."}</li>
+              <li className="list-group-item">Instagram: {this.state.Instagram ? this.state.Instagram : "No Instagram Provided."}</li>
             </ul>
           </div>
         </div>
