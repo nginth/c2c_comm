@@ -19,7 +19,6 @@ class HomePage extends Component {
   }
 
   render() {
-    console.log(this.props.username)
     return (
       <div className="top-container no-padding">
       	<div className="home-jumbotron jumbotron jumbotron-fluid">
