@@ -68,6 +68,9 @@ class User(db.Model):
             "lastName": self.last_name,
             "profilePic": self.profile_pic,
             "bio": self.bio,
+            "currentEmployer": self.current_employer,
+            "currentSchool": self.current_school,
+            "email": self.email,
             "highSchool": {
                 "name": self.high_school_name,
                 "graduationYear": self.high_school_graduation,

@@ -22,8 +22,8 @@ class LogInPage extends Component {
     this.failedAttempt = this.failedAttempt.bind(this);
   }
 
-  failedAttempt() {
-    this.setState({failedAttempt: true});
+  failedAttempt(status) {
+    this.setState({failedAttempt: status});
   }
 
   /* Calls the API with user submitted username and password */
@@ -35,29 +35,6 @@ class LogInPage extends Component {
 
     var data = { 'username': this.username.value, 'password': this.password.value }
 
-    // fetch('http://localhost:5001/api/users/login', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(data)
-    // }).then((resp) => resp)
-    //     .then(function(resp) {
-    //       if (resp.ok) {
-    //         console.log("Login call success. Data: " + resp.body + " status " + resp.status + " text " + resp.statusText);
-    //         console.log(resp.json());
-    //         //callback(true, resp.json());
-    //         callback(true, {id: 1, name: 'Default McDefault'});
-    //       } 
-    //       /* Handle bad password or username */
-    //       else if (resp.status != 200) {
-    //         console.log("Uh oh " + resp.status);
-    //         failedAttempt();
-    //       }
-    //     }).catch(function(e) {
-    //       console.error("Error: " + e);
-    //     });
 
     fetch('https://code-2-college-connect-api.herokuapp.com/api/users/login', {
       method: 'POST',
@@ -68,23 +45,22 @@ class LogInPage extends Component {
       body: JSON.stringify(data)
     }).then((resp) => {
       if (resp.ok) {
+        failedAttempt(false);
         return resp.json();
       }
       // Handle bad password or username
       else if (resp.status != 200) {
-        console.log("Uh oh " + resp.status);
-        failedAttempt();
+        console.log("Error making call status: " + resp.status);
+        failedAttempt(true);
       }
     }).then((responseJSON) => {
         // If the login was valid
         if(!this.state.failedAttempt) {
-          console.log(responseJSON);
           callback(true, responseJSON);
         }
       }).catch(function(e) {
           console.error("Error: " + e);
         });
-    //console.log(JSON.stringify(data));
   }
 
 
