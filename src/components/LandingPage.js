@@ -11,12 +11,11 @@ import '../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 import '../css/GlobalStyles.css';
 import '../css/LandingPage.css';
 
+/* Assets */
+import BlueSymbol from '../assets/C2C_symbol.jpg';
+
 /* From columns to cards? */
 class LandingPage extends Component {
-
-  constructor(props) {
-    super(props);
-  }
 
   render() {
     return (
@@ -31,17 +30,17 @@ class LandingPage extends Component {
         <div className="landing-info container">
           <div className="row">
             <div className="col-lg-4 col-md-12">
-              <img className="rounded-circle landing-info-img" alt="" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
+              <img className="rounded-circle landing-info-img" alt="C2C logo" src={BlueSymbol}/>
               <h2 className="c2c-header">Connect</h2>
               <p className="c2c-text">Meet Code2College members past and present to open new pathways to opportunity.</p>
             </div>
             <div className="col-lg-4 col-md-12">
-              <img className="rounded-circle landing-info-img" alt="" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
+              <img className="rounded-circle landing-info-img" alt="C2C logo" src={BlueSymbol}/>
               <h2 className="c2c-header">Learn</h2>
               <p className="c2c-text">Learn new skills and improve current ones by participating in technical conversations.</p>
             </div>
             <div className="col-lg-4 col-md-12">
-              <img className="rounded-circle landing-info-img" alt="" src="https://code2college.org/wp-content/uploads/2017/02/Code2College_10-01.jpg"/>
+              <img className="rounded-circle landing-info-img" alt="C2C logo" src={BlueSymbol}/>
               <h2 className="c2c-header">Stay in Touch</h2>
               <p className="c2c-text">Keep up to date with old friends and Code2College news.</p>
             </div>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
 
-import logo from './logo.svg';
 import './App.css';
 
 /* Components */
@@ -12,6 +11,9 @@ import SearchPage from './components/SearchPage.js';
 import HomePage from './components/HomePage.js';
 import ProfilePage from './components/ProfilePage.js';
 
+/* Assets */
+import ClearLogo from './assets/C2C_logo_clear.png';
+
 /* Future localization/Strings... Maybe? */
 //import {ROUTER_BASENAME} from './Strings.js';
 
@@ -19,22 +21,6 @@ import ProfilePage from './components/ProfilePage.js';
 import '../node_modules/jquery/dist/jquery.min.js';
 import '../node_modules/bootstrap/dist/css/bootstrap.css';
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
-
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
-      </div>
-    );
-  }
-}
 
 
 class AppFrame extends Component {
@@ -61,11 +47,7 @@ class AppFrame extends Component {
   componentWillUnmount() {}
 
   onSignIn(status, data) {
-    console.log("Data from server: " + JSON.stringify(data));
-
     this.setState({loggedIn: status, userData: data});
-
-
   }
 
   logOut() {
@@ -119,7 +101,7 @@ class AppFrame extends Component {
           <footer className="container-fluid footer-container">
             <div className="row py-3">
               <div className="col-4">
-                <img className="footer-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to College logo"/>
+                <img className="footer-logo" src={ClearLogo} alt="Code to College logo"/>
                 <small className="d-block mb-3 text-muted">© 2017-2018</small>
               </div>
               <div className="col-4">
