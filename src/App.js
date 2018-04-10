@@ -86,7 +86,7 @@ class AppFrame extends Component {
                   <Link className="nav-link" to="/Search">Search</Link>
                 </li>
               </ul>
-              <button className="btn btn-danger btn-small" onClick={() => {this.logOut();}}>Log out</button>
+              <button className={this.state.loggedIn ? "btn btn-danger btn-small" : "d-none"} onClick={() => {this.logOut();}}>Log out</button>
             </div>
           </nav>
 
