@@ -1,12 +1,7 @@
 
-.landing-jumbotron {
-	width: 100%;
-	height: 400px;
-
+.landing-jumbo {
 	background: url("../assets/C2C_symbol.jpg") no-repeat center;
-	background-size: 100%; 
-
-	text-align: center;
+	background-size: cover; 
 }
 
 .landing-info-img {
@@ -19,24 +14,8 @@
 	text-align: center;
 }
 
-.landing-jumbo-header {
-	letter-spacing: 3px;
-	color: white;
-	text-shadow: 
-	-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
-	/*text-shadow: 2px 2px white;*/
+/* Login button in jumbotron */
+.landing-login-btn {
 	margin-top: 5%;
-}
-
-.landing-jumbo-text {
-	letter-spacing: 3px;
-	color: white;
-	text-shadow: 
-	-1px -1px 0 #000,
-		1px -1px 0 #000,
-		-1px 1px 0 #000,
-		1px 1px 0 #000;
+	/*background-color: #0089fc;*/
 }

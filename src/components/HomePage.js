@@ -21,9 +21,9 @@ class HomePage extends Component {
   render() {
     return (
       <div className="top-container no-padding">
-      	<div className="home-jumbotron jumbotron jumbotron-fluid">
+      	<div className="jumbotron jumbotron-fluid c2c-jumbo home-jumbo">
       	  <div className="container">
-      	  	<p className="home-jumbo-title jumbo-title">Welcome, {this.props.name}.</p>
+      	  	<p className="jumbo-title-pretty jumbo-title home-jumbo-title">Welcome, {this.props.name}.</p>
       	  </div>
       	</div>
         <div className="landing-info container">

@@ -82,13 +82,63 @@ Dark: 005dc8;
 }
 
 /* General Jumbotrons */
+.c2c-jumbo {
+	width: 100%;
+	height: 400px;
+	text-align: center;
+}
+
 .jumbo-title {
+	margin-top: 2%;
 	color: white;
 	font-size: 4em;
 }
 .jumbo-subtitle {
+	margin-top: 2%;
 	color: white;
 	font-size: 2em;
+}
+
+/* Pretty Jumbotron: fancy header and text styling */
+.jumbo-title-pretty {
+	letter-spacing: 3px;
+	color: white;
+	text-shadow: 
+	-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+	/*text-shadow: 2px 2px white;*/
+}
+
+.jumbo-subtitle-pretty {
+	letter-spacing: 3px;
+	color: white;
+	text-shadow: 
+	-1px -1px 0 #000,
+		1px -1px 0 #000,
+		-1px 1px 0 #000,
+		1px 1px 0 #000;
+}
+
+@media(max-width: 992px) {
+	.jumbo-title {
+		font-size: 3em;
+	}
+
+	.jumbo-subtitle {
+		font-size: 2em;
+	}
+}
+
+@media(max-width: 350px) {
+	.jumbo-title {
+		font-size: 2.5em;
+	}
+
+	.jumbo-subtitle {
+		font-size: 1.5em;
+	}
 }
 
 /* General text */

@@ -20,11 +20,11 @@ class LandingPage extends Component {
   render() {
     return (
       <div className="top-container no-padding">
-      	<div className="landing-jumbotron jumbotron jumbotron-fluid">
+      	<div className="jumbotron jumbotron-fluid c2c-jumbo landing-jumbo">
       	  <div className="container">
-      	  	<p className="landing-jumbo-header jumbo-title">Code2College Connect</p>
-      	  	<p className="landing-jumbo-text jumbo-subtitle">A place of growth and opportunity.</p>
-            <Link className="btn btn-secondary" to="/LogIn">Log in</Link>
+      	  	<p className="jumbo-title-pretty jumbo-title">Code2College Connect</p>
+      	  	<p className="jumbo-subtitle-pretty jumbo-subtitle">A place of growth and opportunity.</p>
+            <Link className="btn btn-primary landing-login-btn" to="/LogIn">Log in</Link>
       	  </div>
       	</div>
         <div className="landing-info container">
