@@ -5,6 +5,8 @@ import Form from 'react-jsonschema-form';
 /* Custom array template to go around form rendering errors with Bootstrap4 */
 import ArrayFieldTemplate from './c2cArrayFieldTemplate.js';
 
+import ClearLogo from './assets/C2C_logo_clear.png';
+
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
@@ -113,6 +115,9 @@ class ProfileCreationPage extends Component {
 
   constructor(props) {
     super(props);
+
+    this.create_user = this.create_user.bind(this);
+    this.edit_user = this.edit_user.bind(this);
   }
 
   create_user(data) {
@@ -134,21 +139,40 @@ class ProfileCreationPage extends Component {
     console.log(JSON.stringify(data));
   }
 
+  edit_user(data) {
+    // fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Accept': 'application/json',
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(data)
+    // }).then((resp) => resp.ok)
+    //     .then(function(status) {
+    //       if (status) {
+    //         console.log(status);
+    //       }
+    //     }).catch(function(e) {
+    //       console.error("Error: " + e);
+    //     });
+    console.log("Just Edited user. " + JSON.stringify(data));
+  }
+
   render() {
     return (
       <div className="top-container">
         <div className="container content-container pb-5">
           <div className="py-5 text-center">
-            <img className="profile-creation-header-logo" src="//code2college.org/wp-content/uploads/2017/02/c2c.png" alt="Code to college logo"/>
-            <h2 className="c2c-header">Create Your Profile</h2>
-            <p className="c2c-text">Create your Code2College Connect profile by completing the following form.</p>
+            <img className="profile-creation-header-logo" src={ClearLogo} alt="Code to college logo"/>
+            <h2 className="c2c-header">{this.props.isEdit ? "Edit Your Profile" : "Create Your Profile"}</h2>
+            <p className="c2c-text">{this.props.isEdit ? "Make changes to your Code2College Connect profile by making changes in the following form." : "Create your Code2College Connect profile by completing the following form."}</p>
           </div>
           <hr/>
           <div className="">
             <Form schema={schema}
                   uiSchema={uiSchema}
                   ArrayFieldTemplate={ArrayFieldTemplate}
-                  onSubmit={(a)=>{this.create_user(a.formData)}} />
+                  onSubmit={this.props.isEdit ? (a)=>{this.edit_user(a.formData)} : (a)=>{this.create_user(a.formData)}} />
           </div>
         </div>
       </div>

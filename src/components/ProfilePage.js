@@ -100,7 +100,7 @@ class ProfilePage extends Component {
         <div className="container profile-segment-top">
           <div className="profile-jumbo rounded jumbotron-fluid">
             <img className="profile-pic-jumbo rounded-circle" src={this.state.profilePic}/>
-            <p className="profile-jumbo-title">{this.state.firstName} {this.state.lastName} <Link className="btn btn-primary" to="/editProfile">Edit</Link></p>
+            <p className="profile-jumbo-title">{this.state.firstName} {this.state.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/editProfile">Edit</Link></p>
             <p className="profile-jumbo-text">Works at {this.state.currentEmployer}</p>
             <p className="profile-jumbo-text">Goes to {this.state.currentSchool}</p>
           </div>
