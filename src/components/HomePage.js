@@ -26,7 +26,7 @@ class HomePage extends Component {
       	  	<p className="jumbo-title-pretty jumbo-title home-jumbo-title">Welcome, {this.props.name}.</p>
       	  </div>
       	</div>
-        <div className="landing-info container">
+        <div className="home-container container">
           <div className="row">
             <div className="col-sm-12 col-lg-6">
               <h2>Search</h2>

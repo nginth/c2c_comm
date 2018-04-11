@@ -47,8 +47,10 @@ Dark: 005dc8;
 .top-container {
 	/*background: rgba(50, 119, 229, .8);*/
 	background: #68b8ff;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding-top: 2%;
+	padding-bottom: 2%;
+
+	min-height: 25%;
 
 	font-family: 'Ubuntu', sans-serif;
 }

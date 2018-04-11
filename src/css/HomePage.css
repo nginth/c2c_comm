@@ -21,3 +21,10 @@
 		margin-top: 15%;
 	}
 }
+
+.home-container {
+	/* Reflects top-container's 2% padding */
+	margin-bottom: 3%; 
+	margin-top: 5%;
+	text-align: center;
+}

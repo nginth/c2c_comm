@@ -37,7 +37,7 @@ class SearchPage extends Component {
 
 		return (
 			<div className="top-container search-background">
-				<div className="container search-container">
+				<div className={isSearch ? "container search-container" : "container search-container no-search-margin"}>
 					<div className="search-bar-container container-fluid">
 						<h1 className="search-header">Search Profiles</h1>
 						<form className="search-bar" onSubmit={this.search}>

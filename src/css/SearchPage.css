@@ -69,3 +69,10 @@
 	margin-right: 15px;
 	margin-top: 15px;
 }
+
+/* Utility classes */
+/* Adds a margin to balance the page if there is no active search */
+.no-search-margin {
+	margin-bottom: 10%;
+	margin-top: 10%;
+}
