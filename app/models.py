@@ -60,39 +60,6 @@ class User(db.Model):
     def verify_password(self, password):
         return custom_app_context.verify(password, self.password_hash)        
 
-    # def serialize(self):
-    #     return {
-    #         "id": self.id,
-    #         "username": self.username,
-    #         "firstName": self.first_name,
-    #         "lastName": self.last_name,
-    #         "profilePic": self.profile_pic,
-    #         "bio": self.bio,
-    #         "currentEmployer": self.current_employer,
-    #         "currentSchool": self.current_school,
-    #         "email": self.email,
-    #         "highSchool": {
-    #             "name": self.high_school_name,
-    #             "graduationYear": self.high_school_graduation,
-    #         },
-    #         "socials": {
-    #             "linkedin": self.linkedin,
-    #             "facebook": self.facebook,
-    #             "twitter": self.twitter,
-    #             "github": self.github
-    #         },
-    #         "c2c": {
-    #             "favoriteVolunteer": self.favorite_volunteer,
-    #             "favoriteWorkshop": self.favorite_workshop,
-    #             "graduationYear": self.grad_year_program
-    #         },
-    #         "internships": [{
-    #             "id": internship.id,
-    #             "host": internship.host,
-    #             "year": internship.year
-    #         } for internship in self.internships]  
-    #     }
-
     def serialize(self):
     return {
         "id": self.id,
