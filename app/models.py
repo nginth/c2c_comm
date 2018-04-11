@@ -60,37 +60,75 @@ class User(db.Model):
     def verify_password(self, password):
         return custom_app_context.verify(password, self.password_hash)        
 
-    def serialize(self):
+    # def serialize(self):
+    #     return {
+    #         "id": self.id,
+    #         "username": self.username,
+    #         "firstName": self.first_name,
+    #         "lastName": self.last_name,
+    #         "profilePic": self.profile_pic,
+    #         "bio": self.bio,
+    #         "currentEmployer": self.current_employer,
+    #         "currentSchool": self.current_school,
+    #         "email": self.email,
+    #         "highSchool": {
+    #             "name": self.high_school_name,
+    #             "graduationYear": self.high_school_graduation,
+    #         },
+    #         "socials": {
+    #             "linkedin": self.linkedin,
+    #             "facebook": self.facebook,
+    #             "twitter": self.twitter,
+    #             "github": self.github
+    #         },
+    #         "c2c": {
+    #             "favoriteVolunteer": self.favorite_volunteer,
+    #             "favoriteWorkshop": self.favorite_workshop,
+    #             "graduationYear": self.grad_year_program
+    #         },
+    #         "internships": [{
+    #             "id": internship.id,
+    #             "host": internship.host,
+    #             "year": internship.year
+    #         } for internship in self.internships]  
+    #     }
+
+        def serialize(self):
         return {
             "id": self.id,
-            "username": self.username,
-            "firstName": self.first_name,
-            "lastName": self.last_name,
-            "profilePic": self.profile_pic,
-            "bio": self.bio,
-            "currentEmployer": self.current_employer,
-            "currentSchool": self.current_school,
-            "email": self.email,
+            "basic": {
+                "username": self.username,
+                "firstName": self.first_name,
+                "lastName": self.last_name,
+                "employer": self.current_employer,
+                "school": self.current_school,
+                "avatar": self.profile_pic
+            },
+            "about": {
+                "bio": self.bio, 
+                "interests": self.interests
+
+            },
             "highSchool": {
                 "name": self.high_school_name,
-                "graduationYear": self.high_school_graduation,
+                "graduation": self.high_school_graduation,
             },
-            "socials": {
+            "social": {
                 "linkedin": self.linkedin,
                 "facebook": self.facebook,
                 "twitter": self.twitter,
                 "github": self.github
             },
             "c2c": {
-                "favoriteVolunteer": self.favorite_volunteer,
-                "favoriteWorkshop": self.favorite_workshop,
-                "graduationYear": self.grad_year_program
-            },
-            "internships": [{
-                "id": internship.id,
-                "host": internship.host,
-                "year": internship.year
-            } for internship in self.internships]  
+                "volunteer": self.favorite_volunteer,
+                "workshop": self.favorite_workshop,
+                "graduation": self.grad_year_program,
+                "internships": [{
+                    "id": internship.id,
+                    "host": internship.host,
+                    "year": internship.year
+                } for internship in self.internships]
+            }  
         }
 
     def __repr__(self):

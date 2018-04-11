@@ -18,32 +18,38 @@ class ProfilePage extends Component {
     super(props);
 
     this.state = {
-            "id": null,
-            "username": null,
-            "firstName": null,
-            "lastName": null,
-            "profilePic": null,
-            "bio": null,
-            "email": null,
-            "currentEmployer": null,
-            "currentSchool": null,
-            "highSchool": {
-                "name": null,
-                "graduationYear": null,
-            },
-            "socials": {
-                "linkedin": null,
-                "facebook": null,
-                "twitter": null,
-                "github": null
-            },
-            "c2c": {
-                "favoriteVolunteer": null,
-                "favoriteWorkshop": null,
-                "graduationYear": null
-            },
-            "internships": []  
-        }
+      "id": null,
+      "basic": {
+        "username": null,
+        "firstName": null,
+        "email": null,
+        "lastName": null,
+        "employer": null,
+        "school": null,
+        "avatar": null
+      },
+      "about": {
+        "bio": null, 
+        "interests": null
+
+      },
+      "highSchool": {
+        "name": null,
+        "graduation": null
+      },
+      "social": {
+        "linkedin": null,
+        "facebook": null,
+        "twitter": null,
+        "github": null
+      },
+      "c2c": {
+        "volunteer": null,
+        "workshop": null,
+        "graduation": null,
+        "internships": []
+      }
+    };
 
     this.setUserData = this.setUserData.bind(this);
     this.getUser = this.getUser.bind(this);
@@ -99,20 +105,20 @@ class ProfilePage extends Component {
       <div className="top-container">
         <div className="container profile-segment-top">
           <div className="profile-jumbo rounded jumbotron-fluid">
-            <img className="profile-pic-jumbo rounded-circle" src={this.state.profilePic}/>
-            <p className="profile-jumbo-title">{this.state.firstName} {this.state.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/editProfile">Edit</Link></p>
-            <p className="profile-jumbo-text">Works at {this.state.currentEmployer}</p>
-            <p className="profile-jumbo-text">Goes to {this.state.currentSchool}</p>
+            <img className="profile-pic-jumbo rounded-circle" src={this.state.basic.avatar}/>
+            <p className="profile-jumbo-title">{this.state.basic.firstName} {this.state.basic.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/editProfile">Edit</Link></p>
+            <p className="profile-jumbo-text">Works at {this.state.basic.employer}</p>
+            <p className="profile-jumbo-text">Goes to {this.state.basic.school}</p>
           </div>
         </div>
         <div className="container profile-segment-a">
           <div className="card profile-display-card">
             <div className="card-body text-center">
               <p className="profile-card-header">Bio</p>
-              <p className="profile-card-text">{this.state.bio}</p>
+              <p className="profile-card-text">{this.state.about.bio}</p>
               <hr/>
               <p className="profile-card-header">Interests</p>
-              <p className="profile-card-text">{this.state.interests}</p>
+              <p className="profile-card-text">{this.state.about.interests}</p>
             </div>
           </div>
         </div>
@@ -120,11 +126,11 @@ class ProfilePage extends Component {
           <div className="card profile-display-card">
             <div className="card-body text-center">
               <p className="profile-card-header">C2C Graduation Year</p>
-              <p className="profile-card-text">{this.state.c2c.graduationYear}</p>
+              <p className="profile-card-text">{this.state.c2c.graduation}</p>
               <hr/>
               <p className="profile-card-header">Highschool</p>
               <p className="profile-card-text">{this.state.highSchool.name}</p>
-              <p className="profile-card-text">Graduation Year: {this.state.highSchool.graduationYear}</p>
+              <p className="profile-card-text">Graduation Year: {this.state.highSchool.graduation}</p>
               <hr/>
             </div>
           </div>
@@ -135,11 +141,11 @@ class ProfilePage extends Component {
               <p className="profile-card-header">Contact</p>
             </div>
             <ul className="list-group list-group-flush text-center">
-              <li className="list-group-item">Email: {this.state.email ? this.state.email : "No Email Provided."}</li>
-              <li className="list-group-item">Facebook: {this.state.socials.facebook ? this.state.socials.facebook : "No Facebook Provided."}</li>
-              <li className="list-group-item">Twitter: {this.state.socials.twitter ? this.state.socials.twitter : "No Twitter Provided."}</li>
-              <li className="list-group-item">LinkedIn: {this.state.socials.linkedIn ? this.state.socials.linkedIn : "No LinkedIn Provided."}</li>
-              <li className="list-group-item">Github: {this.state.socials.github ? this.state.socials.github : "No Github Provided."}</li>
+              <li className="list-group-item">Email: {this.state.basic.email ? this.state.basic.email : "No Email Provided."}</li>
+              <li className="list-group-item">Facebook: {this.state.social.facebook ? this.state.social.facebook : "No Facebook Provided."}</li>
+              <li className="list-group-item">Twitter: {this.state.social.twitter ? this.state.social.twitter : "No Twitter Provided."}</li>
+              <li className="list-group-item">LinkedIn: {this.state.social.linkedIn ? this.state.social.linkedIn : "No LinkedIn Provided."}</li>
+              <li className="list-group-item">Github: {this.state.social.github ? this.state.social.github : "No Github Provided."}</li>
             </ul>
           </div>
         </div>

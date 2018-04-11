@@ -5,7 +5,7 @@ import Form from 'react-jsonschema-form';
 /* Custom array template to go around form rendering errors with Bootstrap4 */
 import ArrayFieldTemplate from './c2cArrayFieldTemplate.js';
 
-import ClearLogo from './assets/C2C_logo_clear.png';
+import ClearLogo from '../assets/C2C_logo_clear.png';
 
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
@@ -15,8 +15,7 @@ import '../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 import '../css/GlobalStyles.css';
 import '../css/ProfileCreationPage.css';
 
-/* Schema for form https://github.com/mozilla-services/react-jsonschema-form 
-Note: Bug with array buttons persists. Possible bootstrap incompat */
+/* Schema for form https://github.com/mozilla-services/react-jsonschema-form */
 const schema = {
   "title": "",
   "type": "object",
@@ -42,6 +41,81 @@ const schema = {
       "properties": {
         "bio": {"type": "string", "title": "Bio"},
         "interests": {"type": "array", "title": "Interests", "items": { "type": "string" }}
+      }
+    },
+    "social": { 
+      "type": "object",
+      "title": "Social Media", 
+      "properties": {
+        "facebook": {"type": "string", "title": "Facebook", "format": "uri"},
+        "linkedin": {"type": "string", "title": "LinkedIn", "format": "uri"},
+        "twitter": {"type": "string", "title": "Twitter", "format": "uri"},
+        "github": {"type": "string", "title": "Github", "format": "uri"},
+        "website": {"type": "string", "title": "Personal Site/Porfolio", "format": "uri"}
+      }
+    },
+    "c2c": {
+      "type": "object",
+      "title": "Code2College Information",
+      "required": ["graduation", "workshop", "volunteer", "internships"],
+      "properties": {
+        "graduation": {"type": "number", "minimum": 2016, "maximum": 2050, "title": "Code2College Graduation Year"},
+        "workshop": {"type": "string", "title": "Favorite C2C Workshop"},
+        "volunteer": {"type": "string", "title": "Favorite C2C Volunteer"},
+        "internships": {
+          "type": "array", 
+          "title": "C2C Internships",
+          "items": {
+            "type": "object",
+            "properties": {
+              "host": {
+                "type": "string",
+                "title": "Internship Host"
+              },
+              "year": {
+                "type": "number",
+                "minimum": 2016, 
+                "maximum": 2050,
+                "title": "Internship Year"
+              }
+            }
+          }
+        }
+      }
+    },
+    "highschool": {
+      "type": "object",
+      "title": "Highschool Information",
+      "properties": {
+        "name": {"type": "string", "title": "Highschool Name"},
+        "graduation": {"type": "number", "minimum": 1950, "maximum": 2050, "title": "Graduation Year"}
+      }
+    }
+  }
+};
+
+const editSchema = {
+  "title": "",
+  "type": "object",
+  "properties": {
+    "basic": {
+      "type": "object",
+      "title": "Basic Information",
+      "required": ["email", "firstName", "lastName"],
+      "properties": {
+        "firstName" : {"type" : "string", "title": "First Name"},
+        "lastName" : {"type" : "string", "title": "Last Name"},
+        "email": {"type": "string", "title": "Email", "format": "email"},
+        "avatar": {"type": "string", "title": "Profile Picture", "format": "data-url"},
+        "employer": {"type": "string", "title": "Current Employer"},
+        "school": {"type": "string", "title": "Current School"}
+      }
+    },
+    "about": {
+      "type": "object",
+      "title": "About You",
+      "properties": {
+        "bio": {"type": "string", "title": "Bio"}
       }
     },
     "social": { 
@@ -159,6 +233,23 @@ class ProfileCreationPage extends Component {
   }
 
   render() {
+
+    const createForm = (
+      <Form schema={schema}
+            uiSchema={uiSchema}
+            ArrayFieldTemplate={ArrayFieldTemplate}
+            onSubmit={(a)=>{this.create_user(a.formData)}} />
+
+    );
+
+    const editForm = (
+      <Form schema={editSchema}
+            uiSchema={uiSchema}
+            ArrayFieldTemplate={ArrayFieldTemplate}
+            formData={this.props.userData}
+            onSubmit={(a)=>{this.edit_user(a.formData)}} />
+    );
+
     return (
       <div className="top-container">
         <div className="container content-container pb-5">
@@ -169,10 +260,7 @@ class ProfileCreationPage extends Component {
           </div>
           <hr/>
           <div className="">
-            <Form schema={schema}
-                  uiSchema={uiSchema}
-                  ArrayFieldTemplate={ArrayFieldTemplate}
-                  onSubmit={this.props.isEdit ? (a)=>{this.edit_user(a.formData)} : (a)=>{this.create_user(a.formData)}} />
+            {this.props.isEdit ? editForm : createForm}
           </div>
         </div>
       </div>
