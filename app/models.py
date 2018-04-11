@@ -78,7 +78,7 @@ class User(db.Model):
             },
             "highSchool": {
                 "name": self.high_school_name,
-                "graduation": self.high_school_graduation,
+                "graduation": self.high_school_graduation
             },
             "social": {
                 "linkedin": self.linkedin,
