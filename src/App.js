@@ -10,6 +10,7 @@ import ProfileCreationPage from './components/ProfileCreationPage.js';
 import SearchPage from './components/SearchPage.js';
 import HomePage from './components/HomePage.js';
 import ProfilePage from './components/ProfilePage.js';
+import ForumPage from './components/ForumPage.js';
 
 /* Assets */
 import ClearLogo from './assets/C2C_logo_clear.png';
@@ -85,6 +86,9 @@ class AppFrame extends Component {
                 <li className="nav-item">
                   <Link className="nav-link" to="/Search">Search</Link>
                 </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/Forum">Forum</Link>
+                </li>
               </ul>
               <button className={this.state.loggedIn ? "btn btn-danger btn-small" : "d-none"} onClick={() => {this.logOut();}}>Log out</button>
             </div>
@@ -97,6 +101,7 @@ class AppFrame extends Component {
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/ViewProfile/:id" component={(routeProps)=>(this.state.loggedIn ? <ProfilePage id={routeProps.match.params.id} /> : <Redirect to="/LogIn" />)} />
+          <Route path="/Forum" component={()=>(<ForumPage/>)} />
 
           <footer className="container-fluid footer-container">
             <div className="row py-3">
