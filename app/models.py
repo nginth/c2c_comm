@@ -33,8 +33,10 @@ class User(db.Model):
     email = db.Column(db.UnicodeText)
     profile_pic = db.Column(db.UnicodeText)
     bio = db.Column(db.UnicodeText)
+    interests = db.Column(db.UnicodeText)
     current_employer = db.Column(db.UnicodeText)
     current_school = db.Column(db.UnicodeText)
+    expected_grad = db.Column(db.UnicodeText)
     
     # high school info
     high_school_name = db.Column(db.UnicodeText)
@@ -61,39 +63,40 @@ class User(db.Model):
         return custom_app_context.verify(password, self.password_hash)        
 
     def serialize(self):
-    return {
-        "id": self.id,
-        "basic": {
-            "username": self.username,
-            "firstName": self.first_name,
-            "lastName": self.last_name,
-            "employer": self.current_employer,
-            "school": self.current_school,
-            "avatar": self.profile_pic
-        },
-        "about": {
-            "bio": self.bio, 
-            "interests": self.interests
+        return {
+            "id": self.id,
+            "basic": {
+                "username": self.username,
+                "firstName": self.first_name,
+                "lastName": self.last_name,
+                "employer": self.current_employer,
+                "school": self.current_school,
+                "expected_grad": self.expected_grad,
+                "avatar": self.profile_pic
+            },
+            "about": {
+                "bio": self.bio, 
+                "interests": self.interests
 
-        },
-        "highSchool": {
-            "name": self.high_school_name,
-            "graduation": self.high_school_graduation,
-        },
-        "social": {
-            "linkedin": self.linkedin,
-            "facebook": self.facebook,
-            "twitter": self.twitter,
-            "github": self.github
-        },
-        "c2c": {
-            "volunteer": self.favorite_volunteer,
-            "workshop": self.favorite_workshop,
-            "graduation": self.grad_year_program,
-            "internships": [{
-                "id": internship.id,
-                "host": internship.host,
-                "year": internship.year
+            },
+            "highSchool": {
+                "name": self.high_school_name,
+                "graduation": self.high_school_graduation
+            },
+            "social": {
+                "linkedin": self.linkedin,
+                "facebook": self.facebook,
+                "twitter": self.twitter,
+                "github": self.github
+            },
+            "c2c": {
+                "volunteer": self.favorite_volunteer,
+                "workshop": self.favorite_workshop,
+                "graduation": self.grad_year_program,
+                "internships": [{
+                    "id": internship.id,
+                    "host": internship.host,
+                    "year": internship.year
             } for internship in self.internships]
         }  
     }

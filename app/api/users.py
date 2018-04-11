@@ -22,7 +22,7 @@ def register():
 
 
     user = user_from_json(request.get_json())
-    #user.hash_password(password)
+    user.hash_password(password)
     db.session.add(user)
     db.session.commit()
     return jsonify({ 'username': user.username, 'id': user.id }), 200
@@ -146,6 +146,9 @@ def user_from_json(json):
     user.profile_pic = basic.get('avatar')
     user.current_employer = basic.get('employer')
     user.current_school = basic.get('school')
+    expected_grad = json.get('expected_grad')
+    if expected_grad:
+        user.expected_grad = expected_grad
 
     # about
     about = json.get('about')
