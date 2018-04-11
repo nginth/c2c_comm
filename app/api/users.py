@@ -77,6 +77,12 @@ def get_token():
 def authtest():
     return 'u good: ' + g.user.username
 
+
+@users_blueprint.route("/edit", methods=['POST'])
+@auth.login_required
+def edit_user():
+    print(request.json())
+
 @users_blueprint.route("/list", methods=['GET'])
 @auth.login_required
 def get_all_users():    
