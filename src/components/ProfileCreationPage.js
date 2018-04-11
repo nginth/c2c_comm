@@ -195,7 +195,7 @@ class ProfileCreationPage extends Component {
   }
 
   create_user(data) {
-    fetch('https://code-2-college-connect-api.herokuapp.com/users/register', {
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
