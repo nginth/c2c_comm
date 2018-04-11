@@ -23,7 +23,7 @@ const schema = {
     "basic": {
       "type": "object",
       "title": "Basic Information",
-      "required": ["username", "password", "email", "firstName", "lastName"],
+      "required": ["username", "password", "school", "email", "firstName", "lastName", "expectedGrad"],
       "properties": {
         "username": {"type": "string", "title": "Username"},
         "password": {"type": "string", "title": "Password"},
@@ -32,7 +32,8 @@ const schema = {
         "email": {"type": "string", "title": "Email", "format": "email"},
         "avatar": {"type": "string", "title": "Profile Picture", "format": "data-url"},
         "employer": {"type": "string", "title": "Current Employer"},
-        "school": {"type": "string", "title": "Current School"}
+        "school": {"type": "string", "title": "Current School"},
+        "expectedGrad": {"type": "number", "minimum": 1950, "maximum": 2060, "title": "(Expected) College Graduation Year"}
       }
     },
     "about": {
@@ -101,14 +102,15 @@ const editSchema = {
     "basic": {
       "type": "object",
       "title": "Basic Information",
-      "required": ["email", "firstName", "lastName"],
+      "required": ["email", "firstName", "school", "lastName", "expectedGrad"],
       "properties": {
         "firstName" : {"type" : "string", "title": "First Name"},
         "lastName" : {"type" : "string", "title": "Last Name"},
         "email": {"type": "string", "title": "Email", "format": "email"},
         "avatar": {"type": "string", "title": "Profile Picture", "format": "data-url"},
         "employer": {"type": "string", "title": "Current Employer"},
-        "school": {"type": "string", "title": "Current School"}
+        "school": {"type": "string", "title": "Current School"},
+        "expectedGrad": {"type": "number", "minimum": 1950, "maximum": 2060, "title": "(Expected) College Graduation Year"}
       }
     },
     "about": {

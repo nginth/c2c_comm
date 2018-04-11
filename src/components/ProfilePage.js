@@ -26,14 +26,15 @@ class ProfilePage extends Component {
         "lastName": null,
         "employer": null,
         "school": null,
-        "avatar": null
+        "avatar": null,
+        "expectedGrad": null
       },
       "about": {
         "bio": null, 
         "interests": null
 
       },
-      "highSchool": {
+      "highschool": {
         "name": null,
         "graduation": null
       },
@@ -107,8 +108,9 @@ class ProfilePage extends Component {
           <div className="profile-jumbo rounded jumbotron-fluid">
             <img className="profile-pic-jumbo rounded-circle" src={this.state.basic.avatar}/>
             <p className="profile-jumbo-title">{this.state.basic.firstName} {this.state.basic.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/editProfile">Edit</Link></p>
-            <p className="profile-jumbo-text">Works at {this.state.basic.employer}</p>
+            <p className={this.state.basic.employer ? "profile-jumbo-text" : "d-none"}>Works at {this.state.basic.employer}</p>
             <p className="profile-jumbo-text">Goes to {this.state.basic.school}</p>
+            <p className="profile-jumbo-text">Graduation Year: {this.state.basic.expectedGrad}</p>
           </div>
         </div>
         <div className="container profile-segment-a">
@@ -129,9 +131,8 @@ class ProfilePage extends Component {
               <p className="profile-card-text">{this.state.c2c.graduation}</p>
               <hr/>
               <p className="profile-card-header">Highschool</p>
-              <p className="profile-card-text">{this.state.highSchool.name}</p>
-              <p className="profile-card-text">Graduation Year: {this.state.highSchool.graduation}</p>
-              <hr/>
+              <p className="profile-card-text">{this.state.highschool.name}</p>
+              <p className="profile-card-text">Graduation Year: {this.state.highschool.graduation}</p>
             </div>
           </div>
         </div>
@@ -144,7 +145,7 @@ class ProfilePage extends Component {
               <li className="list-group-item">Email: {this.state.basic.email ? this.state.basic.email : "No Email Provided."}</li>
               <li className="list-group-item">Facebook: {this.state.social.facebook ? this.state.social.facebook : "No Facebook Provided."}</li>
               <li className="list-group-item">Twitter: {this.state.social.twitter ? this.state.social.twitter : "No Twitter Provided."}</li>
-              <li className="list-group-item">LinkedIn: {this.state.social.linkedIn ? this.state.social.linkedIn : "No LinkedIn Provided."}</li>
+              <li className="list-group-item">LinkedIn: {this.state.social.linkedin ? this.state.social.linkedin : "No LinkedIn Provided."}</li>
               <li className="list-group-item">Github: {this.state.social.github ? this.state.social.github : "No Github Provided."}</li>
             </ul>
           </div>

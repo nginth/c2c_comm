@@ -71,15 +71,16 @@ class User(db.Model):
                 "lastName": self.last_name,
                 "employer": self.current_employer,
                 "school": self.current_school,
-                "expected_grad": self.expected_grad,
-                "avatar": self.profile_pic
+                "expectedGrad": self.expected_grad,
+                "avatar": self.profile_pic,
+                "email": self.email
             },
             "about": {
                 "bio": self.bio, 
                 "interests": self.interests
 
             },
-            "highSchool": {
+            "highschool": {
                 "name": self.high_school_name,
                 "graduation": self.high_school_graduation
             },

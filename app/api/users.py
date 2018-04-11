@@ -152,9 +152,7 @@ def user_from_json(json):
     user.profile_pic = basic.get('avatar')
     user.current_employer = basic.get('employer')
     user.current_school = basic.get('school')
-    expected_grad = json.get('expected_grad')
-    if expected_grad:
-        user.expected_grad = expected_grad
+    user.expected_grad = json.get('expectedGrad')
 
     # about
     about = json.get('about')
