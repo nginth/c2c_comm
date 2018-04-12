@@ -24,6 +24,9 @@ def create_app(config='config.json'):
     from .api.users import users_blueprint
     app.register_blueprint(users_blueprint, url_prefix='/api/users')
 
+    from .api.forum import forum_blueprint
+    app.register_blueprint(forum_blueprint, url_prefix='/api/forum')
+
     @app.route("/api")
     def api_test():
         return 'hello from the API :)'

@@ -53,6 +53,7 @@ class ForumPage extends Component {
     super(props);
     this.state = {
       posts: null,
+      index: 1,
     };
   }
 
@@ -67,6 +68,16 @@ class ForumPage extends Component {
 
   }
 
+  /* modify db entry as well as update view */
+  handleEdit(id) {
+
+  }
+
+  /* delete post + remove from view */
+  handleDelete(id) {
+
+  }
+
   renderPost(id) {
     return (
       <Post
@@ -77,20 +88,53 @@ class ForumPage extends Component {
 
         onView={() => this.handleView(id)}
         onReply={() => this.handleReply(id)}
+        onEdit={() => this.handleEdit(id)}
+        onDelete={() => this.handleDelete(id)}
       />
     );
   }
 
+  decreasePage() {
+    this.props.index -= 1
+    getPosts()
+  }
+
+  increasePage() {
+    this.props.index += 1
+    getPosts()
+  }
+
+  renderFooter() {
+    return (
+      <div>
+        <ul class="pagination justify-content-center mb-4">
+          <li class="page-item">
+            <button type="button" class="btn btn-info" onClick={() => this.props.decreasePage()}>&larr; Older</button>
+          </li>
+          <li class="page-item disabled">
+            <button type="button" class="btn btn-info" onClick={() => this.props.increasePage()}>Newer &rarr;</button>
+          </li>
+        </ul>
+      </div>
+    );
+  }
+
+  componentDidMount() {
+    this.getPosts();
+  }
+
   /*make dict with postid->post attributes*/
-  setPosts(posts) {
-    this.setState(posts)
+  setPosts(result) {
+    this.setState({
+      posts: result
+    });
   }
 
   getPosts() {
 
     let callback = this.setPosts;
 
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/', {
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/' + this.props.index, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
@@ -121,6 +165,7 @@ class ForumPage extends Component {
     for (currKey in keys) {
       postItems.push(renderPost(currKey))
     }
+    postItems.push(renderFooter())
     return <div>{postItems}</div>;
   }
 }
