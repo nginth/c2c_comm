@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import {withRouter} from 'react-router-dom';
-
 import Form from 'react-jsonschema-form';
 
 /* Custom array template to go around form rendering errors with Bootstrap4 */
@@ -266,7 +264,6 @@ class ProfileCreationPage extends Component {
             <img className="profile-creation-header-logo" src={ClearLogo} alt="Code to college logo"/>
             <h2 className="c2c-header">{this.props.isEdit ? "Edit Your Profile" : "Create Your Profile"}</h2>
             <p className="c2c-text">{this.props.isEdit ? "Make changes to your Code2College Connect profile by making changes in the following form." : "Create your Code2College Connect profile by completing the following form."}</p>
-            <a className="btn btn-primary" onClick={()=>{this.toLogIn(this.props.routeProps.history);}}>Go to Login</a>
           </div>
           <hr/>
           <div className="">
