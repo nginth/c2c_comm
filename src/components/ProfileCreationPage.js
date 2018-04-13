@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import {withRouter} from 'react-router-dom';
+
 import Form from 'react-jsonschema-form';
 
 /* Custom array template to go around form rendering errors with Bootstrap4 */
@@ -196,7 +198,8 @@ class ProfileCreationPage extends Component {
     this.edit_user = this.edit_user.bind(this);
   }
 
-  create_user(data) {
+  create_user(data, historyObj) {
+
     fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
       method: 'POST',
       headers: {
@@ -204,12 +207,16 @@ class ProfileCreationPage extends Component {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data)
-    }).then((resp) => resp.ok)
-        .then(function(status) {
-          if (status) {
-            console.log(status);
-          }
-        }).catch(function(e) {
+    }).then((resp) => {
+      if (resp.ok) {
+        // Redirect to login
+        historyObj.push('/LogIn');
+      }
+      // Handle bad password or username
+      else if (resp.status != 200) {
+        console.log("Error making call status: " + resp.status);
+      }
+    }).catch(function(e) {
           console.error("Error: " + e);
         });
     console.log(JSON.stringify(data));
@@ -240,7 +247,7 @@ class ProfileCreationPage extends Component {
       <Form schema={schema}
             uiSchema={uiSchema}
             ArrayFieldTemplate={ArrayFieldTemplate}
-            onSubmit={(a)=>{this.create_user(a.formData)}} />
+            onSubmit={(a)=>{this.create_user(a.formData, this.props.routeProps.history)}} />
 
     );
 
@@ -259,6 +266,7 @@ class ProfileCreationPage extends Component {
             <img className="profile-creation-header-logo" src={ClearLogo} alt="Code to college logo"/>
             <h2 className="c2c-header">{this.props.isEdit ? "Edit Your Profile" : "Create Your Profile"}</h2>
             <p className="c2c-text">{this.props.isEdit ? "Make changes to your Code2College Connect profile by making changes in the following form." : "Create your Code2College Connect profile by completing the following form."}</p>
+            <a className="btn btn-primary" onClick={()=>{this.toLogIn(this.props.routeProps.history);}}>Go to Login</a>
           </div>
           <hr/>
           <div className="">
