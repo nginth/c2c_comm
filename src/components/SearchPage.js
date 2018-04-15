@@ -17,23 +17,90 @@ class SearchPage extends Component {
 		super(props);
 
 		this.state = {
-			dummySearch: false,
-			query: "nothing"
+			search: false,
+			query: "",
+			searchResults: "",
+			currentPage: 0,
+			totalPages: 0,
+			itemsPerPage: 0
 		};
 
 		this.search = this.search.bind(this);
+		this.updateSearchResults = this.updateSearchResults.bind(this);
+		this.makeResultCard = this.makeResultCard.bind(this);
+	}
+
+	makeResultCard(userData) {
+		return (
+			<div className="card search-profile-card ">
+			  <img className="card-img-top search-profile-pic" src={userData.basic.avatar} alt="Card image cap"/>
+			  <div className="card-body">
+			    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
+			  </div>
+			  <ul className="list-group list-group-flush">
+				    <li className="list-group-item">C2C Graduation Year: {userData.c2c.graduation}</li>
+				  </ul>
+			  <ul className="list-group list-group-flush">
+			    <li className="list-group-item">Contains: <em>{this.state.query}</em></li>
+			  </ul>
+			</div>
+		);
+	}
+
+
+	updateSearchResults(data) {
+
+		//console.log("Page: " + data.page + " of " + data.pages + " with " + data.per_page + "per page and users: " + data.users.length);
+
+		let userCards = [];
+		for (let user in data.users) {
+			userCards.push(this.makeResultCard(data.users[user]));
+		}
+
+		this.setState({raw: data, searchResults: userCards, currentPage: data.page, totalPages: data.pages, itemsPerPage: data.per_page});
 	}
 
 	search(event) {
 		event.preventDefault();
 
-		let newStatus = (this.input.value).match(/\w/);
-		console.log("Dummy search: " + (this.input.value).match(/[^\s]*/));
-		this.setState({ dummySearch: newStatus, query: this.input.value });
+		// Make sure nonempty input
+		let search = (this.input.value).match(/\w/);
+		let query = this.input.value;
+		let callback = this.updateSearchResults;
+
+		console.log("Search: " + query);
+
+		if (search) {
+			fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + query, {
+	      method: 'GET',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      }
+	    }).then((resp) => resp)
+	        .then(function(resp) {
+	          if (resp.ok) {
+	            return resp.json();
+	          } 
+	          /* Error! */
+	          else if (resp.status != 200) {
+	            console.log("Error making call status: " + resp.status);
+	            return null;
+	          }
+	        }).then((responseJSON) => {
+	          if (responseJSON) {
+	            callback(responseJSON);
+	          }
+	        }).catch(function(e) {
+	          console.error("Error: " + e);
+	        });
+		}
+
+		this.setState({ search: search, query: this.input.value });
 	}
 
 	render() {
-		let isSearch = this.state.dummySearch;
+		let isSearch = this.state.search;
 
 		return (
 			<div className="top-container search-background">
@@ -53,32 +120,7 @@ class SearchPage extends Component {
 					<div className={isSearch ? "search-results-container" : "d-none"}>
 						<div className="card-deck search-card-deck">
 							
-							<div className="card search-profile-card ">
-							  <img className="card-img-top search-profile-pic" src="http://alcalde.texasexes.org/wp-content/uploads/2015/03/greg-fenves-square.jpg" alt="Card image cap"/>
-							  <div className="card-body">
-							    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + 1}>Greg Fenves</Link></h5>
-							  </div>
-							  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">College/Job: University Of Texas, Austin</li>
-								    <li className="list-group-item">C2C Graduation Year: 2014</li>
-								  </ul>
-							  <ul className="list-group list-group-flush">
-							    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-							  </ul>
-							</div>
-							<div className="card search-profile-card ">
-							  <img className="card-img-top search-profile-pic" src="http://alcalde.texasexes.org/wp-content/uploads/2015/08/SCP_2639.jpg" alt="Card image cap"/>
-							  <div className="card-body">
-							    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + 2}>Freg Genves</Link></h5>
-							  </div>
-							  <ul className="list-group list-group-flush">
-								    <li className="list-group-item">College/Job: Texas University of Austin</li>
-								    <li className="list-group-item">C2C Graduation Year: 2018</li>
-								  </ul>
-							  <ul className="list-group list-group-flush">
-							    <li className="list-group-item">(Matching Field): <em>{this.state.query}</em></li>
-							  </ul>
-							</div>
+							{this.state.searchResults}
 						</div>
 					</div>
 
