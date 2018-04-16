@@ -103,19 +103,20 @@ class AppFrame extends Component {
           <Route path="/EditProfile" component={()=>(this.state.loggedIn ? <ProfileCreationPage isEdit={true} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
           <footer className="container-fluid footer-container">
             <div className="row py-3">
-              <div className="col-4">
+              <div className="col-sm-4 col-lg-4 col-md-4 text-center" >
                 <img className="footer-logo" src={ClearLogo} alt="Code to College logo"/>
                 <small className="d-block mb-3 text-muted">© 2017-2018</small>
               </div>
-              <div className="col-4">
+              {/*  style={{marginLeft: 5+'px', marginRight:5+'px', padding:0+'px'}} */}
+              <div className="col-sm-4 col-lg-4 col-md-4 text-center">
                 <h5>Contact Code2College</h5>
-                <p className="footer-text">
+                <p className="footer-text" style={{marginBottom:20+'px'}}>
                 19112 Leigh Lane, Pflugerville TX 78660<br/>
                 (512) 790-2633<br/>
                 matt@code2college.org 
                 </p>
               </div>
-              <div className="col-4">
+              <div className="col-sm-4 col-lg-4 col-md-4 text-center">
               <h5>Connect</h5>
                 <p>
                   <a href="https://www.facebook.com/code2college/">Facebook</a> · <a href="https://twitter.com/code2college">Twitter</a> · <a href="https://www.instagram.com/code2college/">Instagram</a>
