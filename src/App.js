@@ -58,6 +58,26 @@ class AppFrame extends Component {
   }
 
   render() {
+    const loggedInNav = 
+    (<ul className="navbar-nav mr-auto">
+      <li className="nav-item">
+        <Link className="nav-link" to="/">Home</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/Profile">My Profile</Link>
+      </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/Search">Search</Link>
+      </li>
+    </ul>);
+
+    const regularNav = 
+      (<ul className="navbar-nav mr-auto">
+        <li className="nav-item">
+          <Link className="nav-link" to="/">Home</Link>
+        </li>
+      </ul>);
+
     return (
       <BrowserRouter basename={"/"}>
         <div className="global-font">
@@ -68,26 +88,7 @@ class AppFrame extends Component {
             </button>
 
             <div className="collapse navbar-collapse" id="mainNavbarCollapse">
-              <ul className="navbar-nav mr-auto">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/">Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/LogIn">LogIn Page</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Home">Logged in Home</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/CreateProfile">Create Profile Page</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Profile">Profile Page</Link>
-                </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/Search">Search</Link>
-                </li>
-              </ul>
+              {this.state.loggedIn ? loggedInNav : regularNav}
               <button className={this.state.loggedIn ? "btn btn-danger btn-small" : "d-none"} onClick={() => {this.logOut();}}>Log out</button>
             </div>
           </nav>

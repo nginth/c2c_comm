@@ -24,7 +24,8 @@ class LandingPage extends Component {
       	  <div className="container">
       	  	<p className="jumbo-title-pretty jumbo-title">Code2College Connect</p>
       	  	<p className="jumbo-subtitle-pretty jumbo-subtitle">A place of growth and opportunity.</p>
-            <Link className="btn btn-primary landing-login-btn" to="/LogIn">Log in</Link>
+            <Link className="btn btn-primary landing-login-btn" to="/LogIn">Sign In</Link>
+            <p className="landing-muted-white">or<br/><a><Link className="landing-muted-white" to="/CreateProfile">Create Account</Link></a></p>
       	  </div>
       	</div>
         <div className="landing-info container">

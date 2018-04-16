@@ -16,6 +16,10 @@
 
 /* Login button in jumbotron */
 .landing-login-btn {
-	margin-top: 5%;
+	margin-top: 3%;
 	/*background-color: #0089fc;*/
+}
+
+.landing-muted-white {
+	color: white;
 }
