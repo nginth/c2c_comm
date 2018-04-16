@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Link } from 'react-router-dom';
 
+import ReactPaginate from 'react-paginate';
+
 
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
@@ -22,12 +24,13 @@ class SearchPage extends Component {
 			searchResults: "",
 			currentPage: 0,
 			totalPages: 0,
-			itemsPerPage: 0
+			itemsPerPage: 10
 		};
 
 		this.search = this.search.bind(this);
 		this.updateSearchResults = this.updateSearchResults.bind(this);
 		this.makeResultCard = this.makeResultCard.bind(this);
+		this.handlePageChange = this.handlePageChange.bind(this);
 	}
 
 	makeResultCard(userData) {
@@ -57,7 +60,15 @@ class SearchPage extends Component {
 			userCards.push(this.makeResultCard(data.users[user]));
 		}
 
-		this.setState({raw: data, searchResults: userCards, currentPage: data.page, totalPages: data.pages, itemsPerPage: data.per_page});
+		// Initial call
+		if (this.state.currentPage == 0 && this.state.totalPages == 0) {
+			this.setState({raw: data, searchResults: userCards, currentPage: data.page, totalPages: data.pages});
+		}
+		// Called by changing page
+		else {
+			this.setState({raw: data, searchResults: userCards, totalPages: data.pages});
+		}
+		
 	}
 
 	search(event) {
@@ -71,7 +82,7 @@ class SearchPage extends Component {
 		console.log("Search: " + query);
 
 		if (search) {
-			fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + query, {
+			fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
 	      method: 'GET',
 	      headers: {
 	        'Accept': 'application/json',
@@ -99,6 +110,39 @@ class SearchPage extends Component {
 		this.setState({ search: search, query: this.input.value });
 	}
 
+	handlePageChange(page) {
+
+		let current = page.selected;
+		let callback = this.updateSearchResults;
+
+		fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
+	      method: 'GET',
+	      headers: {
+	        'Accept': 'application/json',
+	        'Content-Type': 'application/json'
+	      }
+	    }).then((resp) => resp)
+	        .then(function(resp) {
+	          if (resp.ok) {
+	            return resp.json();
+	          } 
+	          /* Error! */
+	          else if (resp.status != 200) {
+	            console.log("Error making call status: " + resp.status);
+	            return null;
+	          }
+	        }).then((responseJSON) => {
+	          if (responseJSON) {
+	            callback(responseJSON);
+	          }
+	        }).catch(function(e) {
+	          console.error("Error: " + e);
+	        });
+
+	  this.setState({currentPage: current});
+
+	}
+
 	render() {
 		let isSearch = this.state.search;
 
@@ -119,25 +163,26 @@ class SearchPage extends Component {
 					<p className={isSearch ? "search-results-header" : "d-none"}>Search Results:</p>
 					<div className={isSearch ? "search-results-container" : "d-none"}>
 						<div className="card-deck search-card-deck">
-							
 							{this.state.searchResults}
 						</div>
 					</div>
 
 					<div className={isSearch ? "search-pagination-container" : "d-none"}>
-						<nav aria-label="Page navigation example">
-						  <ul className="pagination justify-content-center">
-						    <li className="page-item disabled">
-						      <a className="page-link" tabIndex="-1">Previous</a>
-						    </li>
-						    <li className="page-item"><a className="page-link">1</a></li>
-						    <li className="page-item"><a className="page-link">2</a></li>
-						    <li className="page-item"><a className="page-link">3</a></li>
-						    <li className="page-item">
-						      <a className="page-link">Next</a>
-						    </li>
-						  </ul>
-						</nav>
+						<ReactPaginate pageCount={this.state.totalPages}
+													 pageRangeDisplayed={5}
+													 marginPagesDisplayed={2}
+													 onPageChange={this.handlePageChange}
+													 containerClassName={"pagination justify-content-center"}
+													 subContainerClassName={"pages pagination"}
+													 activeClassName={"active"} 
+													 breakClassName="page-item"
+								           breakLabel={<a className="page-link">...</a>}
+								           pageClassName="page-item"
+								           previousClassName="page-item"
+								           nextClassName="page-item"
+								           pageLinkClassName="page-link"
+								           previousLinkClassName="page-link"
+								           nextLinkClassName="page-link"/>
 					</div>
 				</div>
 			</div>
