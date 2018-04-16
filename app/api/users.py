@@ -81,7 +81,58 @@ def authtest():
 @users_blueprint.route("/edit", methods=['POST'])
 @auth.login_required
 def edit_user():
-    print(request.json())
+    data = request.get_json()
+    user_id = data.get('id')
+    print(data)
+    user = User.query.filter_by(id=user_id).first()
+
+    basic = data.get('basic')
+
+    # basic
+    user.email = basic.get('email')
+    user.first_name = basic.get('firstName')
+    user.last_name = basic.get('lastName')
+    user.profile_pic = basic.get('avatar')
+    user.current_employer = basic.get('employer')
+    user.current_school = basic.get('school')
+    expected_grad = basic.get('expectedGrad')
+    if expected_grad:
+        user.expected_grad = expected_grad
+
+    # about
+    about = data.get('about')
+    if about:
+        user.bio = about.get('bio')
+        #user.interests = ', '.join(about.get('interests'))
+
+    # social
+    social = data.get('social')  
+    if social:
+        user.facebook = social.get('facebook')
+        user.linkedin = social.get('linkedin')
+        user.twitter = social.get('twitter')
+        user.github = social.get('github')
+        user.website = social.get('website')
+
+    # c2c
+    c2c = data.get('c2c')
+    if c2c:
+        user.grad_year_program = c2c.get('graduation')
+        user.favorite_workshop = c2c.get('workshop')
+        user.favorite_volunteer = c2c.get('volunteer')
+        for internship in c2c.get('internships'):
+            user.internships.clear()
+            user.internships.append(internship_from_json(internship))
+
+    # highschool
+    highschool = data.get('highschool')
+    if highschool:
+        user.high_school_name = highschool.get('name')
+        user.high_school_graduation = highschool.get('graduation')
+
+    db.session.commit()
+
+    return jsonify(user.serialize()), 200
 
 @users_blueprint.route("/list", methods=['GET'])
 @auth.login_required

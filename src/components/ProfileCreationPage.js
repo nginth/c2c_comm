@@ -220,22 +220,31 @@ class ProfileCreationPage extends Component {
     console.log(JSON.stringify(data));
   }
 
-  edit_user(data) {
-    // fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data)
-    // }).then((resp) => resp.ok)
-    //     .then(function(status) {
-    //       if (status) {
-    //         console.log(status);
-    //       }
-    //     }).catch(function(e) {
-    //       console.error("Error: " + e);
-    //     });
+edit_user(data) {
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/edit', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => resp)
+        .then(function(resp) {
+          if (resp.ok) {
+            return resp.json();
+          } 
+          /* Error! */
+          else if (resp.status != 200) {
+            console.log("Error making call status: " + resp.status);
+            return null;
+          }
+        }).then((responseJSON) => {
+          if (responseJSON) {
+            return responseJSON;
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
     console.log("Just Edited user. " + JSON.stringify(data));
   }
 
