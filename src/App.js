@@ -37,7 +37,7 @@ class AppFrame extends Component {
         id: 1
       }
     };
-
+    this.setUserData = this.setUserData.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.logOut = this.logOut.bind(this);
   }
@@ -45,11 +45,14 @@ class AppFrame extends Component {
   componentDidMount() {
     
   }
-
   componentWillUnmount() {}
 
   onSignIn(status, data) {
     this.setState({loggedIn: status, userData: data});
+  }
+
+  setUserData(data) {
+    this.setState({userData: data});
   }
 
   logOut() {
@@ -100,8 +103,8 @@ class AppFrame extends Component {
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/ViewProfile/:id" component={(routeProps)=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={routeProps.match.params.id} /> : <Redirect to="/LogIn" />)} />
-          <Route path="/EditProfile" component={()=>(this.state.loggedIn ? <ProfileCreationPage isEdit={true} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
-          <footer className="container-fluid footer-container">
+          <Route path="/EditProfile" component={()=>(this.state.loggedIn ? <ProfileCreationPage isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
+          <footer className="container-fluid footer-container"> 
             <div className="row py-3">
               <div className="col-sm-4 col-lg-4 col-md-4 text-center" >
                 <img className="footer-logo" src={ClearLogo} alt="Code to College logo"/>

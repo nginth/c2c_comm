@@ -221,6 +221,7 @@ class ProfileCreationPage extends Component {
   }
 
 edit_user(data) {
+    let callback = this.props.editDataCallBack;
     fetch('https://code-2-college-connect-api.herokuapp.com/api/users/edit', {
       method: 'POST',
       headers: {
@@ -240,12 +241,12 @@ edit_user(data) {
           }
         }).then((responseJSON) => {
           if (responseJSON) {
-            return responseJSON;
+            callback(responseJSON);
           }
         }).catch(function(e) {
           console.error("Error: " + e);
         });
-    console.log("Just Edited user. " + JSON.stringify(data));
+    console.log("Just Edited user. ");
   }
 
   render() {

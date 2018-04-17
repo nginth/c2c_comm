@@ -96,10 +96,6 @@ class ProfilePage extends Component {
         });
   }
 
-  editProfile() {
-    console.log("Hello");
-  }
-
   render() {
 
     return (
@@ -107,7 +103,7 @@ class ProfilePage extends Component {
         <div className="container profile-segment-top">
           <div className="profile-jumbo rounded jumbotron-fluid">
             <img className="profile-pic-jumbo rounded-circle" src={this.state.basic.avatar}/>
-            <p className="profile-jumbo-title">{this.state.basic.firstName} {this.state.basic.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/editProfile">Edit</Link></p>
+            <p className="profile-jumbo-title">{this.state.basic.firstName} {this.state.basic.lastName} <Link className={this.props.curUser === this.props.id ? "btn btn-primary" : "d-none"} to="/EditProfile">Edit</Link></p>
             <p className={this.state.basic.employer ? "profile-jumbo-text" : "d-none"}>Works at {this.state.basic.employer}</p>
             <p className="profile-jumbo-text">Goes to {this.state.basic.school}</p>
             <p className="profile-jumbo-text">Graduation Year: {this.state.basic.expectedGrad}</p>
