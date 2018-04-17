@@ -1,8 +1,10 @@
-from flask import Blueprint, jsonify, request, g, current_app, abort
+from flask import Blueprint, jsonify, request, g, current_app, abort, make_response
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from app.models import User, Internship
 from app.auth import auth
 from app.app import db
+import csv
+import io
 
 users_blueprint = Blueprint('users', __name__)
 
@@ -242,3 +244,35 @@ def internship_from_json(json):
     i.host = json.get('host')
     i.year = json.get('year')
     return i
+
+@users_blueprint.route("/export", methods=['GET'])
+@auth.login_required
+def export():
+    si = io.StringIO()
+    writer = csv.writer(si)
+    users = User.query.all()
+    # Add header for each column
+    header = ['id', 'username', 'firstName', 'lastName', 'employer', 'school', 'expectedGrad', 'email', 'bio', 'interests', 'name', 'graduation', 'linkedin', 'facebook', 
+        'twitter', 'github', 'volunteer', 'workshop', 'graduation', 'internships']
+    writer.writerow(header)
+    # For every user in the database
+    for user in users:
+        userData = user.serialize()
+        userData.get('basic').pop('avatar') # remove the profile picture data
+        actualRow = [] # actual row to be written into the csv
+
+        # For each part of the dictionary: id, basic, about, social, c2c, highschool, get the corresponding nested dictionaries to each (Except for id)
+        for key,value in userData.items():
+            # if it is basic, about, social, c2c, or highschool, then add each value to the actual row
+            if type(value) == dict:
+                for field, data in value.items():
+                    actualRow.append(data)
+            else:
+                # if it is just the id, then append it to actual row
+                actualRow.append(value)
+        writer.writerow(actualRow)
+    
+    response = make_response(si.getvalue())
+    response.headers['Content-Disposition'] = 'attachment; filename=report.csv'
+    response.headers["Content-type"] = "text/csv"
+    return response
