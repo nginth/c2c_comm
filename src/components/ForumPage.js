@@ -107,20 +107,21 @@ function PublicReplyPost(props) {
   );
 }
 
-/* manages entire forum */
-class ForumPage extends Component {
-
+class ReplyModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      posts: null,
-    }
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  /* when user decides to make a new thread */
-  handleNewThread(data) {
-    let callback = this.getPosts;
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/add', {
+  handleSubmit(event) {
+    event.preventDefault();
+    const postInfo = new FormData(event.target);
+    let title = postInfo.get("titleText");
+    let text = postInfo.get("postText");
+    let data = {"title":title,"text":text,"user_id":this.props.userId};
+
+    let callback = this.props.setNewThread;
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/add' + this.props.id, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -129,6 +130,7 @@ class ForumPage extends Component {
       body: JSON.stringify(data)
     }).then((resp) => {
       if (resp.ok) {
+        callback(data);
         return resp.json();
       }
       // Handle bad password or username
@@ -137,22 +139,245 @@ class ForumPage extends Component {
       }
     }).catch(function(e) {
       console.error("Error: " + e);
+    });    
+  }
+  
+  render() {
+    return (
+     <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <form onSubmit={this.props.handleSubmit}>
+            <div class="modal-body">
+                <div class="form-group">
+                  <label for="replyText">Reply</label>
+                  <input class="form-control" id="replyText" placeholder="Enter text" />
+                </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Submit</button>
+            </div>
+          </form>          
+        </div>
+      </div>
+    </div>
+    );
+  }
+}
+
+class EditModal extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isThread: null,
+    }
+    this.handleSave = this.handleSave.bind(this);
+  }
+
+  handleSave(event) {
+    event.preventDefault();
+
+    const postInfo = new FormData(event.target);
+    var title = postInfo.get('titleText');
+    var text = postInfo.get('postText');
+
+    let data = {"title":title,"text":text,"user_id":this.props.userId};
+
+    let callback = this.props.setNewThread;
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/add' + this.props.id, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => {
+      if (resp.ok) {
+        callback(data);
+        return resp.json();
+      }
+      // Handle bad password or username
+      else if (resp.status != 200) {
+        console.log("Error making call status: " + resp.status);
+      }
+    }).catch(function(e) {
+      console.error("Error: " + e);
+    });    
+  }
+  
+  render() {
+    if (this.props.isThread) {
+      return (
+       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Edit thread</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form onSubmit={this.props.handleSubmit}>
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label for="replyText">Title</label>
+                    <input class="form-control" id="titleText" value={this.props.title} />
+                  </div>
+                  <div class="form-group">
+                    <label for="replyText">Text</label>
+                    <input class="form-control" id="postText" value={this.props.text} />
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+              </div>
+            </form>          
+          </div>
+        </div>
+      </div>
+      );
+    }
+    else {
+      return (
+       <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLongTitle">Edit reply</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form onSubmit={this.props.handleSubmit}>
+              <div class="modal-body">
+                  <div class="form-group">
+                    <label for="replyText">Text</label>
+                    <input class="form-control" id="postText" value={this.props.text} />
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+              </div>
+            </form>          
+          </div>
+        </div>
+      </div>
+      );      
+    }
+  }
+}
+
+/* manages entire forum */
+class ForumPage extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      posts: null,
+      isReply: false,
+      isReplyId: null,
+      isEdit: false,
+      isEditId: null,
+      isEditThread: false,
+    }
+    // this.setThreadReplies = this.setThreadReplies.bind(this);
+    // this.setUserData = this.setUserData.bind(this);
+  }
+
+  // setNewThread(data, id) {
+  //   this.setState({
+  //     posts[id]: JSON.parse(data)
+  //   });
+  // }
+
+  // /* when user decides to make a new thread */
+  // handleNewThread(data) {
+  //   let callback = this.setNewThread;
+  //   fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/add', {
+  //     method: 'POST',
+  //     headers: {
+  //       'Accept': 'application/json',
+  //       'Content-Type': 'application/json',
+  //     },
+  //     body: JSON.stringify(data)
+  //   }).then((resp) => {
+  //     if (resp.ok) {
+  //       callback(data);
+  //       return resp.json();
+  //     }
+  //     // Handle bad password or username
+  //     else if (resp.status != 200) {
+  //       console.log("Error making call status: " + resp.status);
+  //     }
+  //   }).catch(function(e) {
+  //     console.error("Error: " + e);
+  //   });
+  // }
+
+  setThreadReplies(data, id) {
+    this.setState({
+      posts[id]["replies"]: JSON.parse(data)
     });
   }
 
   /* make ajax call to pull replies for given thread */
   handleView(id) {
     /* pull all posts with thread_id==id*/
+    let callback = this.setThreadReplies;
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/' + id, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((resp) => resp)
+        .then(function(resp) {
+          if (resp.ok) {
+            return resp.json();
+          } 
+          /* Error! */
+          else if (resp.status != 200) {
+            console.log("Error making call status: " + resp.status);
+            return null;
+          }
+        }).then((responseJSON) => {
+          if (responseJSON) {
+            callback(responseJSON);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
+  }
+
+  setNewThread() {
+
   }
 
   /* add reply to DB and re-render posts */
   handleReply(id) {
     /* add post to db and make thread_id=id*/
+    this.setState({
+      isReply: true
+      isReplyId: id
+    });
   }
 
   /* edit value in DB and re-render posts */
-  handleEdit(id) {
-
+  handleEdit(id, isThread) {
+    this.setState({
+      isEdit: true
+      isEditId: id
+      isEditThread: isThread
+    });
   }
 
   /* remove value in DB and re-render posts */
@@ -170,7 +395,7 @@ class ForumPage extends Component {
 
         onView={() => this.handleView(postData.id)}
         onReply={() => this.handleReply(postData.id)}
-        onEdit={() => this.handleEdit(postData.id)}
+        onEdit={() => this.handleEdit(postData.id, true)}
         onDelete={() => this.handleDelete(postData.id)}
       />
     );
@@ -179,12 +404,11 @@ class ForumPage extends Component {
   renderSelfReplyPost(postData) {
     return (
       <SelfReplyPost
-        title={postData.title}
         text={postData.text}
         date={postData.date}
         name={postData.name}
 
-        onEdit={() => this.handleEdit(postData.id)}
+        onEdit={() => this.handleEdit(postData.id, false)}
         onDelete={() => this.handleDelete(postData.id)}
       />
     );    
@@ -207,7 +431,6 @@ class ForumPage extends Component {
   renderPublicReplyPost(postData) {
     return (
       <PublicReplyPost
-        title={postData.title}
         text={postData.text}
         date={postData.date}
         name={postData.name}
@@ -258,6 +481,27 @@ class ForumPage extends Component {
       return <div>Loading...</div>;
     }
 
+    if (this.props.isReply) {
+      return (
+        <ReplyModal
+          userId: {this.props.id}
+          id: {this.props.isReplyId}
+          setNewThread={() => this.setNewThread()}
+        />
+      );
+    }
+
+    if (this.props.isEdit) {
+      return (
+        <EditModal
+          userId: {this.props.id}
+          id: {this.props.isEditId}
+          isThread: {this.props.isEditThread}
+          setNewThread={() => this.setNewThread()}
+        />
+      );
+    }
+
     /* iterate thru json + generate div objects */
     let items = [];
     for (post in this.posts) {
@@ -277,6 +521,19 @@ class ForumPage extends Component {
       }
       else {
         items.push(this.renderPublicThreadPost(data));
+      }
+
+      /* if someone presses view button, populate replies */
+      if (this.posts[post]["replies"] != null) {
+        for (reply in this.posts[post]["replies"]) {
+          let data = {"title":reply["title"],"text":reply["text"],"date":reply["date"],"name":reply["name"],"id":reply};
+          if this.props.id == user_id {
+            items.push(this.renderSelfReplyPost(data));
+          }
+          else {
+            items.push(this.renderPublicReplyPost(data));
+          }
+        }
       }
     }
 
