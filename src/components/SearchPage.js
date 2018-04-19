@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 
-import { Link } from 'react-router-dom';
+import { Link, Switch, Route } from 'react-router-dom';
 
 import ReactPaginate from 'react-paginate';
+import ProfilePage from './ProfilePage.js';
 
 
 /* Bootstrap */
@@ -14,7 +15,7 @@ import '../css/GlobalStyles.css';
 import '../css/SearchPage.css';
 
 /* Two tier. If nothing searched, search box. If search, display query and results under. */
-class SearchPage extends Component {
+class SearchPageFrame extends Component {
 	constructor(props) {
 		super(props);
 
@@ -38,7 +39,7 @@ class SearchPage extends Component {
 			<div className="card search-profile-card ">
 			  <img className="card-img-top search-profile-pic" src={userData.basic.avatar} alt="Card image cap"/>
 			  <div className="card-body">
-			    <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
+			    <h5 className="card-title"><Link className="nav-link" to={'/Search/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
 			  </div>
 			  <ul className="list-group list-group-flush">
 				    <li className="list-group-item">C2C Graduation Year: {userData.c2c.graduation}</li>
@@ -71,12 +72,12 @@ class SearchPage extends Component {
 		
 	}
 
-	search(event) {
+	search(event, input) {
 		event.preventDefault();
 
 		// Make sure nonempty input
-		let search = (this.input.value).match(/\w/);
-		let query = this.input.value;
+		let search = (input.value).match(/\w/);
+		let query = input.value;
 		let callback = this.updateSearchResults;
 
 		console.log("Search: " + query);
@@ -107,7 +108,7 @@ class SearchPage extends Component {
 	        });
 		}
 
-		this.setState({ search: search, query: this.input.value });
+		this.setState({ search: search, query: input.value });
 	}
 
 	handlePageChange(page) {
@@ -144,34 +145,54 @@ class SearchPage extends Component {
 	}
 
 	render() {
-		let isSearch = this.state.search;
 
 		return (
+			
+				<Switch basename={"/Search"}>
+					<Route exact path="/Search" component={()=> (<SearchPageBody isSearch={this.state.search} query={this.state.query} search={this.search} totalPages={this.state.totalPages} searchResults={this.state.searchResults} handlePageChange={this.handlePageChange}/>)}/>
+					<Route path="/Search/ViewProfile/:id" component={(routeProps)=>(<ProfilePage curUser={this.props.curUser} id={routeProps.match.params.id}/>)} />
+				</Switch>
+			);
+	}
+}
+
+class SearchPageBody extends Component {
+
+	constructor(props) {
+		super(props);
+	}
+
+	render() {
+
+		const noResults = (
+			<p className="search-no-result c2c-text"> No results found :(</p>
+		);
+
+		return(
 			<div className="top-container search-background">
-				<div className={isSearch ? "container search-container" : "container search-container no-search-margin"}>
+				<div className={this.props.isSearch ? "container search-container" : "container search-container no-search-margin"}>
 					<div className="search-bar-container container-fluid">
 						<h1 className="search-header">Search Profiles</h1>
-						<form className="search-bar" onSubmit={this.search}>
+						<form className="search-bar" onSubmit={(e)=> {this.props.search(e, this.input);}}>
 							<div className="input-group">
-								<input type="text" className="form-control form-control-lg" placeholder="Search" ref={(input) => this.input = input}/>
+								<input type="text" className="form-control form-control-lg" placeholder={this.props.isSearch ? this.props.query : "Search"} ref={(input) => {this.input = input}}/>
 								<div className="input-group-append">
 									<button className="btn btn-outline-primary" type="submit">Search!</button>
 								</div>
 							</div>
 						</form>
 					</div>
-					<p className={isSearch ? "search-results-header" : "d-none"}>Search Results:</p>
-					<div className={isSearch ? "search-results-container" : "d-none"}>
+					<p className={this.props.isSearch ? "search-results-header" : "d-none"}>Search Results:{this.props.searchResults.length === 0 ? noResults : ""}</p>
+					<div className={this.props.isSearch ? "search-results-container" : "d-none"}>
 						<div className="card-deck search-card-deck">
-							{this.state.searchResults}
+							{this.props.searchResults}
 						</div>
 					</div>
-
-					<div className={isSearch ? "search-pagination-container" : "d-none"}>
-						<ReactPaginate pageCount={this.state.totalPages}
+					<div className={this.props.isSearch ? "search-pagination-container" : "d-none"}>
+						<ReactPaginate pageCount={this.props.totalPages}
 													 pageRangeDisplayed={5}
 													 marginPagesDisplayed={2}
-													 onPageChange={this.handlePageChange}
+													 onPageChange={this.props.handlePageChange}
 													 containerClassName={"pagination justify-content-center"}
 													 subContainerClassName={"pages pagination"}
 													 activeClassName={"active"} 
@@ -185,9 +206,9 @@ class SearchPage extends Component {
 								           nextLinkClassName="page-link"/>
 					</div>
 				</div>
-			</div>
-			);
+		</div>
+		);
 	}
 }
 
-export default SearchPage;
+export default SearchPageFrame;
