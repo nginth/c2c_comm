@@ -31,14 +31,14 @@
 	text-align: center;
 	margin-bottom: 40px;
 
-	color: #0089fc;
+	color: #0E3B58;
 }
 
 /* Search Results Header */
 .search-results-header {
 	font-size: 2em;
 
-	color: #0089fc;
+	color: #0E3B58;
 }
 
 
@@ -52,11 +52,11 @@
 	max-width: 180px;
 	min-width: 180px;
 
-	background: #68b8ff;
+	background: #0E3B58;
 
 	margin-top: 20px;
 
-	border-color: #005dc8;
+	border-color: #0E3B58;
 	border-width: 2px;
 }
 
@@ -68,6 +68,13 @@
 	margin-left: 15px;
 	margin-right: 15px;
 	margin-top: 15px;
+
+	border: 2px solid;
+	border-color: white;
+}
+
+.search-link {
+	color: white;
 }
 
 /* Utility classes */
