@@ -35,11 +35,13 @@ class AppFrame extends Component {
           firstName: "Bloop"
         },
         id: 1
-      }
+      },
+      loading: false
     };
     this.setUserData = this.setUserData.bind(this);
     this.onSignIn = this.onSignIn.bind(this);
     this.logOut = this.logOut.bind(this);
+    this.loadingStatus = this.loadingStatus.bind(this);
   }
 
   componentDidMount() {
@@ -47,8 +49,12 @@ class AppFrame extends Component {
   }
   componentWillUnmount() {}
 
+  loadingStatus(status) {
+    this.setState({loading:status});
+  }
+
   onSignIn(status, data) {
-    this.setState({loggedIn: status, userData: data});
+    this.setState({loggedIn: status, userData: data, loading: false});
   }
 
   setUserData(data) {
@@ -97,7 +103,7 @@ class AppFrame extends Component {
           </nav>
 
           <Route exact path="/" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LandingPage/>)} />
-          <Route path="/LogIn" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LogInPage isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
+          <Route path="/LogIn" component={()=>(this.state.loggedIn ? <Redirect to="/Home" /> : <LogInPage loading={this.state.loading} loadingCallback={this.loadingStatus} isLoggedIn={this.state.loggedIn} loginDataCallBack={this.onSignIn} />)} />
           <Route path="/Home" component={()=>(this.state.loggedIn ? <HomePage id={this.state.userData.id} name={this.state.userData.basic.firstName}/> : <Redirect to="/LogIn"/>)} />
           <Route path="/CreateProfile" component={(routeProps)=>(<ProfileCreationPage routeProps={routeProps}/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
