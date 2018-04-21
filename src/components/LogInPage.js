@@ -36,7 +36,7 @@ class LogInPage extends Component {
     var data = { 'username': this.username.value, 'password': this.password.value }
 
 
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/login', {
+    fetch(process.env.REACT_APP_API + '/api/users/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

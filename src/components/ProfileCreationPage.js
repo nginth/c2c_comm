@@ -198,7 +198,7 @@ class ProfileCreationPage extends Component {
 
   create_user(data, historyObj) {
 
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/register', {
+    fetch(process.env.REACT_APP_API + '/api/users/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -222,7 +222,7 @@ class ProfileCreationPage extends Component {
 
 edit_user(data) {
     let callback = this.props.editDataCallBack;
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/edit', {
+    fetch(process.env.REACT_APP_API + '/api/users/edit', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

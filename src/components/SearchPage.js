@@ -83,7 +83,7 @@ class SearchPageFrame extends Component {
 		console.log("Search: " + query);
 
 		if (search) {
-			fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
+			fetch(process.env.REACT_APP_API + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
 	      method: 'GET',
 	      headers: {
 	        'Accept': 'application/json',
@@ -116,7 +116,7 @@ class SearchPageFrame extends Component {
 		let current = page.selected;
 		let callback = this.updateSearchResults;
 
-		fetch('https://code-2-college-connect-api.herokuapp.com/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
+		fetch(process.env.REACT_APP_API + '/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
 	      method: 'GET',
 	      headers: {
 	        'Accept': 'application/json',
