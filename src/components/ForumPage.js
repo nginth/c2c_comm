@@ -288,6 +288,8 @@ class ForumPage extends Component {
       isEdit: false,
       isEditId: null,
       isEditThread: false,
+      isDelete: false,
+      isDeleteId: null,
     }
     // this.setThreadReplies = this.setThreadReplies.bind(this);
     // this.setUserData = this.setUserData.bind(this);
@@ -380,9 +382,35 @@ class ForumPage extends Component {
     });
   }
 
+  setDeleteThread(id) {
+    this.setState({
+      isDelete: true
+      isDeleteId: id
+    });
+  }
+
   /* remove value in DB and re-render posts */
   handleDelete(id) {
-
+    let callback = setDeleteThread;
+    fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/delete' + id, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => {
+      if (resp.ok) {
+        callback(id);
+        return resp.json();
+      }
+      // Handle bad password or username
+      else if (resp.status != 200) {
+        console.log("Error making call status: " + resp.status);
+      }
+    }).catch(function(e) {
+      console.error("Error: " + e);
+    });        
   }
 
   renderSelfThreadPost(postData) {
@@ -515,8 +543,13 @@ class ForumPage extends Component {
 
       let data = {"title":title,"text":text,"date":date,"name":name,"id":post_id};
 
+      // skip rendering for a deleted post
+      if (this.props.isDelete && this.props.isDeleteId == post_id) {
+        continue;
+      }
+
       /* guarenteed to be THREAD objects, so check if editable or not*/
-      if this.props.id == user_id {
+      if (this.props.id == user_id) {
         items.push(this.renderSelfThreadPost(data));
       }
       else {
