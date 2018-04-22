@@ -282,6 +282,7 @@ class ForumPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      id: null,
       posts: null,
       isReply: false,
       isReplyId: null,
@@ -293,6 +294,7 @@ class ForumPage extends Component {
     }
     // this.setThreadReplies = this.setThreadReplies.bind(this);
     // this.setUserData = this.setUserData.bind(this);
+    this.setDeleteThread = this.setDeleteThread.bind(this);
   }
 
   // setNewThread(data, id) {
@@ -326,8 +328,10 @@ class ForumPage extends Component {
   // }
 
   setThreadReplies(data, id) {
+    var items = this.props.posts[id]["replies"];
+    items = JSON.parse(data);
     this.setState({
-      posts[id]["replies"]: JSON.parse(data)
+      items,
     });
   }
 
@@ -353,7 +357,7 @@ class ForumPage extends Component {
           }
         }).then((responseJSON) => {
           if (responseJSON) {
-            callback(responseJSON);
+            callback(responseJSON, id);
           }
         }).catch(function(e) {
           console.error("Error: " + e);
@@ -368,37 +372,36 @@ class ForumPage extends Component {
   handleReply(id) {
     /* add post to db and make thread_id=id*/
     this.setState({
-      isReply: true
-      isReplyId: id
+      isReply: true,
+      isReplyId: id,
     });
   }
 
   /* edit value in DB and re-render posts */
   handleEdit(id, isThread) {
     this.setState({
-      isEdit: true
-      isEditId: id
-      isEditThread: isThread
+      isEdit: true,
+      isEditId: id,
+      isEditThread: isThread,
     });
   }
 
   setDeleteThread(id) {
     this.setState({
-      isDelete: true
-      isDeleteId: id
+      isDelete: true,
+      isDeleteId: id,
     });
   }
 
   /* remove value in DB and re-render posts */
   handleDelete(id) {
-    let callback = setDeleteThread;
+    let callback = this.setDeleteThread;
     fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/delete' + id, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(data)
     }).then((resp) => {
       if (resp.ok) {
         callback(id);
@@ -512,8 +515,8 @@ class ForumPage extends Component {
     if (this.props.isReply) {
       return (
         <ReplyModal
-          userId: {this.props.id}
-          id: {this.props.isReplyId}
+          userId={this.props.id}
+          id={this.props.isReplyId}
           setNewThread={() => this.setNewThread()}
         />
       );
@@ -522,9 +525,9 @@ class ForumPage extends Component {
     if (this.props.isEdit) {
       return (
         <EditModal
-          userId: {this.props.id}
-          id: {this.props.isEditId}
-          isThread: {this.props.isEditThread}
+          userId={this.props.id}
+          id={this.props.isEditId}
+          isThread={this.props.isEditThread}
           setNewThread={() => this.setNewThread()}
         />
       );
@@ -532,7 +535,7 @@ class ForumPage extends Component {
 
     /* iterate thru json + generate div objects */
     let items = [];
-    for (post in this.posts) {
+    for (var post in this.posts) {
       let post_id = post;
       let title = this.posts[post]["title"];
       let text = this.posts[post]["title"];
@@ -558,9 +561,9 @@ class ForumPage extends Component {
 
       /* if someone presses view button, populate replies */
       if (this.posts[post]["replies"] != null) {
-        for (reply in this.posts[post]["replies"]) {
+        for (var reply in this.posts[post]["replies"]) {
           let data = {"title":reply["title"],"text":reply["text"],"date":reply["date"],"name":reply["name"],"id":reply};
-          if this.props.id == user_id {
+          if (this.props.id == user_id) {
             items.push(this.renderSelfReplyPost(data));
           }
           else {
