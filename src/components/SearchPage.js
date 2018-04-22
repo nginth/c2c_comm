@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 
 import { Link, Switch, Route } from 'react-router-dom';
 
+import { CircleLoader } from 'react-spinners';
+
 import ReactPaginate from 'react-paginate';
 import ProfilePage from './ProfilePage.js';
 
@@ -25,13 +27,20 @@ class SearchPageFrame extends Component {
 			searchResults: "",
 			currentPage: 0,
 			totalPages: 0,
-			itemsPerPage: 10
+			itemsPerPage: 10,
+			loading: false
 		};
 
 		this.search = this.search.bind(this);
 		this.updateSearchResults = this.updateSearchResults.bind(this);
 		this.makeResultCard = this.makeResultCard.bind(this);
 		this.handlePageChange = this.handlePageChange.bind(this);
+
+		this.loadingStatus = this.loadingStatus.bind(this);
+	}
+
+	loadingStatus(status) {
+		this.setState({loading:status});
 	}
 
 	makeResultCard(userData) {
@@ -39,7 +48,7 @@ class SearchPageFrame extends Component {
 			<div className="card search-profile-card ">
 			  <img className="card-img-top search-profile-pic" src={userData.basic.avatar} alt="Card image cap"/>
 			  <div className="card-body">
-			    <h5 className="card-title"><Link className="nav-link" to={'/Search/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
+			    <h5 className="card-title"><Link className="nav-link search-link" to={'/Search/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
 			  </div>
 			  <ul className="list-group list-group-flush">
 				    <li className="list-group-item">C2C Graduation Year: {userData.c2c.graduation}</li>
@@ -79,10 +88,14 @@ class SearchPageFrame extends Component {
 		let search = (input.value).match(/\w/);
 		let query = input.value;
 		let callback = this.updateSearchResults;
+		let loadingCallback = this.loadingStatus;
 
 		console.log("Search: " + query);
 
+
+
 		if (search) {
+			loadingCallback(true);
 			fetch(process.env.REACT_APP_API + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
 	      method: 'GET',
 	      headers: {
@@ -105,6 +118,8 @@ class SearchPageFrame extends Component {
 	          }
 	        }).catch(function(e) {
 	          console.error("Error: " + e);
+	        }).then(() => {
+	        	loadingCallback(false);
 	        });
 		}
 
@@ -115,7 +130,9 @@ class SearchPageFrame extends Component {
 
 		let current = page.selected;
 		let callback = this.updateSearchResults;
+		let loadingCallback = this.loadingStatus;
 
+		loadingCallback(true);
 		fetch(process.env.REACT_APP_API + '/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
 	      method: 'GET',
 	      headers: {
@@ -138,6 +155,8 @@ class SearchPageFrame extends Component {
 	          }
 	        }).catch(function(e) {
 	          console.error("Error: " + e);
+	        }).then(() => {
+	        	loadingCallback(false);
 	        });
 
 	  this.setState({currentPage: current});
@@ -149,7 +168,7 @@ class SearchPageFrame extends Component {
 		return (
 			
 				<Switch basename={"/Search"}>
-					<Route exact path="/Search" component={()=> (<SearchPageBody isSearch={this.state.search} query={this.state.query} search={this.search} totalPages={this.state.totalPages} searchResults={this.state.searchResults} handlePageChange={this.handlePageChange}/>)}/>
+					<Route exact path="/Search" component={()=> (<SearchPageBody loading={this.state.loading} isSearch={this.state.search} query={this.state.query} search={this.search} totalPages={this.state.totalPages} searchResults={this.state.searchResults} handlePageChange={this.handlePageChange}/>)}/>
 					<Route path="/Search/ViewProfile/:id" component={(routeProps)=>(<ProfilePage curUser={this.props.curUser} id={routeProps.match.params.id}/>)} />
 				</Switch>
 			);
@@ -177,33 +196,40 @@ class SearchPageBody extends Component {
 							<div className="input-group">
 								<input type="text" className="form-control form-control-lg" placeholder={this.props.isSearch ? this.props.query : "Search"} ref={(input) => {this.input = input}}/>
 								<div className="input-group-append">
-									<button className="btn btn-outline-primary" type="submit">Search!</button>
+									<button className="btn btn-outline-dark" type="submit">Search!</button>
 								</div>
 							</div>
 						</form>
 					</div>
-					<p className={this.props.isSearch ? "search-results-header" : "d-none"}>Search Results:{this.props.searchResults.length === 0 ? noResults : ""}</p>
-					<div className={this.props.isSearch ? "search-results-container" : "d-none"}>
-						<div className="card-deck search-card-deck">
-							{this.props.searchResults}
+					<div className={this.props.loading ? "loading-div container" : "d-none"}>
+						<div className="loading-spinner mx-auto">
+							<CircleLoader size={150} color={'#00AFF0'} loading={this.props.loading}/>
 						</div>
 					</div>
-					<div className={this.props.isSearch ? "search-pagination-container" : "d-none"}>
-						<ReactPaginate pageCount={this.props.totalPages}
-													 pageRangeDisplayed={5}
-													 marginPagesDisplayed={2}
-													 onPageChange={this.props.handlePageChange}
-													 containerClassName={"pagination justify-content-center"}
-													 subContainerClassName={"pages pagination"}
-													 activeClassName={"active"} 
-													 breakClassName="page-item"
-								           breakLabel={<a className="page-link">...</a>}
-								           pageClassName="page-item"
-								           previousClassName="page-item"
-								           nextClassName="page-item"
-								           pageLinkClassName="page-link"
-								           previousLinkClassName="page-link"
-								           nextLinkClassName="page-link"/>
+					<div className={this.props.loading ? "d-none" : ""}>
+						<p className={this.props.isSearch ? "search-results-header" : "d-none"}>Search Results:{this.props.searchResults.length === 0 ? noResults : ""}</p>
+						<div className={this.props.isSearch ? "search-results-container" : "d-none"}>
+							<div className="card-deck search-card-deck">
+								{this.props.searchResults}
+							</div>
+						</div>
+						<div className={this.props.isSearch ? "search-pagination-container" : "d-none"}>
+							<ReactPaginate pageCount={this.props.totalPages}
+														 pageRangeDisplayed={5}
+														 marginPagesDisplayed={2}
+														 onPageChange={this.props.handlePageChange}
+														 containerClassName={"pagination justify-content-center"}
+														 subContainerClassName={"pages pagination"}
+														 activeClassName={"active"}
+														 breakClassName="page-item"
+									           breakLabel={<a className="page-link">...</a>}
+									           pageClassName="page-item"
+									           previousClassName="page-item"
+									           nextClassName="page-item"
+									           pageLinkClassName="page-link"
+									           previousLinkClassName="page-link"
+									           nextLinkClassName="page-link"/>
+						</div>
 					</div>
 				</div>
 		</div>
