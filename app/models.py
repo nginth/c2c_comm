@@ -89,7 +89,8 @@ class User(db.Model):
                 "linkedin": self.linkedin,
                 "facebook": self.facebook,
                 "twitter": self.twitter,
-                "github": self.github
+                "github": self.github,
+                "website": self.website
             },
             "c2c": {
                 "volunteer": self.favorite_volunteer,
