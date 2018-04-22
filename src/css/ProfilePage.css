@@ -54,6 +54,15 @@ Dark: 005dc8;*/
   border-color: gray;
 }
 
+/* Normalize page size a bit for the loading spinner. */
+.profile-loading {
+  min-height: 400px;
+}
+
+.profile-loading-spinner {
+  margin-top: 10%; 
+}
+
 /* Align text */
 .align-text {
   display: flex;
