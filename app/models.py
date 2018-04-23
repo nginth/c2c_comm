@@ -10,6 +10,30 @@ make_searchable(db.metadata)
 class SearchQuery(BaseQuery, SearchQueryMixin):
     pass
 
+class Post(db.model):
+    __tablename__ = 'post'
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.UnicodeText)
+    text = db.Column(db.UnicodeText)
+    date = db.Column(db.Integer)
+    name = db.Column(db.UnicodeText)
+
+    user_id = db.Column(db.Integer)
+    thread_id = db.Column(db.Integer)
+
+    def serialize(self):
+        return {
+            self.id: {
+                "title": self.title,
+                "text": self.text,
+                "date": self.date,
+                "name": self.name,
+                "user_id": self.user_id,
+                "thread_id": self.thread_id
+            }
+        }
+
+
 class Internship(db.Model):
     __tablename__ = 'internship'
     id = db.Column(db.Integer, primary_key=True)

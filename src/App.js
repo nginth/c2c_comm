@@ -10,6 +10,7 @@ import ProfileCreationPage from './components/ProfileCreationPage.js';
 import SearchPage from './components/SearchPage.js';
 import HomePage from './components/HomePage.js';
 import ProfilePage from './components/ProfilePage.js';
+import ForumPage from './components/ForumPage.js';
 
 /* Assets */
 import ClearLogo from './assets/C2C_logo_clear.png';
@@ -72,6 +73,9 @@ class AppFrame extends Component {
       <li className="nav-item">
         <Link className="nav-link" to="/Search">Search</Link>
       </li>
+      <li className="nav-item">
+        <Link className="nav-link" to="/Forum">Forum</Link>
+      </li>
     </ul>);
 
     const regularNav = 
@@ -102,7 +106,7 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={(routeProps)=>(<ProfileCreationPage routeProps={routeProps}/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
-          
+          <Route path="/Forum" component={()=>(this.state.loggedIn ? <ForumPage/> : <Redirect to="/LogIn" />)} />
           <Route path="/EditProfile" component={(routeProps)=>(this.state.loggedIn ? <ProfileCreationPage routeProps={routeProps} isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
           <footer className="container-fluid footer-container"> 
             <div className="row py-3">
