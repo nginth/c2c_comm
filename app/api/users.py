@@ -8,6 +8,8 @@ import io
 
 users_blueprint = Blueprint('users', __name__)
 
+isAdmin = False
+
 @users_blueprint.route("/register", methods=['POST'])
 def register():    
     print("Register")
@@ -29,6 +31,28 @@ def register():
     db.session.commit()
     return jsonify({ 'username': user.username, 'id': user.id }), 200
     
+# Check if user is admin
+@auth.login_required
+def isAdmin(username):
+    global isAdmin
+    if isAdmin:
+        abort(400, "Restricted Access. This incident has been reported.")
+    else:
+        return True;
+
+@users_blueprint.route("/delete", methods=['POST'])
+@auth.login_required
+def delete():
+    basic = request.get_json().get('basic')
+    username = basic.get('username')
+
+    # If the user exists, then allow the delete if user is an admin
+    if (isAdmin(request.get_json().get("actualUser"))):
+        user = User.query.filter_by(username=username).first()
+        if user is not  None:
+            db.session.delete(user)
+            db.session.commit()
+            return "User successfully deleted", 200
 
 @users_blueprint.route("/login", methods=['POST'])
 def login_user():
@@ -64,6 +88,11 @@ def login(username, password):
     #is this setting a global user? Bad! - Alex
     print(user)
     g.user = user
+    global isAdmin
+    if username == "adminacc":
+        isAdmin = True
+    else:
+        isAdmin = False
     # token = get_token()
     # print(token)
     return get_user_by_name(username), 200
@@ -140,13 +169,14 @@ def edit_user():
 @auth.login_required
 def get_all_users():    
     users = User.query.paginate()
+    all_users = User.query.order_by(User.username).all()
     return jsonify({
         'page': users.page,
         'pages': users.pages,
         'next': users.next_num,
         'prev': users.prev_num,
         'per_page': users.per_page,
-        'users': [user.serialize() for user in users.items]
+        'users': [user.serialize() for user in all_users]
     })
 
 @users_blueprint.route("/<int:user_id>", methods=['GET'])
@@ -245,34 +275,37 @@ def internship_from_json(json):
     i.year = json.get('year')
     return i
 
-@users_blueprint.route("/export", methods=['GET'])
+@users_blueprint.route("/export", methods=['GET', 'POST'])
 @auth.login_required
 def export():
-    si = io.StringIO()
-    writer = csv.writer(si)
-    users = User.query.all()
-    # Add header for each column
-    header = ['id', 'username', 'firstName', 'lastName', 'employer', 'school', 'expectedGrad', 'email', 'bio', 'interests', 'name', 'graduation', 'linkedin', 'facebook', 
-        'twitter', 'github', 'volunteer', 'workshop', 'graduation', 'internships']
-    writer.writerow(header)
-    # For every user in the database
-    for user in users:
-        userData = user.serialize()
-        userData.get('basic').pop('avatar') # remove the profile picture data
-        actualRow = [] # actual row to be written into the csv
+    basic = request.get_json().get('basic')
+    username = basic.get('username')
+    if (isAdmin(username)):
+        si = io.StringIO()
+        writer = csv.writer(si)
+        users = User.query.all()
+        # Add header for each column
+        header = ['id', 'username', 'firstName', 'lastName', 'employer', 'school', 'expectedGrad', 'email', 'bio', 'interests', 'name', 'graduation', 'linkedin', 'facebook', 
+            'twitter', 'github', 'volunteer', 'workshop', 'graduation', 'internships']
+        writer.writerow(header)
+        # For every user in the database
+        for user in users:
+            userData = user.serialize()
+            userData.get('basic').pop('avatar') # remove the profile picture data
+            actualRow = [] # actual row to be written into the csv
 
-        # For each part of the dictionary: id, basic, about, social, c2c, highschool, get the corresponding nested dictionaries to each (Except for id)
-        for key,value in userData.items():
-            # if it is basic, about, social, c2c, or highschool, then add each value to the actual row
-            if type(value) == dict:
-                for field, data in value.items():
-                    actualRow.append(data)
-            else:
-                # if it is just the id, then append it to actual row
-                actualRow.append(value)
-        writer.writerow(actualRow)
-    
-    response = make_response(si.getvalue())
-    response.headers['Content-Disposition'] = 'attachment; filename=report.csv'
-    response.headers["Content-type"] = "text/csv"
-    return response
+            # For each part of the dictionary: id, basic, about, social, c2c, highschool, get the corresponding nested dictionaries to each (Except for id)
+            for key,value in userData.items():
+                # if it is basic, about, social, c2c, or highschool, then add each value to the actual row
+                if type(value) == dict:
+                    for field, data in value.items():
+                        actualRow.append(data)
+                else:
+                    # if it is just the id, then append it to actual row
+                    actualRow.append(value)
+            writer.writerow(actualRow)
+        
+        response = make_response(si.getvalue())
+        response.headers['Content-Disposition'] = 'attachment; filename=report.csv'
+        response.headers["Content-type"] = "text/csv"
+        return response, 200

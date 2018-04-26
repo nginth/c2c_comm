@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 
 import ReactPaginate from 'react-paginate';
 
-
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';

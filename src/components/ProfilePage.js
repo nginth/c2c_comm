@@ -71,7 +71,7 @@ class ProfilePage extends Component {
     let callback = this.setUserData;
     let id = this.props.id;
 
-    fetch('https://code-2-college-connect-api.herokuapp.com/api/users/' + this.props.id, {
+    fetch('http://localhost:5001/api/users/' + this.props.id, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
