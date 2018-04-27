@@ -1,26 +1,13 @@
-/* Jumbo */
-.forum-thread-jumbo {
-	
+.forum-test-bg {
+	background-color: white;
 }
 
-.forum-jumbo-title {
-	font-size: 3em;
-}
-
-.forum-jumbo-subtitle {
-	font-size: 2em;
-}
-
-.forum-thread-jumbo-content {
-
-}
 
 /* Card */
 .forum-thread-card {
 	background-color: #0e3b58;
 	color: white;
 
-	margin-top: 5%;
 	margin-bottom: 5%;
 }
 
@@ -30,6 +17,32 @@
 
 
 /* Posts */
+.forum-thread-post-list-item {
+	padding: 15px;
+	margin-top: 2%;
+	color: #0e3b58;
+	border: 5px solid #0e3b58;
+
+}
+
+.forum-thread-post-content {
+	/*background-color: darkgray;*/
+	padding: 15px;
+	border-right: 5px solid #0e3b58;
+	color: #0e3b58;
+	/*background-color: white;*/
+}
+
+.forum-thread-post-user {
+	/*background-color: gray;*/
+	/*background-color: white*/
+	
+}
+
+.forum-thread-post-userinfo {
+	/*background-color: black;*/
+}
+
 .forum-thread-profile-picture {
 	max-width: 75px;
 	max-height: 75px;
