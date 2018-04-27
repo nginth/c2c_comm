@@ -23,7 +23,6 @@ class LogInPage extends Component {
     this.login = this.login.bind(this);
     this.failedAttempt = this.failedAttempt.bind(this);
     this.loadingStatus = this.loadingStatus.bind(this);
-
   }
 
   loadingStatus(status) {

@@ -51,8 +51,7 @@ class AppFrame extends Component {
 
   onSignIn(status, data) {
     this.setState({loggedIn: status, userData: data});
-    data.basic.username == "adminacc" ? this.setState({admin: true}) : this.setState({admin: false});
-      
+    if (data.basic.username == "adminacc") {this.setState({admin: true})};
   }
 
   setUserData(data) {
@@ -73,6 +72,9 @@ class AppFrame extends Component {
       <li className="nav-item">
         <Link className="nav-link" to="/Profile">My Profile</Link>
       </li>
+      <li className={this.state.admin ? "nav-item" : "d-none"}>
+        <Link className="nav-link" to="/AdminDash">Dashboard</Link>
+      </li>
       <li className="nav-item">
         <Link className="nav-link" to="/Search">Search</Link>
       </li>
@@ -85,16 +87,6 @@ class AppFrame extends Component {
         </li>
       </ul>);
 
-    const adminNav = 
-      (<ul className="navbar-nav mr-auto">
-      <li className="nav-item">
-        <Link className="nav-link" to="/">Home</Link>
-      </li>
-      <li className={this.state.admin ? "nav-item" : "d-none"}>
-        <Link className="nav-link" to="/AdminDash">Dashboard</Link>
-      </li>
-    </ul>);
-
     return (
       <BrowserRouter basename={"/"}>
         <div className="global-font">
@@ -105,7 +97,7 @@ class AppFrame extends Component {
             </button>
 
             <div className="collapse navbar-collapse" id="mainNavbarCollapse">
-              {this.state.admin ? adminNav : (this.state.loggedIn ? loggedInNav : regularNav)}
+              {this.state.loggedIn ? loggedInNav : regularNav}
               <button className={this.state.loggedIn ? "btn btn-danger btn-small" : "d-none"} onClick={() => {this.logOut();}}>Log out</button>
             </div>
           </nav>
@@ -116,9 +108,8 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={(routeProps)=>(<ProfileCreationPage routeProps={routeProps}/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
-          <Route path="/ViewProfile/:id" component={(routeProps)=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={routeProps.match.params.id} /> : <Redirect to="/LogIn" />)} />
-          <Route path="/EditProfile" component={()=>(this.state.loggedIn ? <ProfileCreationPage isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
-          <Route path="/AdminDash" component={()=>(this.state.loggedIn ? <DashboardPage userData={this.state.userData}/> : <Redirect to="/LogIn"/>)} />
+          <Route path="/EditProfile" component={(routeProps)=>(this.state.loggedIn ? <ProfileCreationPage routeProps={routeProps} isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
+          <Route path="/AdminDash" component={()=>((this.state.loggedIn && this.state.admin) ? <DashboardPage userData={this.state.userData}/> : <Redirect to="/LogIn"/>)} />
           
           <footer className="container-fluid footer-container"> 
             <div className="row py-3">

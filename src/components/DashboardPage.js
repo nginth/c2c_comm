@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import ReactPaginate from 'react-paginate';
+import { CircleLoader } from 'react-spinners';
 
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
@@ -10,7 +11,6 @@ import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 
 import '../css/GlobalStyles.css';
-import '../css/HomePage.css';
 import '../css/Dashboard.css';
 
 import { confirmAlert } from 'react-confirm-alert'; // Import
@@ -27,7 +27,8 @@ class DashboardPage extends Component {
       searchResults: "",
       currentPage: 0,
       totalPages: 0,
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      loading: false
     };
 
     this.search = this.search.bind(this);
@@ -37,6 +38,7 @@ class DashboardPage extends Component {
     this.get_csv = this.get_csv.bind(this);
     this.download = this.download.bind(this);
     this.delete_user = this.delete_user.bind(this);
+    this.loadingStatus = this.loadingStatus.bind(this);
   }
 
   // Makes an event that allows for file donwload
@@ -75,6 +77,8 @@ class DashboardPage extends Component {
 
   // Makes an API call that deletes the requested user
   delete_user(userData) {
+    let loadingCallback = this.loadingStatus;
+    loadingCallback(true);
     userData['actualUser'] = this.props.userData.basic.username;
     fetch(process.env.REACT_APP_API + '/api/users/delete', {
       method: 'POST',
@@ -85,12 +89,14 @@ class DashboardPage extends Component {
       body: JSON.stringify(userData)
     }).then((resp) => resp.text())
     .then((responseText) => {
-       console.log(responseText)
+        loadingCallback(false);
+        this.getAllUsers();
       }).catch(function(e) {
           console.error("Error: " + e);
     });
   }
 
+  // Prompts the admin if they for sure want to delete or not
   submit(userData) {
     confirmAlert({
       title: 'Confirm to submit',
@@ -108,13 +114,15 @@ class DashboardPage extends Component {
     })
   };
 
+  // Returns a profile card based off the user data it receives
   makeResultCard(userData) {
     return (
-      <div className="card search-profile-card" key={userData.id}>
+      <div className="card search-profile-card search-profile-card-white" key={userData.id}>
         <img className="card-img-top search-profile-pic card-header" src={userData.basic.avatar} alt="Card image cap"/>
         <div className="card-body">
           <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
         </div>
+        <button className="btn btn-primary">Change Password</button>
         <button className="btn btn-danger" onClick={() => {this.submit(userData);}}>Delete</button>
       </div>
     );
@@ -147,10 +155,12 @@ class DashboardPage extends Component {
     let search = (this.input.value).match(/\w/);
     let query = this.input.value;
     let callback = this.updateSearchResults;
+    let loadingCallback = this.loadingStatus;
 
     //console.log("Search: " + query);
 
     if (search) {
+      loadingCallback(true);
       fetch(process.env.REACT_APP_AP + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
         method: 'GET',
         headers: {
@@ -170,6 +180,7 @@ class DashboardPage extends Component {
           }).then((responseJSON) => {
             if (responseJSON) {
               callback(responseJSON);
+              loadingCallback(false);
             }
           }).catch(function(e) {
             console.error("Error: " + e);
@@ -183,7 +194,8 @@ class DashboardPage extends Component {
 
     let current = page.selected;
     let callback = this.updateSearchResults;
-
+    let loadingCallback = this.loadingStatus;
+    loadingCallback(true);
     fetch(process.env.REACT_APP_API + '/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
         method: 'GET',
         headers: {
@@ -203,6 +215,7 @@ class DashboardPage extends Component {
           }).then((responseJSON) => {
             if (responseJSON) {
               callback(responseJSON);
+              loadingCallback(false);
             }
           }).catch(function(e) {
             console.error("Error: " + e);
@@ -212,48 +225,64 @@ class DashboardPage extends Component {
 
   }
 
-  componentWillMount() {
+  getAllUsers() {
+    let loadingCallback = this.loadingStatus;
+    loadingCallback(true);
     fetch(process.env.REACT_APP_API + '/api/users/list', {
-    method: 'GET',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    }
-  }).then((resp) => resp)
-      .then(function(resp) {
-        if (resp.ok) {
-          return resp.json();
-        } 
-        /* Error! */
-        else if (resp.status != 200) {
-          console.log("Error making call status: " + resp.status);
-          return null;
-        }
-      }).then((data) => {
-        if (data) {
-          let userCards = [];
-          for (let user in data.users) {
-            userCards.push(this.makeResultCard(data.users[user]));
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      }
+    }).then((resp) => resp)
+        .then(function(resp) {
+          if (resp.ok) {
+            return resp.json();
+          } 
+          /* Error! */
+          else if (resp.status != 200) {
+            console.log("Error making call status: " + resp.status);
+            return null;
           }
-          this.setState({raw: data, searchResults: userCards, currentPage: data.page, totalPages: data.pages});
-        }
-      }).catch(function(e) {
-        console.error("Error: " + e);
-      });
+        }).then((data) => {
+          if (data) {
+            let userCards = [];
+            for (let user in data.users) {
+              userCards.push(this.makeResultCard(data.users[user]));
+            }
+            this.setState({raw: data, searchResults: userCards, currentPage: data.page, totalPages: data.pages});
+            loadingCallback(false);
+          }
+        }).catch(function(e) {
+          console.error("Error: " + e);
+        });
+  }
+
+  loadingStatus(status) {
+    this.setState({loading:status});
+  }
+
+  componentWillMount() {
+    this.getAllUsers();
   }
 
   render() {
     return (
       <div className="top-container">
-        <div className="row">
+        <div className={this.state.loading ? "loading-div form-signin container" : "d-none"}>
+          <div className="loading-spinner mx-auto">
+            <CircleLoader size={150} color={'#FFFFFF'} loading={this.state.loading}/>
+          </div>
+        </div>
+        <div className={this.state.loading ? "d-none" : "row"}>
           <div className="col-sm-8">
-            <div className="card">
+            <div className="card card-adjusted">
               <div className="card-header">
                 <strong>Search Profiles</strong>
                 <small> Look up users to edit, delete, etc.</small>
               </div>
               <div className="container-fluid">
-                <form className="search-bar" onSubmit={this.search}>
+                <form className="search-bar search-bar-adjusted" onSubmit={this.search}>
                   <div className="input-group">
                     <input type="text" className="form-control form-control-md" placeholder="Search..." ref={(input) => this.input = input}/>
                     <div className="input-group-append">
@@ -262,7 +291,7 @@ class DashboardPage extends Component {
                   </div>
                 </form>
               </div>
-              <p className="search-results-header">Users:</p>
+              <p className="search-results-header search-results-header-adjusted">Users:</p>
               <div className="search-results-container">
                 <div className="card-deck search-card-deck">
                   {this.state.searchResults}
@@ -289,7 +318,7 @@ class DashboardPage extends Component {
             </div>
           </div>
           <div className="col-sm-4">
-            <div className="card">
+            <div className="card card-adjusted">
               <div className="card-header">
                 <strong> Export </strong>
                 <small> Downloads database as CSV file </small>

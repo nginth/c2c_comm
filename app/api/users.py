@@ -8,7 +8,7 @@ import io
 
 users_blueprint = Blueprint('users', __name__)
 
-isAdmin = False
+ADMIN = False
 
 @users_blueprint.route("/register", methods=['POST'])
 def register():    
@@ -33,12 +33,12 @@ def register():
     
 # Check if user is admin
 @auth.login_required
-def isAdmin(username):
-    global isAdmin
-    if isAdmin:
-        abort(400, "Restricted Access. This incident has been reported.")
+def isAdmin():
+    global ADMIN
+    if ADMIN:
+        return True
     else:
-        return True;
+        abort(400, "Restricted Access. This incident has been reported.")
 
 @users_blueprint.route("/delete", methods=['POST'])
 @auth.login_required
@@ -47,7 +47,7 @@ def delete():
     username = basic.get('username')
 
     # If the user exists, then allow the delete if user is an admin
-    if (isAdmin(request.get_json().get("actualUser"))):
+    if isAdmin():
         user = User.query.filter_by(username=username).first()
         if user is not  None:
             db.session.delete(user)
@@ -88,13 +88,14 @@ def login(username, password):
     #is this setting a global user? Bad! - Alex
     print(user)
     g.user = user
-    global isAdmin
+    global ADMIN
     if username == "adminacc":
-        isAdmin = True
+        ADMIN = True
     else:
-        isAdmin = False
+        ADMIN = False
     # token = get_token()
     # print(token)
+    print(ADMIN)
     return get_user_by_name(username), 200
 
 @users_blueprint.route("/token")
@@ -281,7 +282,7 @@ def internship_from_json(json):
 def export():
     basic = request.get_json().get('basic')
     username = basic.get('username')
-    if (isAdmin(username)):
+    if isAdmin():
         si = io.StringIO()
         writer = csv.writer(si)
         users = User.query.all()

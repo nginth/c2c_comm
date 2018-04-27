@@ -89,9 +89,7 @@ class SearchPageFrame extends Component {
 		let callback = this.updateSearchResults;
 		let loadingCallback = this.loadingStatus;
 
-		console.log("Search: " + query);
-
-
+		//console.log("Search: " + query);
 
 		if (search) {
 			loadingCallback(true);

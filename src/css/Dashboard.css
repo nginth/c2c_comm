@@ -1,16 +1,16 @@
-.card {
+.card-adjusted {
 	margin-right: 30px;
 	margin-left: 30px;
 }
 
-.search-bar {
+.search-bar-adjusted {
 	margin-top: 20px;
 }
 
-.search-results-header {
+.search-results-header-adjusted {
 	margin-left: 15px;
 }
 
-.search-profile-card {
+.search-profile-card-white {
 	background-color: white;
 }
