@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { BrowserRouter, Route, Link, Redirect } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Link, Redirect } from 'react-router-dom';
 
 import './App.css';
 
@@ -11,6 +11,7 @@ import SearchPage from './components/SearchPage.js';
 import HomePage from './components/HomePage.js';
 import ProfilePage from './components/ProfilePage.js';
 import ForumHomePage from './components/ForumHomePage.js';
+import ForumThreadPage from './components/ForumThreadPage.js';
 
 /* Assets */
 import ClearLogo from './assets/C2C_logo_clear.png';
@@ -110,7 +111,7 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={(routeProps)=>(<ProfileCreationPage routeProps={routeProps}/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
-          <Route path="/Forum" component={()=>(<ForumHomePage/>)} />
+          <Route path="/Forum" component={()=>(<ForumFrame/>)} />
           <Route path="/EditProfile" component={(routeProps)=>(this.state.loggedIn ? <ProfileCreationPage routeProps={routeProps} isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
           <footer className="container-fluid footer-container"> 
             <div className="row py-3">
@@ -140,6 +141,23 @@ class AppFrame extends Component {
           </footer>
         </div>
       </BrowserRouter>
+    );
+  }
+}
+
+class ForumFrame extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {};
+  }
+
+  render() {
+    return (
+      <Switch basename={"/Forum"}>
+        <Route exact path="/Forum" component={()=>(<ForumHomePage/>)} />
+        <Route path="/Forum/Thread/:id" component={(routeProps)=>(<ForumThreadPage threadId={routeProps.match.params.id}/>)} />
+      </Switch>
     );
   }
 }

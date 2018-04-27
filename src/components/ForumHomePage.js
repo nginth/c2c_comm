@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { Link, Switch, Route } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 
 import { CircleLoader } from 'react-spinners';
 
@@ -55,9 +55,9 @@ class ForumHomePage extends Component {
 			      		<li className="media forum-home-thread-list-item">
 			      			<div className="media-body row">
 			      				<div className="col-6">
-				      				<p className="forum-home-thread-text">
-				      					This is testing a hecking long string in being a title n such nch n such n such n such  n such n such  n such n such.
-				      				</p>
+				      				<Link className="dark-text" to="/Forum/Thread/1">
+				      					<p className="forum-home-thread-text">This is testing a hecking long string in being a title n such nch n such n such n such  n such n such  n such n such.</p>
+				      				</Link>
 			      				</div>
 			      				<div className="col-2"><p className="forum-home-thread-text">By: Anderson Cooper</p></div>
 			      				<div className="col-4"><p className="forum-home-thread-text">Updated: 4-25-18 4:48pm CT</p></div>

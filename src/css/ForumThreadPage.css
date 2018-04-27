@@ -1,0 +1,7 @@
+.forum-thread-profile-picture {
+	max-width: 75px;
+	max-height: 75px;
+
+	min-width: 75px;
+	min-height: 75px;
+}
