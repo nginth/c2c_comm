@@ -47,6 +47,7 @@ class User(db.Model):
     facebook = db.Column(db.UnicodeText)
     twitter = db.Column(db.UnicodeText)
     github = db.Column(db.UnicodeText)
+    website = db.Column(db.UnicodeText)
 
     # c2c info
     favorite_volunteer = db.Column(db.UnicodeText) #TODO: make this a user -> user reference
@@ -88,7 +89,8 @@ class User(db.Model):
                 "linkedin": self.linkedin,
                 "facebook": self.facebook,
                 "twitter": self.twitter,
-                "github": self.github
+                "github": self.github,
+                "website": self.website
             },
             "c2c": {
                 "volunteer": self.favorite_volunteer,

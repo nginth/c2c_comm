@@ -56,7 +56,7 @@ class DashboardPage extends Component {
   // Makes an API call that returns an export of the database in a csv file
   get_csv() {
     // console.log(JSON.stringify(this.props.userData))
-    fetch('http://localhost:5001/api/users/export', {
+    fetch(process.env.REACT_APP_API + '/api/users/export', {
       method: 'POST',
       headers: {
         'Accept': 'text/csv',
@@ -76,7 +76,7 @@ class DashboardPage extends Component {
   // Makes an API call that deletes the requested user
   delete_user(userData) {
     userData['actualUser'] = this.props.userData.basic.username;
-    fetch('http://localhost:5001/api/users/delete', {
+    fetch(process.env.REACT_APP_API + '/api/users/delete', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -151,7 +151,7 @@ class DashboardPage extends Component {
     //console.log("Search: " + query);
 
     if (search) {
-      fetch('http://localhost:5001/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
+      fetch(process.env.REACT_APP_AP + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -184,7 +184,7 @@ class DashboardPage extends Component {
     let current = page.selected;
     let callback = this.updateSearchResults;
 
-    fetch('http://localhost:5001/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
+    fetch(process.env.REACT_APP_API + '/api/users/search/' + this.state.query + '?page=' + (current+1) + '&per_page='+this.state.itemsPerPage, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -213,7 +213,7 @@ class DashboardPage extends Component {
   }
 
   componentWillMount() {
-    fetch('http://localhost:5001/api/users/list', {
+    fetch(process.env.REACT_APP_API + '/api/users/list', {
     method: 'GET',
     headers: {
       'Accept': 'application/json',

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Form from 'react-jsonschema-form';
+import { CircleLoader } from 'react-spinners';
 
 /* Custom array template to go around form rendering errors with Bootstrap4 */
 import ArrayFieldTemplate from './c2cArrayFieldTemplate.js';
@@ -192,13 +193,25 @@ class ProfileCreationPage extends Component {
   constructor(props) {
     super(props);
 
+    this.state = {
+      loading: false
+    };
+
     this.create_user = this.create_user.bind(this);
     this.edit_user = this.edit_user.bind(this);
+    this.loadingStatus = this.loadingStatus.bind(this);
+  }
+
+  loadingStatus(status) {
+    this.setState({loading:status});
   }
 
   create_user(data, historyObj) {
+    let loadingCallback = this.loadingStatus;
 
-    fetch('http://localhost:5001/api/users/register', {
+
+    loadingCallback(true);
+    fetch(process.env.REACT_APP_API + '/api/users/register', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -206,6 +219,7 @@ class ProfileCreationPage extends Component {
       },
       body: JSON.stringify(data)
     }).then((resp) => {
+       loadingCallback(false);
       if (resp.ok) {
         // Redirect to login
         historyObj.push('/LogIn');
@@ -217,12 +231,14 @@ class ProfileCreationPage extends Component {
     }).catch(function(e) {
           console.error("Error: " + e);
         });
-    console.log(JSON.stringify(data));
   }
 
-edit_user(data) {
+edit_user(data, historyObj) {
     let callback = this.props.editDataCallBack;
-    fetch('http://localhost:5001/api/users/edit', {
+    let loadingCallback = this.loadingStatus;
+
+    loadingCallback(true);
+    fetch(process.env.REACT_APP_API + '/api/users/edit', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -240,13 +256,14 @@ edit_user(data) {
             return null;
           }
         }).then((responseJSON) => {
+          loadingCallback(false);
           if (responseJSON) {
             callback(responseJSON);
+            historyObj.push('/Profile');
           }
         }).catch(function(e) {
           console.error("Error: " + e);
         });
-    console.log("Just Edited user. ");
   }
 
   render() {
@@ -264,12 +281,17 @@ edit_user(data) {
             uiSchema={uiSchema}
             ArrayFieldTemplate={ArrayFieldTemplate}
             formData={this.props.userData}
-            onSubmit={(a)=>{this.edit_user(a.formData)}} />
+            onSubmit={(a)=>{this.edit_user(a.formData, this.props.routeProps.history)}} />
     );
 
     return (
       <div className="top-container">
-        <div className="container content-container pb-5">
+        <div className={this.state.loading ? "loading-div container pb-5" : "d-none"}>
+          <div className="loading-spinner mx-auto">
+            <CircleLoader size={150} color={'#FFFFFF'} loading={this.state.loading}/>
+          </div>
+        </div>
+        <div className={this.state.loading ? "d-none" : "container content-container pb-5"}>
           <div className="py-5 text-center">
             <img className="profile-creation-header-logo" src={ClearLogo} alt="Code to college logo"/>
             <h2 className="c2c-header">{this.props.isEdit ? "Edit Your Profile" : "Create Your Profile"}</h2>

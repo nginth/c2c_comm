@@ -11,14 +11,17 @@
     "react-jsonschema-form": "^1.0.2",
     "react-paginate": "^5.2.2",
     "react-router-dom": "^4.2.2",
-    "react-scripts": "1.1.1"
+    "react-scripts": "1.1.1",
+    "react-spinners": "^0.3.2",
+    "serve": "^6.5.5"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "serve": "serve -s build"
+    "serve": "serve -s build",
+    "heroku-postbuild": "npm run build"
   },
   "homepage": ""
 }

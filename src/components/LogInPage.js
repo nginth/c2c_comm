@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 
+import { CircleLoader } from 'react-spinners';
 
 
 /* Bootstrap */
@@ -16,10 +17,17 @@ class LogInPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      failedAttempt: false
+      failedAttempt: false,
+      loading: false
     }
     this.login = this.login.bind(this);
     this.failedAttempt = this.failedAttempt.bind(this);
+    this.loadingStatus = this.loadingStatus.bind(this);
+
+  }
+
+  loadingStatus(status) {
+    this.setState({loading:status});
   }
 
   failedAttempt(status) {
@@ -32,11 +40,14 @@ class LogInPage extends Component {
 
     let callback = this.props.loginDataCallBack;
     let failedAttempt = this.failedAttempt;
+    let loadingCallback = this.loadingStatus;
 
     var data = { 'username': this.username.value, 'password': this.password.value }
 
+    loadingCallback(true);
 
-    fetch('http://localhost:5001/api/users/login', {
+    fetch(process.env.REACT_APP_API + '/api/users/login', {
+
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -44,20 +55,22 @@ class LogInPage extends Component {
       },
       body: JSON.stringify(data)
     }).then((resp) => {
-      if (resp.ok) {
+      if (resp.status === 200) {
         failedAttempt(false);
         return resp.json();
       }
       // Handle bad password or username
-      else if (resp.status != 200) {
+      else if (resp.status !== 200) {
         console.log("Error making call status: " + resp.status);
         failedAttempt(true);
       }
     }).then((responseJSON) => {
+        // Turn off loading before component could be unmounted.
+        loadingCallback(false);
         // If the login was valid
         if(!this.state.failedAttempt) {
           callback(true, responseJSON);
-        }
+        } 
       }).catch(function(e) {
           console.error("Error: " + e);
         });
@@ -70,7 +83,12 @@ class LogInPage extends Component {
         <div className={!this.props.isLoggedIn && this.state.failedAttempt ? "alert alert-danger login-alert text-center" : "d-none"} role="alert">
           <p className="c2c-text">Please login with your username and password. If forgotten, contact the administrator.</p>
         </div>
-      	<form className="form-signin text-center content-container" onSubmit={this.login}>
+        <div className={this.state.loading ? "loading-div form-signin container" : "d-none"}>
+          <div className="loading-spinner mx-auto">
+            <CircleLoader size={150} color={'#FFFFFF'} loading={this.state.loading}/>
+          </div>
+        </div>
+      	<form className={this.state.loading ? "d-none" : "form-signin text-center content-container"} onSubmit={this.login}>
           <img className="landing-info-img" src="//code2college.org/wp-content/uploads/2017/02/c2c.png"/>
           <h1 className="h3 mb-3 font-weight-normal">Please sign in</h1>
           <label htmlFor="inputusername" className="sr-only">Username</label>

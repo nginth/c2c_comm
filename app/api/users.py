@@ -241,7 +241,8 @@ def user_from_json(json):
     about = json.get('about')
     if about:
         user.bio = about.get('bio')
-        user.interests = ', '.join(about.get('interests'))
+        if about.get('interests'):
+            user.interests = ', '.join(about.get('interests'))
 
     # social
     social = json.get('social')  
