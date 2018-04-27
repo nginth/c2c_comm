@@ -1,3 +1,35 @@
+/* Jumbo */
+.forum-thread-jumbo {
+	
+}
+
+.forum-jumbo-title {
+	font-size: 3em;
+}
+
+.forum-jumbo-subtitle {
+	font-size: 2em;
+}
+
+.forum-thread-jumbo-content {
+
+}
+
+/* Card */
+.forum-thread-card {
+	background-color: #0e3b58;
+	color: white;
+
+	margin-top: 5%;
+	margin-bottom: 5%;
+}
+
+.forum-thread-card-footer {
+
+}
+
+
+/* Posts */
 .forum-thread-profile-picture {
 	max-width: 75px;
 	max-height: 75px;
@@ -5,3 +37,4 @@
 	min-width: 75px;
 	min-height: 75px;
 }
+

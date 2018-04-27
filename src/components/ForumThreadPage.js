@@ -26,11 +26,18 @@ class ForumThreadPage extends Component {
 			<div className="top-container">
 				<div className="form-thread-content container">
 
-					<div className="jumbotron c2c-jumbo">
-						<div className="container">
-							<p className="jumbo-title">This is a thread.</p>
+					<div className="jumbotron c2c-jumbo forum-thread-jumbo">
+						<div className="container forum-thread-jumbo-content">
+							<p className="jumbo-title forum-jumbo-title">This is a thread.</p>
 							<hr className="my-4"/>
-							<p className="jumbo-subtitle">Posted By Alex Pustilnik</p>
+							<p className="jumbo-subtitle forum-jumbo-subtitle">Posted By Alex Pustilnik</p>
+						</div>
+					</div>
+
+					<div className="card text-center forum-thread-card">
+						<div className="card-body">
+							<h5 className="card-title">This is a thread name for this current thread.</h5>
+							<p className="card-text">Posted by Alex Pustilnik</p>
 						</div>
 					</div>
 
@@ -56,10 +63,43 @@ class ForumThreadPage extends Component {
 			      			</div>
 			      		</li>
 
+			      		<li className="media forum-thread-post-list-item">
+			      			<div className="media-body row">
+			      				<div className="col-8">
+				      				<p className="c2c-text dark-text">Did you ever hear the tragedy of Mitochondrion The Small? I thought not. It’s not a story the Nucleus would tell you. It’s a Cell legend. Mitochondrion was the Powerhouse of the Cell, so powerful and so small he could use the Cellular Respiration to influence the ADP to create energy… He had such a knowledge of ATP that he could even keep the ones he cared about from lacking energy. The ATP of Cellular Respiration is a pathway to many abilities some consider to be unnatural. He became so powerful… the only thing he was afraid of was losing his power, which eventually, of course, he did. Unfortunately, he taught his apprentice everything he knew, then his apprentice took away his energy in his sleep. Ironic. He could save others from lacking energy, but not himself.</p>
+			      				</div>
+			      				<div className="col-4">
+			      					<div className="media">
+			      						<img className="mr-3 forum-thread-profile-picture" src="https://nerdist.com/wp-content/uploads/2017/08/Obi-Wan-Kenobi-Star-Wars-Ewan-McGregor-Featured-970x544.jpg"/>
+			      						<div className="media-body">
+			      							<h5 className="">Obi-Wan Kenobi</h5>
+			      							<p className="">On 4/26/18 5:00pm</p>
+			      						</div>
+			      					</div>
+			      				</div>
+			      			</div>
+			      		</li>
+
 			      	</ul>
 			      </div>
 
 					</div>
+
+					<ReactPaginate pageCount={5}
+												 pageRangeDisplayed={5}
+												 marginPagesDisplayed={2}
+												 onPageChange={this.props.handlePageChange}
+												 containerClassName={"pagination justify-content-center"}
+												 subContainerClassName={"pages pagination"}
+												 activeClassName={"active"}
+												 breakClassName="page-item"
+							           breakLabel={<a className="page-link">...</a>}
+							           pageClassName="page-item"
+							           previousClassName="page-item"
+							           nextClassName="page-item"
+							           pageLinkClassName="page-link"
+							           previousLinkClassName="page-link"
+							           nextLinkClassName="page-link"/>
 
 				</div>
 			</div>
