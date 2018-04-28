@@ -51,7 +51,8 @@ class AppFrame extends Component {
 
   onSignIn(status, data) {
     this.setState({loggedIn: status, userData: data});
-    if (data.basic.username == "adminacc") {this.setState({admin: true})};
+    // Needs to be set back to False when someone signs in that is not an admin if an admin has previously signed in
+    data.admin ? this.setState({admin: true}) : this.setState({admin: false});
   }
 
   setUserData(data) {

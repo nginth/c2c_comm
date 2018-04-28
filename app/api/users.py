@@ -89,7 +89,7 @@ def login(username, password):
     print(user)
     g.user = user
     global ADMIN
-    if username == "adminacc":
+    if user.admin:
         ADMIN = True
     else:
         ADMIN = False
@@ -311,3 +311,18 @@ def export():
         response.headers['Content-Disposition'] = 'attachment; filename=report.csv'
         response.headers["Content-type"] = "text/csv"
         return response, 200
+
+@users_blueprint.route("/passchange", methods=['POST'])
+@auth.login_required
+def change_pass():
+    username = request.get_json().get('username')
+    new_pass = request.get_json().get('new_pass')
+    print(username)
+    print("PASS" + new_pass)
+    if isAdmin():
+        user_to_update = User.query.filter_by(username=username).first()
+        if user_to_update is not None:
+            user_to_update.hash_password(new_pass)
+            db.session.commit()
+            return "Password successfully changed", 200
+

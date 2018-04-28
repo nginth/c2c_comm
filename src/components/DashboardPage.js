@@ -39,6 +39,8 @@ class DashboardPage extends Component {
     this.download = this.download.bind(this);
     this.delete_user = this.delete_user.bind(this);
     this.loadingStatus = this.loadingStatus.bind(this);
+    this.changePass = this.changePass.bind(this);
+    this.getAllUsers = this.getAllUsers.bind(this);
   }
 
   // Makes an event that allows for file donwload
@@ -114,6 +116,29 @@ class DashboardPage extends Component {
     })
   };
 
+  // Prompts admin to change password of the corresponding user he clicks on
+  changePass(event) {
+    event.preventDefault();
+    console.log("HERE");
+    console.log("VALUE IS:" + this.password.value);
+    let loadingCallback = this.loadingStatus;
+    loadingCallback(true);
+    var data = { 'username': this.props.userData.basic.username, 'password': this.password.value }
+    fetch(process.env.REACT_APP_API + '/api/users/passchange', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => resp.text())
+    .then((responseText) => {
+        loadingCallback(false);
+      }).catch(function(e) {
+          console.error("Error: " + e);
+    });
+  }
+
   // Returns a profile card based off the user data it receives
   makeResultCard(userData) {
     return (
@@ -122,7 +147,31 @@ class DashboardPage extends Component {
         <div className="card-body">
           <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
         </div>
-        <button className="btn btn-primary">Change Password</button>
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#changePassModal">
+          Change password
+        </button>
+
+        <div className="modal fade" id="changePassModal" tabIndex="-1" role="dialog" aria-labelledby="changePassModal" aria-hidden="true">
+          <div className="modal-dialog">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalLabel">Change Password</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body">
+                <form onSubmit={this.changePass}>
+                  <input ref={(input) => this.password = input} type="password" className="form-control" placeholder="New Password"/>
+                  <br/>
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button className="btn btn-primary" type="rok">Submit Changes</button>
+                  <br/>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         <button className="btn btn-danger" onClick={() => {this.submit(userData);}}>Delete</button>
       </div>
     );
@@ -262,14 +311,14 @@ class DashboardPage extends Component {
     this.setState({loading:status});
   }
 
-  componentWillMount() {
+  componentDidMount() {
     this.getAllUsers();
   }
 
   render() {
     return (
       <div className="top-container">
-        <div className={this.state.loading ? "loading-div form-signin container" : "d-none"}>
+        <div className={this.state.loading ? "loading-div container" : "d-none"}>
           <div className="loading-spinner mx-auto">
             <CircleLoader size={150} color={'#FFFFFF'} loading={this.state.loading}/>
           </div>
