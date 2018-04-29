@@ -25,6 +25,10 @@
 	color: #0e3b58;
 }
 
+.forum-home-addbtn {
+	text-align: center;
+}
+
 /* Thread List */
 .forum-home-thread-list-item {
 	border: 1px solid gray;

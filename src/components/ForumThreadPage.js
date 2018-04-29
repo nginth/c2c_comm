@@ -8,6 +8,7 @@ import ReactPaginate from 'react-paginate';
 import ProfilePage from './ProfilePage.js';
 
 
+
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';

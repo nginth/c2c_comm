@@ -19,9 +19,9 @@ class PostModal extends Component {
     super(props);
 
     /* TODO: Implement these with the backend parameters in mind */
-    this.handleAddPost = this.handleAddPost(this);
-    this.handleDeletePost = this.handleDeletePost(this);
-    this.handleEditPost = this.handleEditPost(this);
+    this.handleAddPost = this.handleAddPost.bind(this);
+    this.handleDeletePost = this.handleDeletePost.bind(this);
+    this.handleEditPost = this.handleEditPost.bind(this);
   }
 
   handleAddPost(event) {
@@ -174,11 +174,11 @@ class ThreadModal extends Component {
     super(props);
 
     /* TODO: Implement these with the backend parameters in mind */
-    this.handleAddThread = this.handleAddThread(this);
+    this.handleAddThread = this.handleAddThread.bind(this);
   }
 
-  handleAddThread(event) {
-    event.preventDefault();
+  handleAddThread() {
+    
     
     // let data = {"title": this.postTitle, "content": this.postContent, "uID": this.props.userId};
 
@@ -202,40 +202,42 @@ class ThreadModal extends Component {
     // }).catch(function(e) {
     //   console.error("Error: " + e);
     // });    
-    alert("Should be adding a thread.");
+    alert("Should be adding a thread: " + this.threadName.value);
+    this.threadName.value = "";
+    this.props.closeThreadModal(false);
   }
 
   render() {
     
     let modalTitle;
     let modalBody;
-
+    const addThreadCB = this.handleAddThread;
 
     
     modalTitle = "Create A New Thread";
     modalBody = (
-      <form onSubmit={this.handleAddThread}>
+      <form>
         <div className="modal-body">
           <div className={"form-group"}>
-            <label for="replyText">Thread Name</label>
+            <label for="replyText">New Thread Name</label>
             <input className="form-control" id="replyText" ref={(input) => this.threadName = input} placeholder="Enter Thread Name" />
           </div>
         </div>
         <div className="modal-footer">
-          <button type="button" className="btn btn-secondary" onClick={this.props.closeThreadModal} data-dismiss="modal">Close</button>
-          <button type="button" className="btn btn-primary">Submit</button>
+          <button type="button" className="btn btn-secondary" onClick={()=>{this.props.closeThreadModal(false);}} data-dismiss="modal">Close</button>
+          <button type="button" onClick={()=>{addThreadCB();}} className="btn btn-primary">Submit</button>
         </div>
       </form>    
     );
     
 
     return (
-      <div className="modal fade" tabindex="-1" role="dialog">
+      <div className={this.props.showModal ? "modal d-block" : "d-none"} role="dialog">
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{modalTitle}</h5>
-              <button type="button" onClick={this.props.closeThreadModal} className="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" onClick={()=>{this.props.closeThreadModal(false);}} className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>

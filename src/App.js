@@ -112,6 +112,7 @@ class AppFrame extends Component {
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Forum" component={()=>(<ForumFrame/>)} />
+          <Route path="/ViewProfile/:id" component={(routeProps)=>(<ProfilePage curUser={this.state.userData.id} id={routeProps.match.params.id}/>)} />
           <Route path="/EditProfile" component={(routeProps)=>(this.state.loggedIn ? <ProfileCreationPage routeProps={routeProps} isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
           <footer className="container-fluid footer-container"> 
             <div className="row py-3">

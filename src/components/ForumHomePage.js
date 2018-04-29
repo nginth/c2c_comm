@@ -6,7 +6,7 @@ import { CircleLoader } from 'react-spinners';
 
 import ReactPaginate from 'react-paginate';
 import ProfilePage from './ProfilePage.js';
-
+import {ThreadModal} from './ForumModals.js';
 
 /* Bootstrap */
 import '../../node_modules/jquery/dist/jquery.min.js';
@@ -21,8 +21,14 @@ class ForumHomePage extends Component {
 		super(props);
 
 		this.state = {
-
+			isModal: false
 		};
+
+		this.modalStatus = this.modalStatus.bind(this);
+	}
+
+	modalStatus(status) {
+		this.setState({isModal: status});
 	}
 
 
@@ -31,6 +37,7 @@ class ForumHomePage extends Component {
 		return (
 			<div className="top-container forum-test-bg">
 				<div className="forum-home-content container">
+					<ThreadModal showModal={this.state.isModal} closeThreadModal={this.modalStatus}/>
 					<div className="jumbotron c2c-jumbo">
 						<div className="container">
 							<p className="jumbo-title">Code2College Connect Forum</p>
@@ -47,6 +54,7 @@ class ForumHomePage extends Component {
 					<div className="forum-home-body-container container">
 						<div className="forum-home-thread-titlebox">
 			        <h2 className="forum-home-thread-titlebox-text">Forum Threads</h2>
+			        <button className="btn btn-small" onClick={()=>{this.modalStatus(true);}}>Add Thread</button>
 			      </div>
 
 			      <div className="forum-home-threads-container">
@@ -59,7 +67,7 @@ class ForumHomePage extends Component {
 				      					<p className="forum-home-thread-text">This is testing a hecking long string in being a title n such nch n such n such n such  n such n such  n such n such.</p>
 				      				</Link>
 			      				</div>
-			      				<div className="col-2"><p className="forum-home-thread-text">By: Anderson Cooper</p></div>
+			      				<div className="col-2"><Link className="forum-home-thread-text dark-text" to={'/ViewProfile/' + 1}>By: Alex Pustilnik</Link></div>
 			      				<div className="col-4"><p className="forum-home-thread-text">Updated: 4-25-18 4:48pm CT</p></div>
 			      			</div>
 			      		</li>
