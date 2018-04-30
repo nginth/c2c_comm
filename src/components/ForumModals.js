@@ -188,7 +188,7 @@ class ThreadModal extends Component {
   handleAddThread() {
     
     
-    let data = {"title": this.postTitle, "user_id": this.props.userId, "name": this.props.userName};
+    let data = {"title": this.threadName.value, "user_id": this.props.userId, "name": this.props.userName};
 
     // let callback = this.props.setNewThread;
     fetch(process.env.REACT_APP_API +" /api/forum/add/new/", {
