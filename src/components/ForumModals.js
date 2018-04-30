@@ -132,8 +132,8 @@ class PostModal extends Component {
             <p className="forum-modal-text">Are you sure you want to delete this post?</p>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary" onClick={()=>{this.handleDeletePost();}}>Yes</button>
-            <button type="button" className="btn btn-danger" onClick={()=>{this.props.closePostModal(false, this.props.type);}} data-dismiss="modal">No</button>
+            <button type="button" className="btn btn-danger" onClick={()=>{this.handleDeletePost();}}>Yes</button>
+            <button type="button" className="btn btn-primary" onClick={()=>{this.props.closePostModal(false, this.props.type);}} data-dismiss="modal">No</button>
           </div>
         </form>    
       );

@@ -34,20 +34,10 @@
 	/*background-color: white;*/
 }
 
-@media(max-width: 765px) {
-	.forum-thread-post-content {
-		/*background-color: darkgray;*/
-		
-		border-bottom: 5px solid #0e3b58;
-		border-right: none;
-		color: #0e3b58;
-		/*background-color: white;*/
-	}
-}
-
 .forum-thread-post-user {
 	/*background-color: gray;*/
 	/*background-color: white*/
+	padding-top: 0px;
 	
 }
 
@@ -63,3 +53,22 @@
 	min-height: 75px;
 }
 
+.forum-thread-post-adminpanel {
+	
+
+}
+
+@media(max-width: 765px) {
+	.forum-thread-post-content {
+		/*background-color: darkgray;*/
+		
+		border-bottom: 5px solid #0e3b58;
+		border-right: none;
+		color: #0e3b58;
+		/*background-color: white;*/
+	}
+
+	.forum-thread-post-user {
+		padding-top: 15px;
+	}
+}

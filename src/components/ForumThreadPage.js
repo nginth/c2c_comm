@@ -12,8 +12,10 @@ import '../../node_modules/jquery/dist/jquery.min.js';
 import '../../node_modules/bootstrap/dist/css/bootstrap.css';
 import '../../node_modules/bootstrap/dist/js/bootstrap.bundle.js';
 
+
 import '../css/GlobalStyles.css';
 import '../css/ForumThreadPage.css';
+import '../assets/open-iconic/font/css/open-iconic-bootstrap.css';
 
 class ForumThreadPage extends Component {
 	constructor(props) {
@@ -42,10 +44,10 @@ class ForumThreadPage extends Component {
 					<div className="card text-center forum-thread-card">
 						<div className="card-body">
 							<h5 className="card-title">This is a thread name for this current thread.</h5>
-							<p className="card-text">Posted by Alex Pustilnik</p>
+							<Link className="card-text white-text" to={'/ViewProfile/' + 1}>By: Alex Pustilnik</Link>
 						</div>
 						<div className="card-footer forum-thread-card-footer text-right">
-							<button className="btn btn-light" onClick={()=>{this.modalStatus(true, 2);}}>Add Reply</button>
+							<button className="btn btn-light" onClick={()=>{this.modalStatus(true, 2);}}><span className="oi oi-plus"></span></button>
 						</div>
 					</div>
 					<PostModal showModal={this.state.isModal} closePostModal={this.modalStatus} type={this.state.modalType}/>
@@ -63,9 +65,9 @@ class ForumThreadPage extends Component {
 			      					<div className="media ">
 			      						<img className="mr-3 forum-thread-profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Colt_McCoy_2017_%28cropped%29.jpg/275px-Colt_McCoy_2017_%28cropped%29.jpg"/>
 			      						<div className="media-body forum-thread-post-userinfo">
-			      							<h5 className="">Alex Pustilnik</h5>
+			      							<Link className="dark-text" to={'/ViewProfile/' + 1}>Alex Pustilnik</Link>
 			      							<p className="">On 4/26/18 4:56pm</p>
-			      							<button className={"btn btn-primary btn-small"} onClick={()=>{this.modalStatus(true, 3);}}>Edit Post</button>
+			      							<button className={"btn btn-primary btn-small"} onClick={()=>{this.modalStatus(true, 3);}}><span className="oi oi-pencil"></span></button>
 			      						</div>
 			      					</div>
 			      				</div>
@@ -81,11 +83,11 @@ class ForumThreadPage extends Component {
 			      					<div className="media ">
 			      						<img className="mr-3 forum-thread-profile-picture" src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/56/Colt_McCoy_2017_%28cropped%29.jpg/275px-Colt_McCoy_2017_%28cropped%29.jpg"/>
 			      						<div className="media-body forum-thread-post-userinfo">
-			      							<h5 className="">Alex Pustilnik</h5>
+			      							<Link className="dark-text" to={'/ViewProfile/' + 1}>Alex Pustilnik</Link>
 			      							<p className="">On 4/26/18 4:56pm</p>
 			      							<div className="btn-group forum-thread-post-adminpanel" role="group" aria-label="Basic example">
-													  <button className={"btn btn-small btn-primary"} onClick={()=>{this.modalStatus(true, 3);}}>Edit Post</button>
-													  <button className={"btn btn-small btn-danger"} onClick={()=>{this.modalStatus(true, 1);}}>Delete Post</button>
+													  <button className={"btn btn-small btn-primary"} onClick={()=>{this.modalStatus(true, 3);}}><span className="oi oi-pencil"></span></button>
+													  <button className={"btn btn-small btn-danger"} onClick={()=>{this.modalStatus(true, 1);}}><span className="oi oi-trash"></span></button>
 													</div>
 			      						</div>
 			      					</div>
