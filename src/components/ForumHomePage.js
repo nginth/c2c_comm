@@ -37,7 +37,7 @@ class ForumHomePage extends Component {
 		return (
 			<div className="top-container forum-test-bg">
 				<div className="forum-home-content container">
-					<ThreadModal showModal={this.state.isModal} closeThreadModal={this.modalStatus}/>
+					<ThreadModal userId={this.props.curUser} userName={this.props.userName} showModal={this.state.isModal} closeThreadModal={this.modalStatus}/>
 					<div className="jumbotron c2c-jumbo">
 						<div className="container">
 							<p className="jumbo-title">Code2College Connect Forum</p>

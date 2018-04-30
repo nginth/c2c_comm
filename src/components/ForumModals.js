@@ -188,29 +188,30 @@ class ThreadModal extends Component {
   handleAddThread() {
     
     
-    // let data = {"title": this.postTitle, "content": this.postContent, "uID": this.props.userId};
+    let data = {"title": this.postTitle, "user_id": this.props.userId, "name": this.props.userName};
 
     // let callback = this.props.setNewThread;
-    // fetch('https://code-2-college-connect-api.herokuapp.com/api/forum/add' + this.props.id, {
-    //   method: 'POST',
-    //   headers: {
-    //     'Accept': 'application/json',
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(data)
-    // }).then((resp) => {
-    //   if (resp.ok) {
-    //     callback(data);
-    //     return resp.json();
-    //   }
-    //   // Handle bad password or username
-    //   else if (resp.status != 200) {
-    //     console.log("Error making call status: " + resp.status);
-    //   }
-    // }).catch(function(e) {
-    //   console.error("Error: " + e);
-    // });    
-    alert("Should be adding a thread: " + this.threadName.value);
+    fetch(process.env.REACT_APP_API +" /api/forum/add/new/", {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    }).then((resp) => {
+      if (resp.ok) {
+        // callback(data);
+        // return resp.json();
+      }
+      // Handle bad password or username
+      else if (resp.status != 200) {
+        console.log("Error making call status: " + resp.status);
+      }
+    }).catch(function(e) {
+      console.error("Error: " + e);
+    }); 
+
+    alert("Should be adding a thread: " + this.threadName.value + " with data " + JSON.stringify(data));
     this.threadName.value = "";
     this.props.closeThreadModal(false);
   }

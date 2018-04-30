@@ -85,9 +85,6 @@ class AppFrame extends Component {
         <li className="nav-item">
           <Link className="nav-link" to="/">Home</Link>
         </li>
-        <li className="nav-item">
-          <Link className="nav-link" to="/Forum">Forum</Link>
-        </li>
       </ul>);
 
     return (
@@ -111,7 +108,7 @@ class AppFrame extends Component {
           <Route path="/CreateProfile" component={(routeProps)=>(<ProfileCreationPage routeProps={routeProps}/>)} />
           <Route path="/Search" component={()=>(this.state.loggedIn ? <SearchPage curUser={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
           <Route path="/Profile" component={()=>(this.state.loggedIn ? <ProfilePage curUser={this.state.userData.id} id={this.state.userData.id}/> : <Redirect to="/LogIn" />)} />
-          <Route path="/Forum" component={()=>(<ForumFrame/>)} />
+          <Route path="/Forum" component={()=>(this.state.loggedIn ? <ForumFrame loggedIn={this.state.loggedIn} userData={this.state.userData}/> : <Redirect to="/LogIn"/>)}/>
           <Route path="/ViewProfile/:id" component={(routeProps)=>(<ProfilePage curUser={this.state.userData.id} id={routeProps.match.params.id}/>)} />
           <Route path="/EditProfile" component={(routeProps)=>(this.state.loggedIn ? <ProfileCreationPage routeProps={routeProps} isEdit={true} editDataCallBack={this.setUserData} userData={this.state.userData} id={this.state.userData.id}/> : <Redirect to="/LogIn"/>)} />
           <footer className="container-fluid footer-container"> 
@@ -149,15 +146,13 @@ class AppFrame extends Component {
 class ForumFrame extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {};
   }
 
   render() {
     return (
       <Switch basename={"/Forum"}>
-        <Route exact path="/Forum" component={()=>(<ForumHomePage/>)} />
-        <Route path="/Forum/Thread/:id" component={(routeProps)=>(<ForumThreadPage threadId={routeProps.match.params.id}/>)} />
+        <Route exact path="/Forum" component={()=>(this.props.loggedIn ? <ForumHomePage curUser={this.props.userData.id} userName={this.props.userData.basic.username}/> : <Redirect to="/LogIn"/>)} />
+        <Route path="/Forum/Thread/:id" component={(routeProps)=>(this.props.loggedIn ? <ForumThreadPage curUser={this.props.userData.id} userName={this.props.userData.basic.username} threadId={routeProps.match.params.id}/> : <Redirect to="/LogIn"/>)} />
       </Switch>
     );
   }
