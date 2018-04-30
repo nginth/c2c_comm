@@ -29,8 +29,20 @@
 	/*background-color: darkgray;*/
 	padding: 15px;
 	border-right: 5px solid #0e3b58;
+	border-bottom: none;
 	color: #0e3b58;
 	/*background-color: white;*/
+}
+
+@media(max-width: 765px) {
+	.forum-thread-post-content {
+		/*background-color: darkgray;*/
+		
+		border-bottom: 5px solid #0e3b58;
+		border-right: none;
+		color: #0e3b58;
+		/*background-color: white;*/
+	}
 }
 
 .forum-thread-post-user {

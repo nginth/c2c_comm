@@ -25,7 +25,7 @@ class PostModal extends Component {
   }
 
   handleAddPost(event) {
-    event.preventDefault();
+    // event.preventDefault();
     
     // let data = {"title": this.postTitle, "content": this.postContent, "uID": this.props.userId};
 
@@ -49,11 +49,15 @@ class PostModal extends Component {
     // }).catch(function(e) {
     //   console.error("Error: " + e);
     // });    
-    alert("Should be adding a post.");
+    alert("Should be adding a post with name: " + this.postName.value + " and text: " + this.postContent.value);
+    this.postName.value = "";
+    this.postContent.value = "";
+    this.props.closePostModal(false, 2);
+
   }
 
   handleDeletePost(event) {
-    event.preventDefault();
+    // event.preventDefault();
     
     // let data = {"title": this.postTitle, "content": this.postContent, "uID": this.props.userId};
 
@@ -79,10 +83,11 @@ class PostModal extends Component {
     // });    
 
     alert("Should be deleting a post.");
+    this.props.closePostModal(false, 1);
   }
 
   handleEditPost(event) {
-    event.preventDefault();
+    // event.preventDefault();
     
   //   let data = {"title": this.postTitle, "content": this.postContent, "uID": this.props.userId};
 
@@ -106,7 +111,10 @@ class PostModal extends Component {
   //   }).catch(function(e) {
   //     console.error("Error: " + e);
   //   });    
-   alert("Should be editing a post.");
+  alert("Should be editing a post with name: " + this.postName.value + " and text: " + this.postContent.value);
+  this.postName.value = "";
+  this.postContent.value = "";
+   this.props.closePostModal(false, 3);
   }
 
 
@@ -116,48 +124,48 @@ class PostModal extends Component {
     let modalBody;
 
 
-    if (this.props.type === "deletePost") {
+    if (this.props.type === 1) {
       modalTitle = "Delete Post";
       modalBody = (
-        <form onSubmit={this.handleDeletePost}>
+        <form>
           <div className="modal-body">
             <p className="forum-modal-text">Are you sure you want to delete this post?</p>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-primary">Yes</button>
-            <button type="button" className="btn btn-danger" onClick={this.props.closePostModal} data-dismiss="modal">No</button>
+            <button type="button" className="btn btn-primary" onClick={()=>{this.handleDeletePost();}}>Yes</button>
+            <button type="button" className="btn btn-danger" onClick={()=>{this.props.closePostModal(false, this.props.type);}} data-dismiss="modal">No</button>
           </div>
         </form>    
       );
     } else {
-      modalTitle = this.props.type === "newPost" ? "New Post" : "Edit Post";
+      modalTitle = this.props.type === 2 ? "New Post" : "Edit Post";
       modalBody = (
-        <form onSubmit={this.props.type === "newPost" ? this.handleAddPost : this.handleEditPost}>
+        <form>
           <div className="modal-body">
             <div className="form-group">
               <label for="replyText">Post Name</label>
-              <input className="form-control" value={this.props.type === "editPost" ? this.props.postName : ""} ref={(input) => this.postName = input} placeholder="Enter text" />
+              <input className="form-control" defaultValue={this.props.type === 3 ? this.props.postName : ""} ref={(input) => this.postName = input} placeholder="Enter text" />
             </div>
             <div className="form-group">
               <label for="replyText">Reply</label>
-              <input className="form-control" value={this.props.type === "editPost" ? this.props.postContent : ""} ref={(input) => this.postContent = input} placeholder="Enter text" />
+              <textarea  className="form-control" defaultValue={this.props.type === 3 ? this.props.postContent : ""} ref={(input) => this.postContent = input} placeholder="Enter text" />
             </div>
           </div>
           <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" onClick={this.props.closePostModal} data-dismiss="modal">Close</button>
-            <button type="button" className="btn btn-primary">Submit</button>
+            <button type="button" className="btn btn-secondary" onClick={()=>{this.props.closePostModal(false, this.props.type);}} data-dismiss="modal">Close</button>
+            <button type="button" className="btn btn-primary" onClick={()=>{this.props.type === 2 ? this.handleAddPost() : this.handleEditPost();}}>Submit</button>
           </div>
         </form>    
       );
     } 
 
     return (
-      <div className="modal fade" tabindex="-1" role="dialog">
+      <div className={this.props.showModal ? "modal d-block" : "d-none"} role="dialog">
         <div className="modal-dialog modal-dialog-centered" role="document">
           <div className="modal-content">
             <div className="modal-header">
               <h5 className="modal-title">{modalTitle}</h5>
-              <button type="button" onClick={this.props.closePostModal} className="close" data-dismiss="modal" aria-label="Close">
+              <button type="button" onClick={()=>{this.props.closePostModal(false, this.props.type);}} className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
