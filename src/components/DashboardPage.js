@@ -39,8 +39,8 @@ class DashboardPage extends Component {
     this.download = this.download.bind(this);
     this.delete_user = this.delete_user.bind(this);
     this.loadingStatus = this.loadingStatus.bind(this);
-    this.changePass = this.changePass.bind(this);
     this.getAllUsers = this.getAllUsers.bind(this);
+    this.changePass = this.changePass.bind(this);
   }
 
   // Makes an event that allows for file donwload
@@ -59,7 +59,6 @@ class DashboardPage extends Component {
 
   // Makes an API call that returns an export of the database in a csv file
   get_csv() {
-    // console.log(JSON.stringify(this.props.userData))
     fetch(process.env.REACT_APP_API + '/api/users/export', {
       method: 'POST',
       headers: {
@@ -70,7 +69,6 @@ class DashboardPage extends Component {
       body: JSON.stringify(this.props.userData)
     }).then((resp) => resp.text())
     .then((responseText) => {
-       //console.log(responseText)
        this.download('report.csv', responseText);
       }).catch(function(e) {
           console.error("Error: " + e);
@@ -119,8 +117,6 @@ class DashboardPage extends Component {
   // Prompts admin to change password of the corresponding user he clicks on
   changePass(event) {
     event.preventDefault();
-    console.log("HERE");
-    console.log("VALUE IS:" + this.password.value);
     let loadingCallback = this.loadingStatus;
     loadingCallback(true);
     var data = { 'username': this.props.userData.basic.username, 'password': this.password.value }
@@ -139,6 +135,7 @@ class DashboardPage extends Component {
     });
   }
 
+
   // Returns a profile card based off the user data it receives
   makeResultCard(userData) {
     return (
@@ -152,20 +149,21 @@ class DashboardPage extends Component {
         </button>
 
         <div className="modal fade" id="changePassModal" tabIndex="-1" role="dialog" aria-labelledby="changePassModal" aria-hidden="true">
-          <div className="modal-dialog">
+          <div className="modal-dialog" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">Change Password</h5>
+                <h5 className="modal-title">Change Password</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
               </div>
               <div className="modal-body">
                 <form onSubmit={this.changePass}>
-                  <input ref={(input) => this.password = input} type="password" className="form-control" placeholder="New Password"/>
+                  <label htmlFor="inputPassword" className="sr-only">Password</label>
+                  <input className="form-control" ref={(input) => {console.log(input)}} type="password" placeholder="New Password"/>
                   <br/>
                   <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button className="btn btn-primary" type="rok">Submit Changes</button>
+                  <button className="btn btn-primary" type="submit">Submit Changes</button>
                   <br/>
                 </form>
               </div>
@@ -177,10 +175,10 @@ class DashboardPage extends Component {
     );
   }
 
+
+  // Updates the state's searchResults depending on what the user searched
   updateSearchResults(data) {
-
     //console.log("Page: " + data.page + " of " + data.pages + " with " + data.per_page + "per page and users: " + data.users.length);
-
     let userCards = [];
     for (let user in data.users) {
       userCards.push(this.makeResultCard(data.users[user]));
@@ -197,7 +195,8 @@ class DashboardPage extends Component {
     
   }
 
-  search(event) {
+ // Makes an API call to search the Users table for fields in the search vector that matches the query
+ search(event) {
     event.preventDefault();
 
     // Make sure nonempty input
@@ -210,7 +209,7 @@ class DashboardPage extends Component {
 
     if (search) {
       loadingCallback(true);
-      fetch(process.env.REACT_APP_AP + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
+      fetch(process.env.REACT_APP_API + '/api/users/search/' + query + '?page=1&per_page='+this.state.itemsPerPage, {
         method: 'GET',
         headers: {
           'Accept': 'application/json',
@@ -229,16 +228,18 @@ class DashboardPage extends Component {
           }).then((responseJSON) => {
             if (responseJSON) {
               callback(responseJSON);
-              loadingCallback(false);
             }
           }).catch(function(e) {
             console.error("Error: " + e);
+          }).then(() => {
+            loadingCallback(false);
           });
     }
 
     this.setState({ search: search, query: this.input.value });
   }
     
+  // Function call to set up changing the pages of profile cards
   handlePageChange(page) {
 
     let current = page.selected;
@@ -274,6 +275,7 @@ class DashboardPage extends Component {
 
   }
 
+  // Function call to get all the Users and create a profile card for them.
   getAllUsers() {
     let loadingCallback = this.loadingStatus;
     loadingCallback(true);
@@ -307,6 +309,7 @@ class DashboardPage extends Component {
         });
   }
 
+  // Update the status of whether or not the page is loading
   loadingStatus(status) {
     this.setState({loading:status});
   }

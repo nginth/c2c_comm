@@ -51,8 +51,7 @@ class AppFrame extends Component {
 
   onSignIn(status, data) {
     this.setState({loggedIn: status, userData: data});
-    // Needs to be set back to False when someone signs in that is not an admin if an admin has previously signed in
-    data.admin ? this.setState({admin: true}) : this.setState({admin: false});
+    if (data.admin) {this.setState({admin: true})};
   }
 
   setUserData(data) {
@@ -60,7 +59,7 @@ class AppFrame extends Component {
   }
 
   logOut() {
-    this.setState({loggedIn: false});
+    this.setState({loggedIn: false, admin: false});
     // this.setState({loggedIn: false, userData: null});
   }
 

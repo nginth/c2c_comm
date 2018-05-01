@@ -317,8 +317,9 @@ def export():
 def change_pass():
     username = request.get_json().get('username')
     new_pass = request.get_json().get('new_pass')
-    print(username)
-    print("PASS" + new_pass)
+    # These prints are for debugging
+    # print(username)
+    # print("PASS" + new_pass)
     if isAdmin():
         user_to_update = User.query.filter_by(username=username).first()
         if user_to_update is not None:
