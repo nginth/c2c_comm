@@ -86,7 +86,6 @@ def login(username, password):
         return "Bad password", 401
 
     #is this setting a global user? Bad! - Alex
-    print(user)
     g.user = user
     global ADMIN
     if user.admin:
@@ -95,7 +94,6 @@ def login(username, password):
         ADMIN = False
     # token = get_token()
     # print(token)
-    print(ADMIN)
     return get_user_by_name(username), 200
 
 @users_blueprint.route("/token")
@@ -319,7 +317,7 @@ def change_pass():
     new_pass = request.get_json().get('new_pass')
     # These prints are for debugging
     # print(username)
-    # print("PASS" + new_pass)
+    # print("PASS: " + new_pass)
     if isAdmin():
         user_to_update = User.query.filter_by(username=username).first()
         if user_to_update is not None:

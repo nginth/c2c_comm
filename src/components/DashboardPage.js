@@ -28,7 +28,8 @@ class DashboardPage extends Component {
       currentPage: 0,
       totalPages: 0,
       itemsPerPage: 10,
-      loading: false
+      loading: false,
+      targetUser: ""
     };
 
     this.search = this.search.bind(this);
@@ -119,7 +120,7 @@ class DashboardPage extends Component {
     event.preventDefault();
     let loadingCallback = this.loadingStatus;
     loadingCallback(true);
-    var data = { 'username': this.props.userData.basic.username, 'password': this.password.value }
+    var data = { 'username': this.state.targetUser.basic.username, 'new_pass': this.password.value }
     fetch(process.env.REACT_APP_API + '/api/users/passchange', {
       method: 'POST',
       headers: {
@@ -130,11 +131,17 @@ class DashboardPage extends Component {
     }).then((resp) => resp.text())
     .then((responseText) => {
         loadingCallback(false);
+        alert('Success!');
       }).catch(function(e) {
           console.error("Error: " + e);
     });
+    this.password.value = '';
   }
 
+  // Stores the profile card the admin targets into state
+  store(userData) {
+    this.setState({targetUser: userData});
+  }
 
   // Returns a profile card based off the user data it receives
   makeResultCard(userData) {
@@ -144,32 +151,9 @@ class DashboardPage extends Component {
         <div className="card-body">
           <h5 className="card-title"><Link className="nav-link" to={'/ViewProfile/' + userData.id}>{userData.basic.firstName} {userData.basic.lastName}</Link></h5>
         </div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#changePassModal">
+        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#changePassModal" onClick={() => {this.store(userData);}}>
           Change password
         </button>
-
-        <div className="modal fade" id="changePassModal" tabIndex="-1" role="dialog" aria-labelledby="changePassModal" aria-hidden="true">
-          <div className="modal-dialog" role="document">
-            <div className="modal-content">
-              <div className="modal-header">
-                <h5 className="modal-title">Change Password</h5>
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-              <div className="modal-body">
-                <form onSubmit={this.changePass}>
-                  <label htmlFor="inputPassword" className="sr-only">Password</label>
-                  <input className="form-control" ref={(input) => {console.log(input)}} type="password" placeholder="New Password"/>
-                  <br/>
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button className="btn btn-primary" type="submit">Submit Changes</button>
-                  <br/>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
         <button className="btn btn-danger" onClick={() => {this.submit(userData);}}>Delete</button>
       </div>
     );
@@ -377,6 +361,28 @@ class DashboardPage extends Component {
               </div>
               <div className="card-body">
                 <button className= "btn btn-primary" onClick={() => {this.get_csv();}}>Export</button>
+              </div>
+            </div>
+          </div>
+          <div className="modal fade" id="changePassModal" tabIndex="-1" role="dialog">
+            <div className="modal-dialog" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Change Password</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body">
+                  <form onSubmit={this.changePass}>
+                    <label htmlFor="inputPassword" className="sr-only">Password</label>
+                    <input className="form-control" ref={(input) => {this.password = input}} type="password" placeholder="New Password"/>
+                    <br/>
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button className="btn btn-primary" type="submit">Submit Changes</button>
+                    <br/>
+                  </form>
+                </div>
               </div>
             </div>
           </div>
