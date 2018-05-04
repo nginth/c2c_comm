@@ -48,6 +48,7 @@ class DashboardPage extends Component {
   download(filename, text) {
     var link = document.createElement('a');
     link.setAttribute('href', 'data:text/csv;charset=utf-8,' + encodeURIComponent(text));
+    link.setAttribute('download', filename);
     if (document.createEvent) {
       var event = document.createEvent('MouseEvents');
       event.initEvent('click', true, true);
