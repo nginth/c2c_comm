@@ -66,6 +66,7 @@ class User(db.Model):
     def serialize(self):
         return {
             "id": self.id,
+            "admin": self.admin,
             "basic": {
                 "username": self.username,
                 "firstName": self.first_name,

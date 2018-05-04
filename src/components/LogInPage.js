@@ -23,7 +23,6 @@ class LogInPage extends Component {
     this.login = this.login.bind(this);
     this.failedAttempt = this.failedAttempt.bind(this);
     this.loadingStatus = this.loadingStatus.bind(this);
-
   }
 
   loadingStatus(status) {
@@ -47,6 +46,7 @@ class LogInPage extends Component {
     loadingCallback(true);
 
     fetch(process.env.REACT_APP_API + '/api/users/login', {
+
       method: 'POST',
       headers: {
         'Accept': 'application/json',

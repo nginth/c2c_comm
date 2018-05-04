@@ -209,6 +209,7 @@ class ProfileCreationPage extends Component {
   create_user(data, historyObj) {
     let loadingCallback = this.loadingStatus;
 
+
     loadingCallback(true);
     fetch(process.env.REACT_APP_API + '/api/users/register', {
       method: 'POST',
